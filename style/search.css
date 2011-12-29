@@ -1,0 +1,153 @@
+/*	People Search Engine Styles	  */
+
+.thebox {
+	border-radius:10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius:10px;
+	background:#F8F8F8;
+}
+
+.left-box {
+	float:left;
+	margin-left:10px;
+	margin-top:10px;
+	width:250px;	
+}
+
+.right-box {
+	float:right;
+	margin-right:10px;
+	margin-top:10px;
+	width:250px;
+}
+
+.search-main-box { 
+	display:block;
+	min-height:320px;
+	width:540px;
+	margin:auto;
+	font-size:12px;
+}
+
+.search-main-box form {
+	display:block;
+	min-height:inherit;
+}
+
+.box-devider {
+	display:block;
+	margin:auto;
+	border-left:1px dotted #CCCCCC;
+	width:0px;
+	height:inherit;
+}
+
+.search-child-box {
+	border:0px solid #000;
+	min-width:50px;
+	height:20px;
+	margin-top:5px;
+}
+
+.search-child-box input {
+	margin-left:20px;	
+}
+
+.search-child-box input[type="text"] {
+	border:1px solid #CCCCCC;
+	background:no-repeat #F8F8F8;
+}
+
+.search-child-box input[type="text"][name="person_date_start"],[name="person_date_end"] {
+	margin-top:5px;
+	margin-left:70px;
+	width:30px;
+}
+
+.search-child-box input[type="text"][name="person_private_number"] {
+	margin-top:10px;
+}
+
+.search-child-box label {
+	cursor:pointer;
+}
+
+
+#person_state {
+	margin-left:70px;
+}
+
+#person_gender_male {
+	margin-left:70px;
+}
+
+#person_gender_female {
+	margin-left:70px;
+	margin-top:5px;
+}
+
+#person_name {
+	margin-left:70px;
+}
+
+#person_private_number {
+	margin-left:70px;
+}
+
+#person_tel {
+	margin-left:70px;
+}
+
+#person_email {
+	margin-left:70px;	
+}
+
+.search-main-box .right-box select[name="person_office"] {
+	display:block;
+	margin-left:70px;
+	width:155px;
+	height:20px;
+	cursor:pointer;		
+}
+
+#person_languages {
+	margin-left:70px;
+}
+
+#person_search,#person_search_save {
+	display:block;
+	
+	color:#FFFFFF;
+	background:#7477A0;
+	text-decoration:none;
+	width:100px;
+	height:25px;
+	border:1px solid transparent;
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	cursor:pointer;
+}
+
+#person_search:hover,#person_search_save:hover {
+	background:#CCCCCC;
+	color:#000000;
+	width:98px;
+}
+
+#person_search {
+	margin-top:25px;
+	margin-left:30px;
+}
+
+#person_search_save {
+	margin-left:150px;
+	margin-top:-25px;
+}
+
+#person_saved_search {
+	display:block;
+	width:150px;
+	margin-left:270px;
+	margin-top:-20px;
+}

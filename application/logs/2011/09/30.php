@@ -1,0 +1,17 @@
+<?php defined('SYSPATH') or die('No direct script access.'); ?>
+
+2011-09-30 00:30:34 --- ERROR: Database_Exception [ 1045 ]: Access denied for user 'root'@'localhost' (using password: YES) ~ MODPATH/database/classes/kohana/database/mysql.php [ 67 ]
+2011-09-30 16:25:31 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: people/view/fancybox/fancy_shadow_n.png ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-30 16:25:31 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: people/view/fancybox/fancy_shadow_ne.png ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-30 16:25:31 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: people/view/fancybox/fancy_shadow_e.png ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-30 16:25:31 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: people/view/fancybox/fancy_shadow_se.png ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-30 16:25:31 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: people/view/fancybox/fancy_shadow_s.png ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-30 16:25:31 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: people/view/fancybox/fancy_shadow_sw.png ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-30 16:25:31 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: people/view/fancybox/fancy_shadow_w.png ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-30 16:25:32 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: people/view/fancybox/fancy_shadow_nw.png ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-30 16:26:17 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/theme/default/style.css ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-30 16:26:17 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/img/blank.gif ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-30 16:26:28 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/theme/default/style.css ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-30 16:26:29 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/img/blank.gif ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-30 21:24:12 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/theme/default/style.css ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-30 21:24:13 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/img/blank.gif ~ SYSPATH/classes/kohana/request.php [ 760 ]

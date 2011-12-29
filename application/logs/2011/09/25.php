@@ -1,0 +1,16 @@
+<?php defined('SYSPATH') or die('No direct script access.'); ?>
+
+2011-09-25 11:07:23 --- ERROR: Database_Exception [ 1045 ]: Access denied for user 'root'@'localhost' (using password: YES) ~ MODPATH/database/classes/kohana/database/mysql.php [ 67 ]
+2011-09-25 15:16:15 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/theme/default/style.css ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-25 15:58:52 --- ERROR: ErrorException [ 8 ]: Undefined index: region ~ APPPATH/classes/controller/events.php [ 376 ]
+2011-09-25 16:05:29 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/theme/default/style.css ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-25 16:05:38 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/theme/default/style.css ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-25 16:07:27 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/theme/default/style.css ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-25 16:08:37 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/theme/default/style.css ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-25 16:10:23 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/theme/default/style.css ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-25 16:16:13 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/theme/default/style.css ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-25 16:16:13 --- ERROR: ErrorException [ 8 ]: unserialize(): Error at offset 0 of 1 bytes ~ APPPATH/classes/controller/events.php [ 383 ]
+2011-09-25 16:16:29 --- ERROR: ErrorException [ 8 ]: unserialize(): Error at offset 0 of 1 bytes ~ APPPATH/classes/controller/events.php [ 383 ]
+2011-09-25 16:17:04 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/theme/default/style.css ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-25 16:17:12 --- ERROR: HTTP_Exception_404 [ 404 ]: Unable to find a route to match the URI: scripts/theme/default/style.css ~ SYSPATH/classes/kohana/request.php [ 760 ]
+2011-09-25 21:22:54 --- ERROR: Database_Exception [ 1045 ]: Access denied for user 'root'@'localhost' (using password: YES) ~ MODPATH/database/classes/kohana/database/mysql.php [ 67 ]

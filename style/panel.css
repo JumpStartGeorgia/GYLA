@@ -1,0 +1,70 @@
+#panel
+{
+	//color: #3b417f;
+
+}
+#panel table
+{
+	width:100%;
+}
+
+#panel a, #panel span
+{
+	font-family:Arial;
+	font-size:13px;
+	color:#353444;
+	margin:7px 0px 7px 5px;
+	text-decoration:none;
+	display:block;
+}
+
+#panel a:hover
+{
+	//text-decoration:underline;
+	//text-shadow:1px 1px 1px #8b8bab;
+}
+
+#panel h1, #panel h2, #panel h3, #panel h4
+{
+	text-align:left;
+	color: #3b417f;
+	font-weight:bold;
+	font-size: 14px;
+	//padding:7px;
+}
+
+#panel td
+{
+	font-family:Arial;
+	font-size:14px;
+	color:#353444;
+	padding:7px;
+}
+
+#panel tr
+{
+	border-bottom:1px dotted #ccc;
+}
+
+#search_people_box
+{
+	padding-left:9px;
+	padding-right:21px;
+	height:25px;
+	width:135px;
+	float:left;
+}
+#submit_people_button
+{
+	position:relative;
+	margin-top:7px;
+	margin-left:-19px;
+}
+
+#people_form
+{
+	display:none;
+	margin-top:20px;
+	color:#353444;
+	font-size:13px;
+}

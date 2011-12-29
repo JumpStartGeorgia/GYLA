@@ -1,0 +1,124 @@
+<?php $action = URL::site('people/search'); ?>
+
+	<script type='text/javascript'>
+	    $(document).ready(function(){
+	    	$('#parameter').val('');
+	    	$('#method').val('');
+	    	$('#pvalue').val('');
+	    });
+	</script>
+
+	<form action="<?php echo $action ?>" method="post" id='form_office'>
+
+		<div class="block group">
+			<div class="left_labels">
+				<label for="parameter">პარამეტრი: </label>
+			</div>
+
+			<div class="right_fields">
+				<select id="parameter" style='width:100%;' onchange='$("#divmethod").show()'>
+					<option value='' selected='selected'></option>
+					<option value='member_of'>წევრი</option>
+					<option value='first_name'>სახელი</option>
+					<option value='last_name'>გვარი</option>
+					<option value='birth_date'>დაბადების თარიღი</option>
+					<option value='personal_number'>პირადი ნომერი</option>
+					<option value='sex'>სქესი</option>
+					<option value='address'>მისამართი</option>
+					<option value='phone'>ტელეფონი(სახლის, მობილური, სამსახურის)</option>
+					<option value='email'>ელფოსტა</option>
+					<option value='years_in_school'>წლები სკოლაში</option>
+					<option value='position'>თანამდებობა</option>
+					<option value='organisation'>ორგანიზაცია</option>
+					<option value='languages'>ენები</option>
+					<option value='becoming_member_date'>გაწევრიანების თარიღი</option>
+					<option value='gyla_enter_date'>GYLA-ში შესვლის თარიღი</option>
+					<option value='gyla_leave_date'>GYLA-ს დატოვების თარიღი</option>
+					<option value='org_enter_date'>ორგანიზაციაში შესვლის თარიღი</option>
+					<option value='org_leave_date'>ორგანიზაციის დატოვების თარიღი</option>
+					<option value='reference'>მიმართვა</option>
+					<option value='interested_in'>ინტერესები</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="block group" style='display:none;' id='divmethod'>
+			<div class="left_labels">
+				<label for="method">მეთოდი: </label>
+			</div>
+
+			<div class="right_fields">
+				<select name="people[method]" id="method" style='width:100%;'
+				     onchange='$("#divvalue").show(); $("#divadd").show();'>
+					<option value="" selected='selected'></option>
+					<option value="equals_to">უდრის</option>
+					<option value="does_not_equal_to">არ უდრის</option>
+					<option value="like">ჰგავს</option>
+					<option value="not_like">არ ჰგავს</option>
+					<option value="greater_than">მეტია</option>
+					<option value="less_than">ნაკლებია</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="block group" style='display:none;' id='divvalue'>
+			<div class="left_labels">
+				<label for="pvalue">მნიშვნელობა: </label>
+			</div>
+
+			<div class="right_fields">
+				<input type="text" name="people[value]" class="text_field" id="pvalue" />
+			</div>
+		</div>
+
+		<div class="block group" style='display:none;' id='divadd'>
+			<center>
+				<input type="submit" value="დამატება" class="text_field" id="new_post_submit"
+					style='width:80px;height:19px;padding:0;font-size:12px;' />
+			</center>
+		</div>
+
+		<div class='block group' id='saved_parameters'>
+		</div>
+
+
+<?php /*
+		<div class="block group">
+			<div class="left_labels">
+				<label for="office">Office: </label>
+			</div>
+
+			<div class="right_fields">
+				<select name="people[office]" id="office" style='width:100%;'>
+<?php
+			foreach ($offices as $office)
+				echo	"<option value='".$office['id']."'>".$office['name']."</option>";
+?>
+				</select>
+			</div>
+		</div>
+*/
+?>
+		<span onclick='$("#save_search").show()' style='cursor:pointer;display:block'>ამ ძებნის პარამეტრების შენახვა</span>
+		<br />
+
+		<div class="block group" id='save_search' style='display:none'>
+			<div class="left_labels">
+				<label for="office">სახელი: </label>
+			</div>
+
+			<div class="right_fields">
+				<input type='text' class='text_field' name='search_name' style='width:70%' id='save_search_field' />
+				&nbsp;&nbsp;&nbsp;
+				<a href='<?php echo URL::site('people/') ?>' id='save_search_link'>შენახვა</a>
+			</div>
+
+		</div>
+
+
+
+		<div class="block last">
+			<input type="submit" value="ძებნა" class="text_field" id="new_post_submit" />
+		</div>
+
+	</form>

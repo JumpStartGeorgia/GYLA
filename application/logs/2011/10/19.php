@@ -1,0 +1,4 @@
+<?php defined('SYSPATH') or die('No direct script access.'); ?>
+
+2011-10-19 15:03:24 --- ERROR: Database_Exception [ 1045 ]: Access denied for user 'root'@'localhost' (using password: YES) ~ MODPATH/database/classes/kohana/database/mysql.php [ 67 ]
+2011-10-19 21:21:00 --- ERROR: Database_Exception [ 1045 ]: Access denied for user 'root'@'localhost' (using password: YES) ~ MODPATH/database/classes/kohana/database/mysql.php [ 67 ]

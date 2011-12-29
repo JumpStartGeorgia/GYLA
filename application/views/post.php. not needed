@@ -1,0 +1,60 @@
+<div id="all_posts" class="group">
+
+<?php
+	if($post['type'] == "text")
+	{
+		$class = "post_text";
+		$divstart = $divend = "";
+	}
+	elseif($post['type'] == 'video')
+	{
+		$class = "post_".$post['type'];
+		$divstart = "<div class='post_left'>
+				".$post['embed_code']."
+			     </div>
+    			     <div class='post_right'>";
+    		$divend = "</div>";
+	}
+	else
+	{
+		$imgurl = ($post['type'] != "photo")
+			? URL::base() . "/images/images/document_attachment.png"
+			: URL::base() . $post['attachment_url'];
+		$class = "post_".$post['type'];
+		$divstart = "<div class='post_left'>
+				<a class='single_image' href='".$imgurl."'>
+					<img src='".$imgurl."' class='rounded_image' alt='' />
+				</a>
+			    </div>
+    			     <div class='post_right'>";
+    		$divend = "</div>";
+	}
+?>
+	<div class="<?php echo $class ?> group wall-post">
+	 <div class="group">
+	  <?php echo $divstart; ?>
+		<p class="post_title"><?php echo $post['title'] ?></p>
+		<p class="post_info">
+			<img src="<?php echo URL::base() ?>/images/images/user.png" />
+			<?php echo $post['first_name'] . ' ' . $post['last_name'] ?>&nbsp;&nbsp;
+			<img src="<?php echo URL::base() ?>/images/images/data_time.png" class="fiximage" />
+			<?php echo $post['published_at'] ?>
+		</p>
+
+		<div class="post_body">
+			<?php echo $post['body'] ?>
+		</div>
+
+		<a class="link_reply" onclick="get_comments(<?php echo $post['id'] ?>);">
+			<img src="<?php echo URL::base() ?>/images/images/comment.png" />
+			<?php echo $post['total_comments'] ?> კომენტარი
+		</a>
+
+	  <?php 
+	 	echo $divend;
+	  ?>
+	 	</div>
+	 	<div id='comments<?php echo $post['id'] ?>' class='comments group'></div>
+	</div>
+
+</div>

@@ -1,0 +1,66 @@
+<div id="panel" class="post_text">
+<?php exit('a'); ?>
+  	<p class="post_title">ხალხის სია</p>
+
+	<br />
+
+	<form action="" method="get" class="group">
+		<input type='text' name="" id="search_people_box" value="ძიება..." class="text_field" onfocus="this.value=''" />
+		<input type='image' id="submit_people_button" src="images/submit_button.png" />
+	</form>
+
+	<table>
+		<tr>
+			<th>სახელი</th>
+			<th>გვარი</th>
+			<th>დაბ. თარიღი</th>
+			<th colspan='2'>ნომერი</th>
+		</tr>
+		<tr>
+			<td>ვაჟა</td>
+			<td>ასათიანი</td>
+			<td>01.06.1994</td>
+			<td>+995 597 98 13 13</td>
+			<td><a href="#">Edit</a></td>
+		</tr>
+		<tr>
+			<td>ჯონი</td>
+			<td>უოლკერი</td>
+			<td>23.10.1805</td>
+			<td>+995 598 32 10 70</td>
+			<td><a href="#">Edit</a></td>
+		</tr>
+		<tr>
+			<td colspan='5' align='center'><a id="showpeopleform">New Person</a></td>
+		</tyr>
+	</table>
+
+	<form action="" method="post" id="people_form">
+
+		<div class="block group">
+			<div class="left_labels">
+				<label for="new_post_title">First Name: </label>
+			</div>
+
+			<div class="right_fields">
+				<input type="text" name="person_firstname" class="text_field" id="new_post_title" />
+			</div>
+		</div>
+
+		<div class="block group">
+			<div class="left_labels">
+				<label for="new_post_body">Last Name: </label>
+			</div>
+
+			<div class="right_fields">
+				<input type="text" name="person_lastname" class="text_field" id="new_post_title" />
+			</div>
+		</div>
+
+		<div class="block last">
+			<input type="submit" value="Submit" class="text_field" id="new_post_submit" />
+		</div>
+
+	</form>
+
+</div>
