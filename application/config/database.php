@@ -25,7 +25,7 @@ switch (Kohana::$environment)
         $db = array(
             'name' => 'gyla',
             'user' => 'root',
-            'pass' => 'x264db74',
+            'pass' => 'asdfg',
             'profiling' => TRUE
         );
         break;

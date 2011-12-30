@@ -107,7 +107,7 @@ class Controller_Application extends Controller_Template
             self::$acl->allow($user_id, $permission['resource'], $permission['privilege']);
         }
     }
-    
+
     public static function in_array_rec ($needle,$array)
 	{
 		if ( is_array($array) ) {
