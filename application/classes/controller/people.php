@@ -675,7 +675,7 @@ class Controller_People extends Controller_Application
 				$_SSQL['person_private_number'] = " personal_number LIKE '%".$_searchData['person_private_number']."%' ";
 			}
 			
-			if ( isset($_searchData['person_gender']) and !empty($_searchData['person_gender']) ) {
+			if ( isset($_searchData['person_gender']) and !empty($_searchData['person_gender']) and $_searchData['person_gender'] !== 'all' ) {
 				$_searchData['person_gender'] = strval($_searchData['person_gender']);
 				$_SSQL['person_gender'] = " sex = '".$_searchData['person_gender']."' ";
 			}
@@ -692,7 +692,7 @@ class Controller_People extends Controller_Application
 				
 			}			
 			
-			if ( isset($_searchData['person_office']) and !empty($_searchData['person_office']) ) {
+			if ( isset($_searchData['person_office']) and !empty($_searchData['person_office']) and $_searchData['person_office'] !== 0 ) {
 				$_SSQL['person_office'] = " office_id = '".$_searchData['person_office']."' ";
 			}
 			

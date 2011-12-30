@@ -12,6 +12,7 @@
 2011-12-30 14:50:17 --- ERROR: ErrorException [ 8 ]: Undefined variable: search_form ~ APPPATH/views/forms/search_people.php [ 2 ]
 2011-12-30 14:52:05 --- ERROR: ErrorException [ 8 ]: Undefined variable: the_search ~ APPPATH/views/forms/search_people.php [ 2 ]
 2011-12-30 15:30:20 --- ERROR: ErrorException [ 8 ]: Undefined variable: the_search ~ APPPATH/views/forms/search_people.php [ 2 ]
+
 2011-12-30 16:00:27 --- ERROR: HTTP_Exception_404 [ 404 ]: The requested URL GYLA/index was not found on this server. ~ SYSPATH/classes/kohana/request/client/internal.php [ 94 ]
 2011-12-30 16:00:28 --- ERROR: HTTP_Exception_404 [ 404 ]: The requested URL GYLA/index was not found on this server. ~ SYSPATH/classes/kohana/request/client/internal.php [ 94 ]
 2011-12-30 16:01:33 --- ERROR: Database_Exception [ 1045 ]: Access denied for user 'root'@'localhost' (using password: YES) ~ MODPATH/database/classes/kohana/database/mysql.php [ 67 ]
