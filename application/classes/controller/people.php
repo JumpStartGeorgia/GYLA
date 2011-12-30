@@ -53,8 +53,6 @@ class Controller_People extends Controller_Application
         $this->template->content->search_form = View::factory('forms/search_people');
         $sql = DB::select('*')->from('offices')->order_by('id');
         $this->template->content->search_form->offices = $this->db->query(Database::SELECT, $sql)->as_array();
-        $sql = DB::select('*')->from('saved_search')->order_by('id');
-        $this->template->content->search_form->saved_searches = $this->db->query(Database::SELECT,$sql)->as_array();
         $this->template->content->people = $people;
         $this->template->content->allow_perm = $this->check_access('admin', 'management', FALSE);
         $this->template->content->allow_edit = $this->check_access('people', 'edit', FALSE);
@@ -726,8 +724,15 @@ class Controller_People extends Controller_Application
 		
 		}
 		
-		exit(print_r($DBData));
-    	
+		$this->template->content->search_form = View::factory('forms/search_people');
+		$this->template->content->people = $DBData;
+		$sql = DB::select('*')->from('offices')->order_by('id');
+        $this->template->content->search_form->offices = $this->db->query(Database::SELECT, $sql)->as_array();
+        $this->template->content->search_form->the_search = $_searchData;
+    	$this->template->content->allow_perm = $this->check_access('admin', 'management', FALSE);
+        $this->template->content->allow_edit = $this->check_access('people', 'edit', FALSE);
+        $this->template->content->allow_dele = $this->check_access('people', 'delete', FALSE);
+        
     }
     
     public function action_search()
@@ -741,11 +746,9 @@ class Controller_People extends Controller_Application
     		$saved_search = $this->db->query(Database::SELECT,$sql)->as_array();
     		$saved_search = unserialize(base64_decode($saved_search[0]['code']));    		    		
     		$this->makeSearch($saved_search);
-    		exit(print_r($saved_search));    		
     	}
     	else{
-    		$this->makeSearch($_POST);
-    		exit(print_r($the_search));
+    		$this->makeSearch($_POST);    		
     	}	
    
     }

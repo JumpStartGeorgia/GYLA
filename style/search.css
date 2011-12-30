@@ -137,7 +137,15 @@
 
 #person_search {
 	margin-top:25px;
-	margin-left:30px;
+	
+}
+
+.person_search {
+	margin-left:150px;
+}
+
+.person_search_made {
+	margin-left:30px;	
 }
 
 #person_search_save {
