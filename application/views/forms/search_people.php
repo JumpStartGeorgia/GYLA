@@ -11,7 +11,7 @@
 		'gender_female' => (isset($the_search['person_gender']) and !empty($the_search['person_gender']) and $the_search['person_gender'] === 'female') ? 'checked="chcked"' : null,
 		'tel' => (isset($the_search['person_tel']) and !empty($the_search['person_tel'])) ? 'value="'.$the_search['person_tel'].'"' : null,
 		'email' => (isset($the_search['person_email']) and !empty($the_search['person_email'])) ? 'value="'.$the_search['person_email'].'"' : null,
-		'languages' => 
+		'languages' => (isset($the_search['person_languages']) and !empty($the_search['person_languages'])) ? 'value="'.$the_search['person_languages'].'"'
 	);
 ?>
 <div id="seach-main-box" class="thebox  search-main-box" >
@@ -48,7 +48,7 @@
 		<div class="right-box">	
 			<div class="search-child-box">
 				<label for="person_tel">ტელეფონი:</label><br />
-					<input type="text" name="person_tel" id="person_tel" />
+					<input type="text" name="person_tel" id="person_tel" <?php echo $_person['languages'] ?>/>
 			</div>
 			<div class="search-child-box" style="margin-top:30px;">
 				<label for="person_email">ელფოსტა:</label><br />
