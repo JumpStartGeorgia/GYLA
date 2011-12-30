@@ -60,7 +60,6 @@
 
 .search-child-box input[type="text"][name="person_date_start"],[name="person_date_end"] {
 	margin-top:5px;
-	margin-left:70px;
 	width:30px;
 }
 
@@ -78,44 +77,43 @@
 }
 
 #person_gender_male {
-	margin-left:70px;
+	margin-top:5px;
 }
 
 #person_gender_female {
-	margin-left:70px;
 	margin-top:5px;
 }
 #person_gender_all {
-	margin-left:70px;
 	margin-top:5px;
 }
 
 #person_name {
-	margin-left:70px;
+	margin-top:5px;
 }
 
 #person_private_number {
-	margin-left:70px;
+	margin-top:5px;
 }
 
 #person_tel {
-	margin-left:70px;
+	margin-top:5px;
 }
 
 #person_email {
-	margin-left:70px;	
+	margin-top:5px;	
 }
 
 .search-main-box .right-box select[name="person_office"] {
 	display:block;
-	margin-left:70px;
+	margin-left:20px;
+	margin-top:5px;
 	width:155px;
 	height:20px;
 	cursor:pointer;		
 }
 
 #person_languages {
-	margin-left:70px;
+	margin-top:5px;
 }
 
 #person_search,#person_search_save {

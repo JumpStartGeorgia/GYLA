@@ -674,7 +674,7 @@ $(function(){
 							Search.Form.SavedSearchList.self.empty();							
 							var html = new Array('<option value="0">Select Search</option>');
 								for ( var i in data ) {
-									html.push('<option value="' + data[i].id + '">');								
+									html.push('<option value="' + data[i].id + '" '+ (typeof(theSavedSearch) !== "undefined" && data[i].id == theSavedSearch ? 'selected="selected"' : null ) +'>');								
 									html.push(data[i].name); 
 									html.push('</option>');
 								}
