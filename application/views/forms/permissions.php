@@ -1,15 +1,33 @@
-	<form action="<?php echo URL::site('user/update_permissions/'.$user['id']) ?>" method="post">
+    <?php $url = ($status == 'new') ? 'groups/create' : 'groups/update/' . $group['id'];  ?>
+	<form action="<?php echo URL::site($url) ?>" method="post">
+
+		<?php empty($message) OR print $message; ?>
 
 		<div class="block group">
 			<div class="left_labels">
-				<label><?php echo $user['first_name']." ".$user['last_name'] ?></label>
+				<label>ჯგუფი</label>
 			</div>
 
 			<div class="right_fields">
-				<label><?php echo $user['username'] ?></label>
+			    <label>
+				<input type="text" class="text_field widefield" value="<?php empty($group['name']) OR print $group['name']; ?>" name="group_name" />
+			    </label>
 			</div>
 		</div>
 
+		<div class="block group">
+			<div class="left_labels">
+				<label>აღწერა</label>
+			</div>
+
+			<div class="right_fields">
+			    <label>
+				<textarea name="group_description" class="text_field widefield" style="color: #202020;"><?php 
+				    empty($group['description']) OR print $group['description'];
+				 ?></textarea>
+			    </label>
+			</div>
+		</div>
 
 		<div class="block group">
 			<div class="left_labels">

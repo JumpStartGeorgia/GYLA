@@ -22,7 +22,7 @@
 			<td><?php echo $user['username'] ?></td>
 			<td><?php echo $user['email'] ?></td>
 			<td><a href="<?php echo URL::site('user/edit_profile/' . $user['id']) ?>">შეცვლა</a></td>
-			<td><a href="<?php echo URL::site('user/permissions/' . $user['id']) ?>">უფლებები</a></td>
+			<?php /*<td><a href="<?php echo URL::site('user/permissions/' . $user['id']) ?>">უფლებები</a></td>*/ ?>
 		</tr>
 <?php
 	}

@@ -22,15 +22,13 @@
             </td>
         </tr>
         <tr style='border: 0;'>
-            <!--
                 <td>
-			<h3>მომხმარებლები</h3>
+			<h3>მომხმარებელთა ჯგუფები</h3>
 			<ul>
-				<li><a href="<?php echo URL::site('user/new') ?>">მომხმარებლის დამატება</a></li>
-				<li><a href="<?php echo URL::site('user') ?>">მომხმარებლების სია</a></li>
+				<li><a href="<?php echo URL::site('groups/new') ?>">ჯგუფის დამატება</a></li>
+				<li><a href="<?php echo URL::site('groups') ?>">ჯგუფების სია</a></li>
 			</ul>
 		</td>
-            -->
             <td colspan="2">
                 <h3>ოფისების მართვა</h3>
                 <ul>

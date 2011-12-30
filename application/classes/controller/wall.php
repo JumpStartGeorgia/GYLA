@@ -7,6 +7,9 @@ class Controller_Wall extends Controller_Application
 
     public function action_index()
     {
+    
+    //print_r($_SESSION);die;
+    
         if (isset($_SESSION['userid']) AND !empty($_SESSION['userid']))
             $this->check_access('wall', 'view');
 

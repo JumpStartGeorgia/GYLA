@@ -15,7 +15,7 @@
 
         <div class='b-block-left group'>
             <div class='small-spacer'></div>
-	    მომსმარებელი
+	    მომხმარებელი
             <div class='small-spacer'></div>
 	    სქესი
             <hr class='splitter-left' />

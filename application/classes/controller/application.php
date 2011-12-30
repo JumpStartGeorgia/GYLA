@@ -17,7 +17,7 @@ class Controller_Application extends Controller_Template
 
         session_start();
 
-        self::$acl = new Zend_Acl();
+        //self::$acl = new Zend_Acl();
         isset($_SESSION['userid']) OR $_SESSION['userid'] = NULL;
         $this->set_permissions($_SESSION['userid']);
 
@@ -82,7 +82,11 @@ class Controller_Application extends Controller_Template
     {
         //print($resource . " " . $privilege);die;
         //echo $_SESSION['userid'];die;
-        $permission = (self::$acl->has($resource) AND self::$acl->isAllowed($_SESSION['userid'], $resource, $privilege));
+        //$permission = (self::$acl->has($resource) AND self::$acl->isAllowed($_SESSION['userid'], $resource, $privilege));
+        isset($_SESSION['permissions']) OR $this->set_permissions($_SESSION['userid']);
+        $permission = !empty($_SESSION['permissions']) AND
+        	      !empty($_SESSION['permissions'][$resource]) AND
+        	      ($_SESSION['permissions'][$resource] == $privilege);
         if (!$permission AND $redirect)
             $this->request->redirect('user/denied');
         elseif (!$permission AND !$redirect)
@@ -94,18 +98,28 @@ class Controller_Application extends Controller_Template
     protected function set_permissions($user_id)
     {
         is_numeric($user_id) OR $user_id = (integer) $user_id;
-        $result = DB::select()
-                ->from('permissions')
-                ->where('user_id', '=', $user_id)
-                ->execute()
-                ->as_array();
-        self::$acl->addRole(new Zend_Acl_Role($user_id));
+        $results = DB::select('permissions.*')
+		  ->from('people')
+		  ->join('user_groups')
+		  ->on('people.group_id', '=', 'user_groups.id')
+		  ->join('permissions')
+		  ->on('permissions.group_id', '=', 'people.group_id')
+                  ->where('people.id', '=', $user_id)
+                  ->execute()
+                  ->as_array();
+        $permissions = array();
+	foreach($results as $result)
+	{
+	    $permissions[$result['resource']][] = $result['privilege'];
+	}
+	$_SESSION['permissions'] = $permissions;
+        /*self::$acl->addRole(new Zend_Acl_Role($user_id));
         foreach ($result AS $permission)
         {
             if (!self::$acl->has($permission['resource']))
                 self::$acl->add(new Zend_Acl_Resource($permission['resource']));
             self::$acl->allow($user_id, $permission['resource'], $permission['privilege']);
-        }
+        }*/
     }
 
     public static function in_array_rec ($needle,$array)
