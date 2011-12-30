@@ -16,3 +16,4 @@
 2011-12-30 15:52:26 --- ERROR: ErrorException [ 4 ]: syntax error, unexpected T_VARIABLE ~ APPPATH/views/forms/search_people.php [ 14 ]
 2011-12-30 16:08:03 --- ERROR: ErrorException [ 8 ]: Undefined variable: the_search ~ APPPATH/views/forms/search_people.php [ 2 ]
 2011-12-30 16:08:09 --- ERROR: ErrorException [ 8 ]: Undefined variable: the_search ~ APPPATH/views/forms/search_people.php [ 68 ]
+2011-12-30 16:18:58 --- ERROR: ErrorException [ 4 ]: syntax error, unexpected ':' ~ APPPATH/views/forms/search_people.php [ 82 ]
