@@ -14,7 +14,7 @@ class Controller_Admin extends Controller_Application
 
     public function action_index()
     {
-	$this->template->content = View::factory('admin');    
+		$this->template->content = View::factory('admin');    	
     }
 
 }

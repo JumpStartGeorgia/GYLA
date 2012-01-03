@@ -19,6 +19,9 @@
 -- Table structure for table `affiliation_history`
 --
 
+CREATE DATABASE `gyla`;
+use `gyla`;
+
 DROP TABLE IF EXISTS `affiliation_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

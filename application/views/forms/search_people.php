@@ -6,9 +6,9 @@
 		'date_start' => (isset($the_search['person_date_start']) and !empty($the_search['person_date_start'])) ? 'value="'.$the_search['person_date_start'].'"' : '',
 		'date_end' => (isset($the_search['person_date_end']) and !empty($the_search['person_date_end'])) ? 'value="'.$the_search['person_date_end'].'"' : '',
 		'private_number' => (isset($the_search['person_private_number']) and !empty($the_search['person_private_number'])) ? 'value="'.$the_search['person_private_number'].'"' : null,
-		'gender_male' => ( (isset($the_search['person_gender']) and !empty($the_search['person_gender']) and $the_search['person_gender'] === 'male') or (!isset($the_search['peson_gender']) and empty($the_search['person-gender'])) ) ? 'checked="checked"' : '',
+		'gender_male' => ( isset($the_search['person_gender']) and !empty($the_search['person_gender']) and $the_search['person_gender'] === 'male' ) ? 'checked="checked"' : '',
 		'gender_female' => (isset($the_search['person_gender']) and !empty($the_search['person_gender']) and $the_search['person_gender'] === 'female') ? 'checked="chcked"' : '',
-		'gender_all' => (isset($the_search['person_gender']) and !empty($the_search['person_gender']) and $the_search['person_gender'] === 'all') ? 'checked="checked"' : '',
+		'gender_all' => ( (isset($the_search['person_gender']) and !empty($the_search['person_gender']) and $the_search['person_gender'] === 'all') or (!isset($the_search['person_gender']) and empty($the_search['person-gender'])) ) ? 'checked="checked"' : '',
 		'tel' => (isset($the_search['person_tel']) and !empty($the_search['person_tel'])) ? 'value="'.$the_search['person_tel'].'"' : '',
 		'email' => (isset($the_search['person_email']) and !empty($the_search['person_email'])) ? 'value="'.$the_search['person_email'].'"' : '',
 		'languages' => (isset($the_search['person_languages']) and !empty($the_search['person_languages'])) ? 'value="'.implode(', ',$the_search['person_languages']).'"' : ''

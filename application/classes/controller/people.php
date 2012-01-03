@@ -62,7 +62,8 @@ class Controller_People extends Controller_Application
     public function action_view()
     {
         $id = $this->request->param('id');
-
+		if ( $id !== $_SESSION['userid'] and $_SESSION['username'] !== 'admin' )
+			$this->request->redirect(URL::site('people'));
         $this->template->content = View::factory('person');
 
         $person = DB::select('people.*', array('offices.name', 'office_name'), array('offices.address', 'office_address'))
@@ -712,11 +713,10 @@ class Controller_People extends Controller_Application
 			}
 			
     	$_SSQL = implode(' AND ',$_SSQL);
-    	$sql = "
-    		SELECT * from people WHERE
-    		$_SSQL
-    	;";
-
+    	$sql = "SELECT * from people ";
+    		if ( !empty($_SSQL) )
+    			$sql .= "WHERE". $_SSQL;
+    	$sql .= ";";
     	$DBData = $this->db->query(Database::SELECT,$sql)->as_array();
     	
     	if ( isset($_searchData['person_languages']) and !empty($_searchData['person_languages']) ) {			
@@ -726,12 +726,13 @@ class Controller_People extends Controller_Application
 			foreach ( $DBData as $index => $value ) {
 				$sql = DB::select('languages.language')->from('languages')->where('id','IN',unserialize($value['languages']));
 				$person_languages = $this->db->query(Database::SELECT,$sql)->as_array();								
-				$count = 0;
+				//$count = 0;
 				foreach ( $_searchData['person_languages'] as $ind => $val )
-					if ( $this->in_array_rec($val,$person_languages) ) 
-						$count ++; 					
-				if ( $count === count($_searchData['person_languages']) )
-					$tmpDBData[] = $value;
+					if ( $this->in_array_rec($val,$person_languages) and !$this->in_array_rec($value['username'],$tmpDBData) ) 
+						$tmpDBData[] = $value;
+						/*$count ++; 					
+				if ( $count === count($_searchData['person_languages']) )*/
+					
 				
 			}
 			
