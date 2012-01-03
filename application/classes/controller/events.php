@@ -117,7 +117,8 @@ class Controller_Events extends Controller_Application
     }
 
     public function action_edit()
-    {
+    {    	
+     
         $this->check_access('events', 'edit');
 
         $query = DB::select('events.*')
@@ -126,6 +127,8 @@ class Controller_Events extends Controller_Application
                 ->on('events.district_id', '=', 'districts.id')
                 ->where('events.id', '=', $this->request->param('id'));
         $e = $this->db->query(Database::SELECT, $query)->as_array();
+        if ( empty($e) )	
+        	$this->request->redirect(URL::site('events'));
         $this->template->content = View::factory('forms/event');
         $this->template->content->districts = $this->districts();
         $this->template->content->event = $e[0];

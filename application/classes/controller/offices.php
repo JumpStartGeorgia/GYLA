@@ -99,6 +99,8 @@ class Controller_offices extends Controller_Application
                 ->on('offices.district_id', '=', 'districts.id')
                 ->where('offices.id', '=', $this->request->param('id'));
         $e = $this->db->query(Database::SELECT, $query)->as_array();
+        if ( empty($e) )  
+        	$this->request->redirect(URL::site('offices'));
         $this->template->content = View::factory('forms/office');
         $this->template->content->districts = $this->districts();
         $this->template->content->office = $e[0];

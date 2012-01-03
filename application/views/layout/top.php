@@ -16,16 +16,16 @@
         <a href="<?php echo URL::base(); ?>"" class="menuitem">კედელი</a>
 
         <a href="<?php echo URL::site('events'); ?>" class="menuitem">მოვლენები</a>
-
+	<?php if ( $_SESSION['username'] === 'admin' ): ?>
         <a href="<?php echo URL::site('people'); ?>" class="menuitem">წევრები/თანამშრომლები</a>
-
         <a href="<?php echo URL::site('offices'); ?>" class="menuitem" style="margin: 0px;">ოფისები</a>
+	<?php endif; ?>
 
     </div>
 
     <script type='text/javascript'>
         $(document).ready(function(){
-            var keyword;
+            var keyword = "";
             function redirect_to_search()
             {
                 window.location = "<?php echo URL::site('search/index') ?>/" + keyword;
