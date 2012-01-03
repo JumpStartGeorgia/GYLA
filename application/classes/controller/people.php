@@ -62,7 +62,8 @@ class Controller_People extends Controller_Application
     public function action_view()
     {
         $id = $this->request->param('id');
-
+		if ( $id !== $_SESSION['userid'] and $_SESSION['username'] !== 'admin' )
+			$this->request->redirect(URL::site('people'));
         $this->template->content = View::factory('person');
 
         $person = DB::select('people.*', array('offices.name', 'office_name'), array('offices.address', 'office_address'))
