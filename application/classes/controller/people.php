@@ -147,7 +147,8 @@ class Controller_People extends Controller_Application
             'reference',
             'interested_in',
             'years_in_school',
-            'comment'
+            'comment',
+            'group_id'
         );
 
         $_POST['person_languages'] = empty($_POST['person_languages']) ? NULL : serialize($_POST['person_languages']);        
@@ -176,7 +177,8 @@ class Controller_People extends Controller_Application
             'NULL',
             /*$_POST['person_years_in_school'],*/
             'NULL',
-            $_POST['person_comment']
+            $_POST['person_comment'],
+            $_POST['group_id']
         );
 
         if (isset($_POST['password']) AND !empty($_POST['password']))
@@ -188,7 +190,7 @@ class Controller_People extends Controller_Application
         $query1 = DB::insert('people', $columns)->values($values)->execute();
         $last_id = $query1[0];
 
-        // Set default permissions
+        /* Set default permissions
         $default_permissions = Kohana::config('default_permissions');
         $permissions = DB::insert('permissions', array('user_id', 'resource', 'privilege'));
         foreach ($default_permissions AS $resource => $privileges)
@@ -202,7 +204,7 @@ class Controller_People extends Controller_Application
                 ));
             }
         }
-        $permissions->execute();
+        $permissions->execute();*/
 
         if ($query1)
         {
@@ -249,16 +251,19 @@ class Controller_People extends Controller_Application
     private function getDefaultLanguages ()
     {
 
-    	$status = $this->db->query(Database::SELECT,DB::select()
-    											->from('languages')
-    											->where('status','=','default')
-    							 )->as_array();
-		return $status;
+    	$status = $this->db->query(Database::SELECT,DB::select()->from('languages')->where('status','=','default'))->as_array();
+	return $status;
     }
 
     public function action_new()
     {
         $this->check_access('people', 'add');
+        /*$groups = DB::select()->from('user_groups')->execute()->as_array();
+        if (empty($groups) OR empty($groups[0]['id']))
+        {
+        	$_SESSION['message'] = 'ჯგუფები ცარიელია. იმისათვის, რომ დაამატოთ მომხმარებელი, ჯერ უნდა დაამატოთ ჯგუფი.';
+        	$this->request->redirect('groups/new');
+        }*/
 
         $this->template->content = View::factory('forms/person');
         $this->template->content->default_languages = $this->getDefaultLanguages();
@@ -286,6 +291,7 @@ class Controller_People extends Controller_Application
             'comment' => NULL
         );
         $this->template->content->interests = $this->interests;
+        $this->template->content->groups = DB::select()->from('user_groups')->execute()->as_array();
         $this->template->content->degrees = array(array('from' => NULL, 'to' => NULL, 'degree' => NULL));
         $this->template->content->offices = DB::select('name', 'address', 'id')->from('offices')->execute()->as_array();
         empty($results) AND $results = array();
@@ -313,8 +319,15 @@ class Controller_People extends Controller_Application
     public function action_edit()
     {
         $this->check_access('people', 'edit');
-
         $thisid = $this->request->param('id');
+        /*$groups = DB::select()->from('user_groups')->execute()->as_array();
+        if (empty($groups) OR empty($groups[0]['id']))
+        {
+        	$_SESSION['message'] = 'ჯგუფები ცარიელია. იმისათვის, რომ შეცვალოთ მომხმარებლის მონაცემები, ჯერ უნდა დაამატოთ ჯგუფი.';
+        	$_SESSION['redirect_id'] = $thisid;
+        	$this->request->redirect('groups/new');
+        }*/
+
 
         $query = DB::select()->from('people')
                 ->where('people.id', '=', $thisid)
@@ -328,7 +341,8 @@ class Controller_People extends Controller_Application
 		
         $this->template->content = View::factory('forms/person');
         $this->template->content->default_languages = $this->getDefaultLanguages();
-        $this->template->content->person = $this->returnUser($query[0]);        
+        $this->template->content->person = $this->returnUser($query[0]);    
+        $this->template->content->groups = DB::select()->from('user_groups')->execute()->as_array();
         $this->template->content->degrees = $query2;        
         $this->template->content->phones = DB::select()
                 ->from('phones')
@@ -451,7 +465,8 @@ class Controller_People extends Controller_Application
             /*'becoming_member_date' => $_POST['person_becoming_member_date'],*/
             'reference' => $this->calculateUser($_POST['person_reference']),
             'interested_in' => $_POST['person_interested'],
-            'comment' => $_POST['person_comment']
+            'comment' => $_POST['person_comment'],
+            'group_id' => $_POST['group_id']
         );
 
         if (isset($_POST['password']) AND !empty($_POST['password']))

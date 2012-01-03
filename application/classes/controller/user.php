@@ -22,61 +22,8 @@ class Controller_User extends Controller_Application
         $this->template->content->users = $query;
     }
 
-    public function action_permissions()
-    {
-
-        $thisid = $this->request->param('id');
-
-        $query = DB::select()->from('people')
-                //->join('permissions')
-                //->on('users.id', '=', 'permissions.user_id')
-                ->where('id', '=', $thisid)
-                ->execute()
-                ->as_array();
-
-        $current_permissions = array();
-        $current_permissions_data = DB::select()->from('permissions')->where('user_id', '=', $thisid)->execute()->as_array();
-        foreach ($current_permissions_data AS $perm)
-            $current_permissions[$perm['resource']][] = $perm['privilege'];
-
-        $this->template->content = View::factory('forms/permissions');
-        $this->template->content->user = $query[0];
-        $this->template->content->permissions = Kohana::config('permissions');
-        $this->template->content->geo_perms = Kohana::config('perms_in_geo');
-        $this->template->content->current_permissions = $current_permissions;
-    }
-
-    public function action_update_permissions()
-    {
-
-        $thisid = $this->request->param('id');
-
-        $permissions = array();
-        foreach ($_POST['permissions'] AS $perm)
-            $permissions[] = unserialize(base64_decode($perm));
-
-        $query = DB::delete('permissions')->where('user_id', '=', $thisid)->execute();
-
-        $columns = array
-            (
-            'user_id',
-            'resource',
-            'privilege',
-        );
-
-        foreach ($permissions as $perm)
-        {
-            $values = array
-                (
-                $thisid,
-                $perm['resource'],
-                $perm['privilege']
-            );
-            $query = DB::insert('permissions', $columns)->values($values)->execute();
-        }
-
-        $this->request->redirect(URL::site('people'));
-    }
+    //public function action_permissions(){}
+    //public function action_update_permissions(){}
 
     public function action_denied()
     {
@@ -259,7 +206,7 @@ class Controller_User extends Controller_Application
               ->execute();
              */
 
-            $this->set_permissions($_SESSION['userid']);
+            $this->set_permissions($user[0]['id']);
 
             $this->request->redirect(URL::base());
         }
@@ -267,14 +214,14 @@ class Controller_User extends Controller_Application
 
     public function action_logout()
     {
-        if
-        (
+        /*if (
                 isset($_SESSION['userid'])
                 AND !empty($_SESSION['userid'])
                 AND isset($_SESSION['username'])
-                AND !empty($_SESSION['username'])
-        )
-            unset($_SESSION['userid'], $_SESSION['username']);
+                AND !empty($_SESSION['username']) )
+            unset($_SESSION['userid'], $_SESSION['username']);*/
+        unset($_SESSION);
+        session_destroy();
         $this->request->redirect(URL::base());
     }
 
