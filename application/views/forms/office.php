@@ -1,5 +1,6 @@
 <?php
 	$action = empty($office['name']) ? URL::site('offices/create') : URL::site('offices/update/'.$office['id']);
+
 ?>
 	<form action="<?php echo $action ?>" method="post" id='form_office'>
 
@@ -43,7 +44,7 @@
 
 			<div class="right_fields">
 				<input type="text" name="office_manager" class="text_field widefield"
-					id="flast" value="<?php echo $office['manager']; ?>" />
+					id="flast" value="<?php echo implode(' ',array($office['manager_first_name'],$office['manager_last_name'])); ?>" />
 			</div>
 		</div>
 

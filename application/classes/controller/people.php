@@ -76,6 +76,8 @@ class Controller_People extends Controller_Application
                 ->order_by('first_name')
                 ->execute()
                 ->as_array();
+		if ( empty($person) )                
+			$this->request->redirect(URL::site('people'));
         $this->template->content->person = $this->returnUser($person[0]);
 
         $this->template->content->phones = DB::select()

@@ -1,5 +1,6 @@
 <?php
-	echo $search_form;
+	if ( $_SESSION['username'] === 'admin'  )
+		echo $search_form;		
 ?>
 <div class="post_text">
 
