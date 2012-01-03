@@ -235,13 +235,15 @@ div#search
     width: 675px;
     padding: 7px 13px 9px 14px;
     background: #4D5181;
-    color: #FFF;
     -webkit-border-bottom-right-radius: 10px;
     -webkit-border-bottom-left-radius: 10px;
     -moz-border-radius-bottomright: 10px;
     -moz-border-radius-bottomleft: 10px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
+    text-decoration:none;
+    color: #fff;
+    font-size:11px;
 }
 
 #bottom a
