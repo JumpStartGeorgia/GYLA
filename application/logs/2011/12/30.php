@@ -17,3 +17,16 @@
 2011-12-30 16:08:03 --- ERROR: ErrorException [ 8 ]: Undefined variable: the_search ~ APPPATH/views/forms/search_people.php [ 2 ]
 2011-12-30 16:08:09 --- ERROR: ErrorException [ 8 ]: Undefined variable: the_search ~ APPPATH/views/forms/search_people.php [ 68 ]
 2011-12-30 16:18:58 --- ERROR: ErrorException [ 4 ]: syntax error, unexpected ':' ~ APPPATH/views/forms/search_people.php [ 82 ]
+2011-12-30 16:29:28 --- ERROR: Database_Exception [ 1064 ]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1 [ 
+    		SELECT * from people WHERE
+    		
+    	; ] ~ MODPATH/database/classes/kohana/database/mysql.php [ 181 ]
+2011-12-30 16:30:57 --- ERROR: Database_Exception [ 1064 ]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1 [ 
+    		SELECT * from people WHERE
+    		
+    	; ] ~ MODPATH/database/classes/kohana/database/mysql.php [ 181 ]
+2011-12-30 16:31:03 --- ERROR: Database_Exception [ 1064 ]: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1 [ 
+    		SELECT * from people WHERE
+    		
+    	; ] ~ MODPATH/database/classes/kohana/database/mysql.php [ 181 ]
+2011-12-30 16:37:24 --- ERROR: ErrorException [ 8 ]: Undefined offset: 0 ~ APPPATH/classes/controller/people.php [ 747 ]
