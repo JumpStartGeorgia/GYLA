@@ -20,6 +20,7 @@ class Controller_Application extends Controller_Template
         //self::$acl = new Zend_Acl();
         isset($_SESSION['userid']) OR $_SESSION['userid'] = NULL;
         $this->set_permissions($_SESSION['userid']);
+      //  var_dump($this->check_access('events', 'view', FALSE));die;
 
         if (!$this->auto_render)
             return;
@@ -84,9 +85,9 @@ class Controller_Application extends Controller_Template
         //echo $_SESSION['userid'];die;
         //$permission = (self::$acl->has($resource) AND self::$acl->isAllowed($_SESSION['userid'], $resource, $privilege));
         isset($_SESSION['permissions']) OR $this->set_permissions($_SESSION['userid']);
-        $permission = !empty($_SESSION['permissions']) AND
+        $permission = (!empty($_SESSION['permissions']) AND
         	      !empty($_SESSION['permissions'][$resource]) AND
-        	      ($_SESSION['permissions'][$resource] == $privilege);
+        	      in_array($privilege, $_SESSION['permissions'][$resource]));
         if (!$permission AND $redirect)
             $this->request->redirect('user/denied');
         elseif (!$permission AND !$redirect)
