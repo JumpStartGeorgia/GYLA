@@ -21,6 +21,7 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
         </div>
     </div>    
 
+    <?php if ($is_admin): ?>
     <div class="block group">
         <div class="left_labels">
             <label for="group_id">ჯგუფი: <span class='required'>*</span></label>
@@ -34,6 +35,30 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
             </select>
         </div>
     </div>
+
+    <div class="block group">
+        <div class="left_labels">
+            <label>დაბლოკილი:</label>
+        </div>
+        <div class="right_fields">
+            <label><input type="radio" name="blocked" <?php ($person['blocked'] == 1) AND print 'checked="checked"'; ?> value="1" />კი&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label><input type="radio" name="blocked" <?php ($person['blocked'] == 0) AND print 'checked="checked"'; ?> value="0" />არა</label>
+        </div>
+    </div>
+
+    <div class="block group">
+        <div class="left_labels">
+            <label for="payplan">გადასახადი:</label>
+        </div>
+        <div class="right_fields">
+            <select name="pay_plan" id="payplan">
+	    <?php foreach ($plans as $plan): ?>
+		<option <?php ($plan == $person['pay_plan']) AND print 'selected="selected"'; ?> value="<?php echo $plan; ?>"><?php echo $plan; ($plan == 0) AND print ' (უფასო)'; ?></option>
+	    <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+    <?php endif; ?>
 
     <div class="block group">
         <div class="left_labels">

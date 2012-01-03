@@ -5,12 +5,13 @@
     $member = explode(',', $person['member_of']);
 
     $edit_button = $allow_edit ? "<a href='" . URL::site('people/edit/' . $person['id']) . "' class='edit_button'>შეცვლა</a>" : NULL;
+    $trans_button = $allow_transactions ? '<a href="' . URL::site('transactions/user/' . $person['id']) . '" style="margin-right: 15px;" class="edit_button">ტრანზაქციები</a>' : NULL;
     ?>
     <div class='b-block group' style='border:0; margin: 0;'>
 
-        <div class='b-block-header group'>
-            <div class='b-block-title'><?php echo $person['first_name'] . " " . $person['last_name']; ?></div>
-            <?php echo $edit_button; ?>
+        <div class="b-block-header group" style="text-align: left;">
+            <div class='b-block-title' style="text-align: center;"><?php echo $person['first_name'] . " " . $person['last_name']; ?></div>
+            <?php echo $edit_button . $trans_button; ?>
         </div>
 
         <div class='b-block-left group'>

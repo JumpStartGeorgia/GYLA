@@ -54,6 +54,7 @@ class Controller_People extends Controller_Application
         $sql = DB::select('*')->from('offices')->order_by('id');
         $this->template->content->search_form->offices = $this->db->query(Database::SELECT, $sql)->as_array();
         $this->template->content->people = $people;
+        $this->template->content->allow_transactions =
         $this->template->content->allow_perm = $this->check_access('admin', 'management', FALSE);
         $this->template->content->allow_edit = $this->check_access('people', 'edit', FALSE);
         $this->template->content->allow_dele = $this->check_access('people', 'delete', FALSE);
@@ -94,6 +95,7 @@ class Controller_People extends Controller_Application
                 ->as_array();
 
         $this->template->content->allow_edit = $this->check_access('people', 'edit', FALSE);
+        $this->template->content->allow_transactions = $this->check_access('admin', 'management', FALSE);
     }
     
     private function calculateUser ($user)
@@ -362,7 +364,9 @@ class Controller_People extends Controller_Application
                 ->order_by('from')
                 ->execute()
                 ->as_array();
-          
+	$this->template->content->is_admin = $this->check_access('admin', 'management', FALSE);
+	$ta = Kohana::config('transactions');
+	$this->template->content->plans = $ta['plans'];
     }
     
 
@@ -472,6 +476,22 @@ class Controller_People extends Controller_Application
 
         if (isset($_POST['password']) AND !empty($_POST['password']))
             $update_data['password'] = sha1($_POST['password']);
+
+	if ($this->check_access('admin', 'management', FALSE))
+	{
+            if (isset($_POST['blocked']))
+            {
+		in_array($_POST['blocked'], array(0, 1)) OR $_POST['blocked'] = 0;
+		$update_data['blocked'] = $_POST['blocked'];
+            }
+
+            if (isset($_POST['pay_plan']))
+            {
+		$ta = Kohana::config('transactions');
+		$plans = $ta['plans'];
+		in_array($_POST['pay_plan'], $plans) AND $update_data['pay_plan'] = $_POST['pay_plan'];
+            }
+        }
 
         $query = DB::update('people')
                 ->set($update_data)

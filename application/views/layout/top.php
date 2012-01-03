@@ -19,7 +19,7 @@
 
         <a href="<?php echo URL::site('people'); ?>" class="menuitem">წევრები/თანამშრომლები</a>
 
-        <a href="<?php echo URL::site('offices'); ?>" class="menuitem">ოფისები</a>
+        <a href="<?php echo URL::site('offices'); ?>" class="menuitem" style="margin: 0px;">ოფისები</a>
 
     </div>
 

@@ -174,9 +174,9 @@ div#search
 #search_box
 {
     padding: 7px 25px 8px 9px;
-    width:135px;
-    float:left;
-    font-size:12px;
+    width: 125px;
+    float: left;
+    font-size: 12px;
 }
 #search_submit_button
 {
@@ -516,3 +516,12 @@ a#feedback
 }
 /* a#feedback:hover { background-color: #333 } */
 
+
+#transactions_list { width: 100%; border-type: collapse }
+#transactions_list th, #new_ta_form th { font-weight: bold; }
+#transactions_list td, #transactions_list th { border: 1px solid #ccc; text-align: right; padding: 5px; }
+#transactions_list th { text-align: center; }
+#new_ta_form { width: 100%; }
+#new_ta_form th, #new_ta_form td { text-align: center; }
+.am_red { color: red; }
+.am_green { color: green; }
