@@ -14,7 +14,7 @@ class Controller_Groups extends Controller_Application
     public function action_index()
     {
         $this->template->content = View::factory('groups');
-        $this->template->content->allow_del = $this->check_access('admin', 'management', FALSE);
+        $this->template->content->allow_edit = $this->template->content->allow_del = $this->check_access('admin', 'management', FALSE);
         $this->template->content->groups = DB::select()->from('user_groups')->execute()->as_array();
     }
 
