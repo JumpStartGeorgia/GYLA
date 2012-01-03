@@ -99,7 +99,14 @@ class Controller_People extends Controller_Application
         $this->template->content->allow_edit = $this->check_access('people', 'edit', FALSE);
         $this->template->content->allow_transactions = $this->check_access('admin', 'management', FALSE);
     }
-    
+
+    public function action_block()
+    {
+	$id = $this->request->param('id');
+	DB::update('people')->set(array('blocked' => 1))->where('id', '=', $id)->execute();
+	$this->request->redirect(URL::site('transactions/billing'));
+    }
+
     private function calculateUser ($user)
     {    	    	
     	$user = mysql_real_escape_string($user);

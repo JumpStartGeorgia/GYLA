@@ -11,7 +11,7 @@
         foreach ($people as $index => $person):
             $edit_button = $allow_edit ? "<a href='" . URL::site('people/edit/' . $person['id']) . "' class='edit_button' style=\"margin-right: 5px\">შეცვლა</a>" : NULL;
             //$perm_button = $allow_perm ? '<a href="' . URL::site('user/permissions/' . $person['id']) . '" class="edit_button" style="margin-right: 5px">უფლებები</a>' : NULL;
-            $dele_button = $allow_dele ? '<a href="' . URL::site('people/delete/' . $person['id']) . '" class="edit_button" style="margin-right: 5px">წაშლა</a>' : NULL;
+            $dele_button = $allow_dele ? '<a href="' . URL::site('people/delete/' . $person['id']) . '" onclick="return confirm(\'Are you sure?\');" class="edit_button" style="margin-right: 5px">წაშლა</a>' : NULL;
             $trans_button = $allow_transactions ? '<a href="' . URL::site('transactions/user/' . $person['id']) . '" class="edit_button">ტრანზაქციები</a>' : NULL;
             $profile = URL::site('people/view/' . $person['id']);
 

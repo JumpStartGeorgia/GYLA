@@ -38,7 +38,7 @@ class Controller_Transactions extends Controller_Application
 
 	$amount = DB::select(array('SUM("amount")', 'total'))->from('transactions')->where('user_id', '=', $id)->execute()->as_array();
 
-	$cutoffs = $checked_months = array();
+	$cutoffs = array();
 	$cutoffs_sum = 0;
 	if ($user[0]['pay_plan'] != 0)
 	{
@@ -82,12 +82,46 @@ class Controller_Transactions extends Controller_Application
 	$this->template->content->balance = $amount[0]['total'] - $cutoffs_sum;
     }
 
-    /*public function action_new()
+    public function action_billing()
     {
-        $id = $this->request->param('id');
-        $this->template->content = View::factory('forms/transactions');
-        $this->template->content->userid = $id;
-    }*/
+        $this->template->content = View::factory('billing');
+	$users = DB::select(
+		    '*',
+		    array('(SELECT SUM("amount") FROM transactions WHERE user_id = people.id)', 'total_amount'),
+		    array('CONCAT_WS(\' \', "first_name", "last_name")', 'fullname')
+		)
+        	->from('people')
+        	->where('blocked', '!=', 1)
+        	->execute()
+        	->as_array();
+
+	foreach ($users as $idx => $user)
+	{
+	    if ($user['pay_plan'] == 0)
+	    {
+		continue;
+	    }
+	    $cutoffs = array();
+	    $cutoffs_num = 0;
+	    $date = $user['becoming_member_date'];
+	    $joinday = substr($date, 8);
+	    $end_date = date("Y-m-d");
+	    while (strtotime($date) <= strtotime($end_date))
+	    {
+		$date = date("Y-m-d", 24 * 3600 + strtotime($date));
+		if (substr($date, 8) == $joinday OR ($joinday > 28 and substr($date, 8) == 28))
+		{
+		    $cutoffs_num ++;
+		    $date = date("Y-m-d", 27 * 24 * 3600 + strtotime($date));
+		}
+	    }
+	    if ($user['total_amount'] - $cutoffs_num * $user['pay_plan'] < 0)
+	    {
+		unset($users[$idx]);
+	    }
+	}
+	$this->template->content->users = array_values($users);
+    }
 
     public function action_create()
     {
@@ -100,6 +134,12 @@ class Controller_Transactions extends Controller_Application
         $values = array($id, $_POST['amount'], $_POST['paydate']);
         DB::insert('transactions', $columns)->values($values)->execute();
         $this->request->redirect(URL::site('transactions/user/' . $id));
+    }
+
+    public function action_email()
+    {
+        $id = $this->request->param('id');
+	$this->template->content = 'მზადების პროცესშია.';
     }
 
     public function action_delete()

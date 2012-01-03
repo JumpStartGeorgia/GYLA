@@ -21,7 +21,7 @@
                 </ul>
             </td>
         </tr>
-        <tr style='border: 0;'>
+        <tr>
                 <td>
 			<h3>მომხმარებელთა ჯგუფები</h3>
 			<ul>
@@ -36,6 +36,14 @@
                     <li><a href="<?php echo URL::site('offices') ?>">ოფისების სია</a></li>
                 </ul>
             </td>
+        </tr>
+        <tr style='border: 0;'>
+                <td>
+			<h3>ტრანზაქციები</h3>
+			<ul>
+				<li><a href="<?php echo URL::site('transactions/billing') ?>">დავალიანებების სია</a></li>
+			</ul>
+		</td>
         </tr>
     </table>
 </div>

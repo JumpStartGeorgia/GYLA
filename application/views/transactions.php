@@ -1,13 +1,5 @@
 <div class="post_text">
 
-    <? /*<div class="b-block group" style="margin-bottom: 10px; padding-bottom: 9px;">
-	მიმდინარე ბალანსი: <?php echo $balance; ?>
-	<?php if ($balance <= 0): ?>
-	    <a href="<?php echo URL::site('transactions/delete/'); ?>" class="edit_button">იმეილის მიწერა</a>
-	    <a href="<?php echo URL::site('transactions/delete/'); ?>" style="margin-right: 15px;" class="edit_button">მომხმარებლის დაბლოკვა</a>
-	<?php endif; ?>
-    </div>*/ ?>
-
     <div style="width: 100%; text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 25px;">
 	<a style="color: #3B417F; text-decoration: none;" href="<?php echo URL::site('people/view/' . $userid); ?>"><?php echo $fullname; ?></a> - ტრანზაქციები
     </div>
