@@ -1,8 +1,26 @@
 <div class="post_text">
 
-    <div style="width: 100%; text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 25px;">
+    <div style="width: 100%; text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px;">
 	<a style="color: #3B417F; text-decoration: none;" href="<?php echo URL::site('people/view/' . $userid); ?>"><?php echo $fullname; ?></a> - ტრანზაქციები
     </div>
+
+    <div style="font-size: 15px; width: 100%; text-align: right; margin: 0px 0px 15px 0px;">
+	ბალანსი: <span class="<?php echo ($balance < 0) ? 'am_red' : 'am_green'; ?>"><?php echo $balance; ?> ლარი</span>
+    </div>
+
+    <form action="<?php echo URL::site('transactions/create/' . $userid) ?>" method="post">
+	<table id="new_ta_form">
+	    <tr>
+		<th>თარიღი:</th>
+		<th>რაოდენობა:</th>
+	    </tr>
+	    <tr>
+		<td><input type="text" class="text_field datepicker" name="paydate" /></td>
+		<td><input type="text" class="text_field" name="amount" /></td>
+		<td><input type="submit" value="დამატება" class="text_field" id="new_post_submit" /></td>
+	    </tr>
+	</table>
+    </form>
 
     <?php
     $num = count($tas) - 1;
@@ -34,23 +52,8 @@
     <?php
       endforeach; ?>
 	</table>
-	<div style="font-size: 15px; width: 100%; text-align: right; margin: 19px 0px;">ბალანსი: <span class="<?php echo ($balance < 0) ? 'am_red' : 'am_green'; ?>"><?php echo $balance; ?> ლარი</span></div>
     <?php }
     else
 	echo '<div class="b-block group" style="text-align: center;">სია ცარიელია</div>';
     ?>
-    <form action="<?php echo URL::site('transactions/create/' . $userid) ?>" method="post">
-
-	<table id="new_ta_form">
-	    <tr>
-		<th>თარიღი:</th>
-		<th>რაოდენობა:</th>
-	    </tr>
-	    <tr>
-		<td><input type="text" class="text_field datepicker" name="paydate" /></td>
-		<td><input type="text" class="text_field" name="amount" /></td>
-		<td><input type="submit" value="დამატება" class="text_field" id="new_post_submit" /></td>
-	    </tr>
-	</table>
-    </form>
 </div>

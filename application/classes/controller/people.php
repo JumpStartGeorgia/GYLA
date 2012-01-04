@@ -199,8 +199,31 @@ class Controller_People extends Controller_Application
             $values[] = sha1($_POST['password']);
         }
 
+	$access = $this->check_access('admin', 'management', FALSE);
+	if ($access)
+	{
+            if (isset($_POST['blocked']))
+            {
+		in_array($_POST['blocked'], array(0, 1)) OR $_POST['blocked'] = 0;
+		$columns[] = 'blocked';
+		$values[] = $_POST['blocked'];
+            }
+        }
+
         $query1 = DB::insert('people', $columns)->values($values)->execute();
         $last_id = $query1[0];
+
+	if (isset($_POST['pay_plan']) && $access)
+	{
+	    $ta = Kohana::config('transactions');
+	    $plans = $ta['plans'];
+	    if (in_array($_POST['pay_plan'], $plans))
+	    {
+		DB::insert('payplan_changes', array('user_id', 'plan', 'datechanged'))
+		->values(array($last_id, $_POST['pay_plan'], date("Y-m-d")))
+		->execute();
+	    }
+	}
 
         /* Set default permissions
         $default_permissions = Kohana::config('default_permissions');
@@ -356,7 +379,15 @@ class Controller_People extends Controller_Application
 		
         $this->template->content = View::factory('forms/person');
         $this->template->content->default_languages = $this->getDefaultLanguages();
-        $this->template->content->person = $this->returnUser($query[0]);    
+        $this->template->content->person = $this->returnUser($query[0]);
+        $this->template->content->payplan = DB::select('plan')
+        				    ->from('payplan_changes')
+        				    ->where('user_id', '=', $thisid)
+        				    ->order_by('id', 'DESC')
+        				    ->order_by('datechanged', 'DESC')
+        				    ->limit(1)
+        				    ->execute()
+        				    ->get('plan');
         $this->template->content->groups = DB::select()->from('user_groups')->execute()->as_array();
         $this->template->content->degrees = $query2;        
         $this->template->content->phones = DB::select()
@@ -497,11 +528,26 @@ class Controller_People extends Controller_Application
 		$update_data['blocked'] = $_POST['blocked'];
             }
 
-            if (isset($_POST['pay_plan']))
+	    $lastp = DB::select('datechanged', 'plan', 'id')
+	    		->from('payplan_changes')
+	    		->where('user_id', '=', $thisid)
+	    		->order_by('id', 'DESC')
+	    		->order_by('datechanged', 'DESC')
+	    		->limit(1)
+	    		->execute()
+	    		->as_array();
+	    $lastp = empty($lastp) ? array('plan' => NULL, 'id' => NULL, 'datechanged' => NULL) : $lastp[0];
+            if (isset($_POST['pay_plan']) AND $_POST['pay_plan'] != $lastp['plan'])
             {
 		$ta = Kohana::config('transactions');
 		$plans = $ta['plans'];
-		in_array($_POST['pay_plan'], $plans) AND $update_data['pay_plan'] = $_POST['pay_plan'];
+		if (in_array($_POST['pay_plan'], $plans))
+		{
+		    DB::insert('payplan_changes', array('user_id', 'plan', 'datechanged'))
+		    ->values(array($thisid, $_POST['pay_plan'], date("Y-m-d")))
+		    ->execute();
+		}
+		(date('Y-m-d') == $lastp['datechanged']) AND DB::delete('payplan_changes')->where('id', '=', $lastp['id'])->execute();
             }
         }
 

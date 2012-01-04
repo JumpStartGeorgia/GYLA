@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 03, 2012 at 09:28 PM
+-- Generation Time: Jan 04, 2012 at 08:38 PM
 -- Server version: 5.1.41
 -- PHP Version: 5.3.2-1ubuntu4.11
 
@@ -32,18 +32,18 @@ CREATE TABLE IF NOT EXISTS `affiliation_history` (
   `from` date NOT NULL,
   `to` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=90 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=104 ;
 
 --
 -- Dumping data for table `affiliation_history`
 --
 
 INSERT INTO `affiliation_history` (`id`, `person_id`, `type`, `from`, `to`) VALUES
-(88, 1, 'staff', '2011-08-28', '2011-08-03'),
-(87, 1, 'staff', '2011-08-25', '2011-08-04'),
-(86, 1, 'staff', '2011-08-02', '2011-08-11'),
-(85, 1, 'staff', '2011-08-02', '2011-08-06'),
-(89, 39, 'staff', '0000-00-00', '2020-00-09'),
+(102, 1, 'staff', '2011-08-28', '2011-08-03'),
+(101, 1, 'staff', '2011-08-25', '2011-08-04'),
+(100, 1, 'staff', '2011-08-02', '2011-08-06'),
+(99, 1, 'staff', '2011-08-02', '2011-08-11'),
+(103, 39, 'staff', '0000-00-00', '2020-00-09'),
 (30, 40, 'organisation', '2009-09-26', '2011-09-26');
 
 -- --------------------------------------------------------
@@ -279,19 +279,19 @@ CREATE TABLE IF NOT EXISTS `education_degrees` (
   `from` varchar(20) NOT NULL,
   `to` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=222 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=233 ;
 
 --
 -- Dumping data for table `education_degrees`
 --
 
 INSERT INTO `education_degrees` (`id`, `person_id`, `degree`, `from`, `to`) VALUES
-(220, 39, 'phd', '2006', '2008'),
-(197, 38, 'bachelor', '1996', '2000'),
-(218, 1, 'phd', '1994-02-01', '2000-02-01'),
-(219, 1, 'bachelor', '1994-02-01', '2000-02-01'),
+(231, 39, 'phd', '2006', '2008'),
+(224, 38, 'bachelor', '1996', '2000'),
+(229, 1, 'phd', '1994-02-01', '2000-02-01'),
+(230, 1, 'bachelor', '1994-02-01', '2000-02-01'),
 (179, 40, 'bachelor', '2002', '2005'),
-(221, 39, 'bachelor', '2001', '2005');
+(232, 39, 'bachelor', '2001', '2005');
 
 -- --------------------------------------------------------
 
@@ -538,6 +538,32 @@ INSERT INTO `offices` (`id`, `district_id`, `user_id`, `name`, `manager_first_na
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payplan_changes`
+--
+
+CREATE TABLE IF NOT EXISTS `payplan_changes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `plan` int(11) NOT NULL,
+  `datechanged` date NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `payplan_changes`
+--
+
+INSERT INTO `payplan_changes` (`id`, `user_id`, `plan`, `datechanged`) VALUES
+(1, 44, 0, '1996-01-16'),
+(2, 44, 1, '2004-01-27'),
+(3, 44, 0, '2008-01-24'),
+(4, 44, 5, '2010-01-21'),
+(5, 44, 0, '2012-01-04');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `people`
 --
 
@@ -548,7 +574,6 @@ CREATE TABLE IF NOT EXISTS `people` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `member_of` varchar(50) NOT NULL,
-  `pay_plan` int(11) NOT NULL,
   `office_id` int(11) DEFAULT NULL,
   `document_url` varchar(200) DEFAULT NULL,
   `first_name` varchar(50) NOT NULL,
@@ -572,17 +597,17 @@ CREATE TABLE IF NOT EXISTS `people` (
   `interested_in` text NOT NULL,
   `comment` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
 
 --
 -- Dumping data for table `people`
 --
 
-INSERT INTO `people` (`id`, `blocked`, `group_id`, `username`, `password`, `member_of`, `pay_plan`, `office_id`, `document_url`, `first_name`, `last_name`, `birth_date`, `personal_number`, `sex`, `address`, `phone`, `mobile_phone`, `work_phone`, `email`, `years_in_school`, `position`, `organisation`, `languages`, `becoming_member_date`, `org_leaving_date`, `gyla_leaving_date`, `reference`, `interested_in`, `comment`) VALUES
-(1, 0, 2, 'admin', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'staff,', 2, 1, NULL, 'ოთარ', 'ჩეკურიშვილი', '1990-03-31', '01008031477', 'male', 'Paliashvili #36', '2290888', '574558116', '', 'otto@jumpstart.ge', '12', 'Web Developer', 'JumpStart Georgia', 'a:3:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";}', '2011-01-31', '2011-10-01', '0000-00-00', 'Khv', '', ''),
-(39, 0, 1, 'tamarsarajishvili', '0501280037c4ae533058392d31811d5666f2f647', 'staff,organisation', 10, 1, NULL, 'Tamar', 'Sarajishvili', '2011-09-05', '12345678901', 'female', 'dgsadsakdhksaj', '', '', '', 'tamar@gyla.ge', '12', 'HR Manager', 'GYLA', 'a:3:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";}', '1993-01-07', NULL, NULL, 'Vigaca Ragacadze', '', 'hdjksla hdslkja dhsjkla dhslakj fsdf ds fd.'),
-(38, 0, 0, 'eric', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'organisation,', 0, 1, NULL, 'Eric', 'Barrett', '1977-10-09', '12345678901', 'male', '12 Gogebashvili Str.', '', '', '', 'eric@jumpstart.ge', '', 'Project Manager', 'JumpStart Georgia', 'a:2:{i:0;s:1:"1";i:1;s:1:"3";}', '2011-09-01', NULL, NULL, 'Nick Edilashvili', '', 'Hello World!'),
-(42, 0, 1, 'irakli', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', ',', 0, 1, NULL, 'irakli', 'darbuashvili', '0000-00-00', '', 'male', '', '', '', '', '', 'NULL', '', '', 'a:3:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";}', '0000-00-00', NULL, NULL, '', '', '');
+INSERT INTO `people` (`id`, `blocked`, `group_id`, `username`, `password`, `member_of`, `office_id`, `document_url`, `first_name`, `last_name`, `birth_date`, `personal_number`, `sex`, `address`, `phone`, `mobile_phone`, `work_phone`, `email`, `years_in_school`, `position`, `organisation`, `languages`, `becoming_member_date`, `org_leaving_date`, `gyla_leaving_date`, `reference`, `interested_in`, `comment`) VALUES
+(1, 0, 2, 'admin', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'staff,', 1, NULL, 'ოთარ', 'ჩეკურიშვილი', '1990-03-31', '01008031477', 'male', 'Paliashvili #36', '2290888', '574558116', '', 'otto@jumpstart.ge', '12', 'Web Developer', 'JumpStart Georgia', 'a:3:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";}', '2011-01-31', '2011-10-01', '0000-00-00', 'Khv', '', ''),
+(39, 0, 1, 'tamarsarajishvili', '0501280037c4ae533058392d31811d5666f2f647', 'staff,organisation', 1, NULL, 'Tamar', 'Sarajishvili', '2011-09-05', '12345678901', 'female', 'dgsadsakdhksaj', '', '', '', '', '12', 'HR Manager', 'GYLA', 'a:3:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";}', '1993-01-07', NULL, NULL, 'Vigaca Ragacadze', '', 'hdjksla hdslkja dhsjkla dhslakj fsdf ds fd.'),
+(38, 0, 1, 'eric', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'organisation,', 1, NULL, 'Eric', 'Barrett', '1977-10-09', '12345678901', 'male', '12 Gogebashvili Str.', '', '', '', 'eric@jumpstart.ge', '', 'Project Manager', 'JumpStart Georgia', 'a:2:{i:0;s:1:"1";i:1;s:1:"3";}', '2011-09-01', NULL, NULL, 'Nick Edilashvili', '', 'Hello World!'),
+(44, 0, 1, 'asdasdasd', 'f10e2821bbbea527ea02200352313bc059445190', ',', 1, NULL, 'test', 'amony', '0000-00-00', '', 'male', '', '', '', '', '', 'NULL', '', '', 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', '1995-06-13', NULL, NULL, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -714,24 +739,24 @@ CREATE TABLE IF NOT EXISTS `phones` (
   `type` varchar(100) NOT NULL,
   `number` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=148 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=167 ;
 
 --
 -- Dumping data for table `phones`
 --
 
 INSERT INTO `phones` (`id`, `person_id`, `type`, `number`) VALUES
-(144, 1, 'work', '022122 samsax'),
-(143, 1, 'home', '244404 sax'),
-(142, 1, 'home', '999832 sax'),
-(141, 1, 'mobile', '022122 mob'),
+(164, 1, 'mobile', '022122 mob'),
+(163, 1, 'home', '999832 sax'),
+(162, 1, 'home', '244404 sax'),
+(161, 1, 'work', '022122 samsax'),
 (56, 36, 'mobile', '574123456'),
 (61, 37, 'mobile', '574123456'),
-(103, 38, 'mobile', '595139269'),
+(152, 38, 'mobile', '595139269'),
+(166, 39, 'mobile', '123456789'),
 (65, 40, 'mobile', '555 55 55 55'),
-(147, 42, 'home', '18664119401'),
-(146, 39, 'work', '123456'),
-(145, 39, 'mobile', '123456789');
+(149, 42, 'home', '18664119401'),
+(165, 39, 'work', '123456');
 
 -- --------------------------------------------------------
 
@@ -840,7 +865,7 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   `paydate` date NOT NULL,
   `amount` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `transactions`
@@ -850,7 +875,13 @@ INSERT INTO `transactions` (`id`, `user_id`, `paydate`, `amount`) VALUES
 (12, 39, '2012-01-25', 3),
 (13, 39, '2012-01-18', 2222),
 (11, 1, '2012-01-18', 18),
-(10, 1, '2011-05-30', 3);
+(19, 1, '2011-05-18', 14),
+(14, 39, '2012-01-07', 55),
+(15, 39, '2012-01-18', 325),
+(16, 43, '2012-01-06', 500),
+(17, 43, '2012-01-06', 10),
+(18, 1, '2012-01-11', 2),
+(20, 44, '2007-05-11', 151);
 
 -- --------------------------------------------------------
 

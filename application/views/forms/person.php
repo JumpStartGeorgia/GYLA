@@ -40,7 +40,7 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
         <div class="left_labels">
             <label>დაბლოკილი:</label>
         </div>
-        <div class="right_fields"><?php empty($person['blocked']) and $person['blocked'] = 9; ?>
+        <div class="right_fields"><?php isset($person['blocked']) or $person['blocked'] = 9; ?>
             <label><input type="radio" name="blocked" <?php ($person['blocked'] == 1) AND print 'checked="checked"'; ?> value="1" />კი&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <label><input type="radio" name="blocked" <?php ($person['blocked'] == 0) AND print 'checked="checked"'; ?> value="0" />არა</label>
         </div>
@@ -52,8 +52,8 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
         </div>
         <div class="right_fields">
             <select name="pay_plan" id="payplan">
-	    <?php foreach ($plans as $plan): empty($person['pay_plan']) and $person['pay_plan'] = 0; ?>
-		<option <?php ($plan == $person['pay_plan']) AND print 'selected="selected"'; ?> value="<?php echo $plan; ?>"><?php echo $plan; ($plan == 0) AND print ' (უფასო)'; ?></option>
+	    <?php foreach ($plans as $plan): isset($payplan) or $payplan = 0; ?>
+		<option <?php ($plan == $payplan) AND print 'selected="selected"'; ?> value="<?php echo $plan; ?>"><?php echo $plan; ($plan == 0) AND print ' (უფასო)'; ?></option>
 	    <?php endforeach; ?>
             </select>
         </div>

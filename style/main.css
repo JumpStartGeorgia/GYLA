@@ -524,7 +524,7 @@ a#feedback
 #transactions_list th, #new_ta_form th { font-weight: bold; }
 #transactions_list td, #transactions_list th { border: 1px solid #ccc; text-align: right; padding: 5px; }
 #transactions_list th { text-align: center; }
-#new_ta_form { width: 100%; }
+#new_ta_form { width: 100%; margin-bottom: 25px; }
 #new_ta_form th, #new_ta_form td { text-align: center; }
 .am_red { color: red; }
 .am_green { color: green; }

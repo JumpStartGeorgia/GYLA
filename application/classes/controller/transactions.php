@@ -27,8 +27,7 @@ class Controller_Transactions extends Controller_Application
         $this->template->content->userid = $id;
         $user = DB::select(
         	    array('CONCAT_WS(\' \', "first_name", "last_name")', 'fullname'),
-        	    array('becoming_member_date', 'joindate'),
-        	    'pay_plan'
+        	    array('becoming_member_date', 'joindate')
         	)
         	->from('people')
         	->where('id', '=', $id)
@@ -36,41 +35,70 @@ class Controller_Transactions extends Controller_Application
         	->as_array();
         $this->template->content->fullname = $user[0]['fullname'];
 
-	$amount = DB::select(array('SUM("amount")', 'total'))->from('transactions')->where('user_id', '=', $id)->execute()->as_array();
+	$amount = DB::select(array('SUM("amount")', 'total'))->from('transactions')->where('user_id', '=', $id)->execute()->get('total');
 
 	$cutoffs = array();
 	$cutoffs_sum = 0;
-	if ($user[0]['pay_plan'] != 0)
+	$plan = DB::select('id', 'plan', 'datechanged')
+    		->from('payplan_changes')
+    		->where('user_id', '=', $id)
+    		->order_by('id')
+    		->order_by('datechanged')
+    		->limit(2)
+    		->execute()
+    		->as_array();
+	if (!empty($plan))
 	{
 	    $days_in_months = array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-	    $cutoffs_num = 0;
-	    $date = $user[0]['joindate'];
-	    //var_dump(strtotime('1980-01-02'));die;
+
+	    $payment = $plan[0]['plan'];
+   	    $changedate = (count($plan) == 1) ? '3333-12-12' : $plan[1]['datechanged'];
+
+	    $date = $plan[0]['datechanged'];
 	    (strtotime($date) <= 0) and $date = '1970-01-01';
 	    $joinday = substr($date, 8);
 	    $end_date = strtotime(date("Y-m-d"));
 	    while (strtotime($date) <= $end_date)
 	    {
-		$date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
-		$monthdate = substr($date, 0, 7);
 		$month = (int) substr($date, 5, 2);
+		$changedate = substr($changedate, 0, 8) . $days_in_months[$month - 1];
+		if (strtotime($date) >= strtotime($changedate))
+		{
+		    $plan = DB::select('id', 'plan', 'datechanged')
+		    	    ->from('payplan_changes')
+		    	    ->where('user_id', '=', $id)
+		    	    ->and_where('id', '>', $plan[0]['id'])
+		    	    ->and_where('datechanged', '>=', $plan[0]['datechanged'])
+		    	    ->order_by('id')
+		    	    ->order_by('datechanged')
+		    	    ->limit(2)
+		    	    ->execute()
+		    	    ->as_array();
+		    $payment = $plan[0]['plan'];
+		    $changedate = (count($plan) == 1) ? '3333-12-12' : $plan[1]['datechanged'];
+		}
+		if ($payment == 0)
+		{
+		    $date = $changedate;
+		    continue;
+		}
+		$date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
 
 		if (substr($date, 8) == $joinday)
 		{
-		    $cutoffs[] = array('amount' => -$user[0]['pay_plan'], 'paydate' => $date);
-		    $cutoffs_num ++;
-		    $date = date("Y-m-d", strtotime("+27 day", strtotime($date)));//$date = date("Y-m-d", 27 * 24 * 3600 + strtotime($date));
+		    $cutoffs[] = array('amount' => -$payment, 'paydate' => $date);
+		    $cutoffs_sum += $payment;
+		    $date = date("Y-m-d", strtotime("+27 day", strtotime($date)));
 		}
 		elseif ($joinday > 28 and substr($date, 8) == 28)
 		{
 		    $maxdays = $days_in_months[$month - 1];
 		    $day = ($joinday >= $maxdays) ? $maxdays : $joinday;
-		    $cutoffs[] = array('amount' => -$user[0]['pay_plan'], 'paydate' => $monthdate . '-' . $day);
-		    $cutoffs_num ++;
-		    $date = date("Y-m-d", strtotime("+27 day", strtotime($date)));//$date = date("Y-m-d", 27 * 24 * 3600 + strtotime($date));
+		    $cutoffs[] = array('amount' => -$payment, 'paydate' => substr($date, 0, 7) . '-' . $day);
+		    $cutoffs_sum += $payment;
+		    $date = date("Y-m-d", strtotime("+27 day", strtotime($date)));
 		}
 	    }
-	    $cutoffs_sum = $cutoffs_num * $user[0]['pay_plan'];
 	}
 
 	$data = array_merge($tas, $cutoffs);
@@ -81,7 +109,7 @@ class Controller_Transactions extends Controller_Application
 	empty($data) OR array_multisort($value, SORT_DESC, $data);
 
 	$this->template->content->tas = $data;
-	$this->template->content->balance = $amount[0]['total'] - $cutoffs_sum;
+	$this->template->content->balance = $amount - $cutoffs_sum;
     }
 
     public function action_billing()
