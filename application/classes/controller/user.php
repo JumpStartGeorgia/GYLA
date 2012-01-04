@@ -177,37 +177,40 @@ class Controller_User extends Controller_Application
 
     public function action_login()
     {
-        $query = DB::select()->from('people')
+        $user = DB::select()->from('people')
                 ->where('username', '=', $_POST['username'])
-                ->and_where('password', '=', sha1($_POST['password']));
+                ->and_where('password', '=', sha1($_POST['password']))
+                ->execute()
+                ->as_array();
 
-        $user = $this->db->query(Database::SELECT, $query)->as_array();
-        if (empty($user))
-        {
-		$query = DB::select()->from('people')
-		        ->where('email', '=', $_POST['username'])
-		        ->and_where('password', '=', sha1($_POST['password']));
-		$user = $this->db->query(Database::SELECT, $query)->as_array();
-		if (empty($user))
-		    $this->template->content = View::factory('forms/login') . "<br /><p align='center'>არასწორი სახელი ან პაროლი</p>";
-        }
+        empty($user) AND $user = DB::select()->from('people')
+				 ->where('email', '=', $_POST['username'])
+				 ->and_where('password', '=', sha1($_POST['password']))
+	 			 ->execute()
+				 ->as_array();
+
+	if (empty($user))
+	{
+	    $this->template->content = View::factory('forms/login') . "<br /><p align='center'>არასწორი სახელი ან პაროლი</p>";
+	}
+	elseif ($user[0]['blocked'] == 1)
+	{
+	    $this->template->content = View::factory('forms/login') . "<br /><p align='center'>მომხმარებელი დაბლოკილია</p>";
+	}
         else
         {
             $_SESSION['username'] = $_POST['username'];
             $_SESSION['userid'] = $user[0]['id'];
 
-            /*
-              $query = DB::update('users')
+            /*$query = DB::update('users')
               ->set(array(
               'logins' => $user[0]['logins'] + 1,
               'last_login' => date("Y-m-d")
               ))
               ->where('id', '=', $user[0]['id'])
-              ->execute();
-             */
+              ->execute();*/
 
             $this->set_permissions($user[0]['id']);
-
             $this->request->redirect(URL::base());
         }
     }

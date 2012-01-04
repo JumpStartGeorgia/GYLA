@@ -45,11 +45,13 @@ class Controller_Transactions extends Controller_Application
 	    $days_in_months = array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
 	    $cutoffs_num = 0;
 	    $date = $user[0]['joindate'];
+	    //var_dump(strtotime('1980-01-02'));die;
+	    (strtotime($date) <= 0) and $date = '1970-01-01';
 	    $joinday = substr($date, 8);
-	    $end_date = date("Y-m-d");
-	    while (strtotime($date) <= strtotime($end_date))
+	    $end_date = strtotime(date("Y-m-d"));
+	    while (strtotime($date) <= $end_date)
 	    {
-		$date = date("Y-m-d", 24 * 3600 + strtotime($date));
+		$date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
 		$monthdate = substr($date, 0, 7);
 		$month = (int) substr($date, 5, 2);
 
@@ -57,7 +59,7 @@ class Controller_Transactions extends Controller_Application
 		{
 		    $cutoffs[] = array('amount' => -$user[0]['pay_plan'], 'paydate' => $date);
 		    $cutoffs_num ++;
-		    $date = date("Y-m-d", 27 * 24 * 3600 + strtotime($date));
+		    $date = date("Y-m-d", strtotime("+27 day", strtotime($date)));//$date = date("Y-m-d", 27 * 24 * 3600 + strtotime($date));
 		}
 		elseif ($joinday > 28 and substr($date, 8) == 28)
 		{
@@ -65,7 +67,7 @@ class Controller_Transactions extends Controller_Application
 		    $day = ($joinday >= $maxdays) ? $maxdays : $joinday;
 		    $cutoffs[] = array('amount' => -$user[0]['pay_plan'], 'paydate' => $monthdate . '-' . $day);
 		    $cutoffs_num ++;
-		    $date = date("Y-m-d", 27 * 24 * 3600 + strtotime($date));
+		    $date = date("Y-m-d", strtotime("+27 day", strtotime($date)));//$date = date("Y-m-d", 27 * 24 * 3600 + strtotime($date));
 		}
 	    }
 	    $cutoffs_sum = $cutoffs_num * $user[0]['pay_plan'];
@@ -99,26 +101,31 @@ class Controller_Transactions extends Controller_Application
 	{
 	    if ($user['pay_plan'] == 0)
 	    {
+		unset($users[$idx]);
 		continue;
 	    }
 	    $cutoffs = array();
 	    $cutoffs_num = 0;
 	    $date = $user['becoming_member_date'];
+	    (strtotime($date) <= 0) and $date = '1970-01-01';
 	    $joinday = substr($date, 8);
-	    $end_date = date("Y-m-d");
-	    while (strtotime($date) <= strtotime($end_date))
+	    $end_date = strtotime(date("Y-m-d"));
+	    while (strtotime($date) <= $end_date)
 	    {
-		$date = date("Y-m-d", 24 * 3600 + strtotime($date));
+		$date = date("Y-m-d", strtotime("+1 day", strtotime($date)));//$date = date("Y-m-d", 24 * 3600 + strtotime($date));
 		if (substr($date, 8) == $joinday OR ($joinday > 28 and substr($date, 8) == 28))
 		{
 		    $cutoffs_num ++;
-		    $date = date("Y-m-d", 27 * 24 * 3600 + strtotime($date));
+		    $date = date("Y-m-d", strtotime("+27 day", strtotime($date)));//$date = date("Y-m-d", 27 * 24 * 3600 + strtotime($date));
 		}
 	    }
-	    if ($user['total_amount'] - $cutoffs_num * $user['pay_plan'] < 0)
+	    $diff = $user['total_amount'] - $cutoffs_num * $user['pay_plan'];
+	    if ($diff >= 0)
 	    {
 		unset($users[$idx]);
+		continue;
 	    }
+	    $users[$idx]['fullname'] .= ' <span style="float: right; font-size: 13px;" class="am_red">' . $diff . ' ლ.</span>';
 	}
 	$this->template->content->users = array_values($users);
     }
@@ -139,7 +146,20 @@ class Controller_Transactions extends Controller_Application
     public function action_email()
     {
         $id = $this->request->param('id');
-	$this->template->content = 'მზადების პროცესშია.';
+        $email = DB::select('email')->from('people')->where('id', '=', $id)->execute()->get('email');
+	$subject = "obshiaki";
+	$message = "shemosatania ra dzmao.";
+	$from = "qurdebi@zona.ge";
+	$headers = "From:" . $from;
+	if (mail($email, $subject, $message, $headers))
+	{
+	    $this->template->content = 'წერილი წარმატებით გაიგზავნა.';
+	}
+	else
+	{
+	    $this->template->content = 'შეცდომა გაგზავნის დროს.';
+	}
+	$this->template->content .= '<meta http-equiv="refresh" content="3; url=' . URL::site('transactions/billing') . '" />';
     }
 
     public function action_delete()

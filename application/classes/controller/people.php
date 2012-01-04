@@ -279,6 +279,9 @@ class Controller_People extends Controller_Application
 
         $this->template->content = View::factory('forms/person');
         $this->template->content->default_languages = $this->getDefaultLanguages();
+        $this->template->content->is_admin = $this->check_access('admin', 'management', FALSE);
+        $ta = Kohana::config('transactions');
+	$this->template->content->plans = $ta['plans'];
         $this->template->content->person = array(
             'id' => NULL,
             'username' => NULL,

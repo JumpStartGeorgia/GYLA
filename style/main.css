@@ -477,7 +477,7 @@ a.b-block-title:hover{ background: #f0f0f0; }
 .splitter-left, .splitter-right { margin: 0; height: 1px; background: #fff; border:0; width: 100%; }
 .splitter-left{ margin-left: 8px; }
 .splitter-right{ margin-left: -8px; }
-.edit_button{
+.edit_button, .disabled_button{
     display: block;
     float: right;
     color: #595D82;
@@ -491,8 +491,9 @@ a.b-block-title:hover{ background: #f0f0f0; }
     border-radius: 5px;
     border: 1px solid transparent;
 }
-.edit_button:hover{ background: #ccc; color: black; border-color: #B0B0B0; border-right-color: #e0e0e0; border-bottom-color: #e0e0e0; }
+.edit_button:hover, .disabled_button { background: #ccc; color: black; border-color: #B0B0B0; border-right-color: #e0e0e0; border-bottom-color: #e0e0e0; }
 .edit_button:active{ background: #eee; }
+.disabled_button { color: #808080 !important; }
 .deletelink{ display: block; float: right; color: blue; text-decoration: none; }
 .deletelink:hover{ text-decoration: underline; }
 
