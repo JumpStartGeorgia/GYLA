@@ -54,7 +54,7 @@ class Controller_People extends Controller_Application
         $sql = DB::select('*')->from('offices')->order_by('id');
         $this->template->content->search_form->offices = $this->db->query(Database::SELECT, $sql)->as_array();
         $this->template->content->people = $people;
-        $this->template->content->allow_transactions =
+        $this->template->content->allow_transactions = 
         $this->template->content->allow_perm = $this->check_access('admin', 'management', FALSE);
         $this->template->content->allow_edit = $this->check_access('people', 'edit', FALSE);
         $this->template->content->allow_dele = $this->check_access('people', 'delete', FALSE);
@@ -824,6 +824,7 @@ class Controller_People extends Controller_Application
 		$sql = DB::select('*')->from('offices')->order_by('id');
         $this->template->content->search_form->offices = $this->db->query(Database::SELECT, $sql)->as_array();
         $this->template->content->search_form->the_search = $_searchData;
+        $this->template->content->allow_transactions = 
     	$this->template->content->allow_perm = $this->check_access('admin', 'management', FALSE);
         $this->template->content->allow_edit = $this->check_access('people', 'edit', FALSE);
         $this->template->content->allow_dele = $this->check_access('people', 'delete', FALSE);

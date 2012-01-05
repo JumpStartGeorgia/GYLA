@@ -19,9 +19,6 @@
 -- Table structure for table `affiliation_history`
 --
 
-CREATE DATABASE `gyla`;
-use `gyla`;
-
 DROP TABLE IF EXISTS `affiliation_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -32,7 +29,7 @@ CREATE TABLE `affiliation_history` (
   `from` date NOT NULL,
   `to` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +38,7 @@ CREATE TABLE `affiliation_history` (
 
 LOCK TABLES `affiliation_history` WRITE;
 /*!40000 ALTER TABLE `affiliation_history` DISABLE KEYS */;
-INSERT INTO `affiliation_history` VALUES (50,1,'staff','2011-08-28','2011-08-03'),(49,1,'staff','2011-08-25','2011-08-04'),(48,1,'staff','2011-08-02','2011-08-06'),(47,1,'staff','2011-08-02','2011-08-11'),(52,39,'staff','0000-00-00','2020-00-09'),(30,40,'organisation','2009-09-26','2011-09-26');
+INSERT INTO `affiliation_history` VALUES (102,1,'staff','2011-08-28','2011-08-03'),(101,1,'staff','2011-08-25','2011-08-04'),(100,1,'staff','2011-08-02','2011-08-06'),(99,1,'staff','2011-08-02','2011-08-11'),(103,39,'staff','0000-00-00','2020-00-09'),(30,40,'organisation','2009-09-26','2011-09-26');
 /*!40000 ALTER TABLE `affiliation_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,7 +142,7 @@ CREATE TABLE `education_degrees` (
   `from` varchar(20) NOT NULL,
   `to` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=202 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=233 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,7 +151,7 @@ CREATE TABLE `education_degrees` (
 
 LOCK TABLES `education_degrees` WRITE;
 /*!40000 ALTER TABLE `education_degrees` DISABLE KEYS */;
-INSERT INTO `education_degrees` VALUES (197,38,'bachelor','1996','2000'),(189,1,'bachelor','1994-02-01','2000-02-01'),(188,1,'phd','1994-02-01','2000-02-01'),(201,39,'phd','2006','2008'),(179,40,'bachelor','2002','2005'),(200,39,'bachelor','2001','2005');
+INSERT INTO `education_degrees` VALUES (231,39,'phd','2006','2008'),(224,38,'bachelor','1996','2000'),(229,1,'phd','1994-02-01','2000-02-01'),(230,1,'bachelor','1994-02-01','2000-02-01'),(179,40,'bachelor','2002','2005'),(232,39,'bachelor','2001','2005');
 /*!40000 ALTER TABLE `education_degrees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -277,6 +274,33 @@ INSERT INTO `offices` VALUES (1,38,1,'თბილისის ცენტრ�
 UNLOCK TABLES;
 
 --
+-- Table structure for table `payplan_changes`
+--
+
+DROP TABLE IF EXISTS `payplan_changes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `payplan_changes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `plan` int(11) NOT NULL,
+  `datechanged` date NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payplan_changes`
+--
+
+LOCK TABLES `payplan_changes` WRITE;
+/*!40000 ALTER TABLE `payplan_changes` DISABLE KEYS */;
+INSERT INTO `payplan_changes` VALUES (1,44,0,'1996-01-16'),(2,44,1,'2004-01-27'),(3,44,0,'2008-01-24'),(4,44,5,'2010-01-21'),(5,44,0,'2012-01-04');
+/*!40000 ALTER TABLE `payplan_changes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `people`
 --
 
@@ -285,6 +309,7 @@ DROP TABLE IF EXISTS `people`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `people` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `blocked` smallint(6) NOT NULL,
   `group_id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -312,7 +337,7 @@ CREATE TABLE `people` (
   `interested_in` text NOT NULL,
   `comment` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -321,7 +346,7 @@ CREATE TABLE `people` (
 
 LOCK TABLES `people` WRITE;
 /*!40000 ALTER TABLE `people` DISABLE KEYS */;
-INSERT INTO `people` VALUES (1,2,'admin','40bd001563085fc35165329ea1ff5c5ecbdbbeef','staff,',1,NULL,'ოთარ','ჩეკურიშვილი','1990-03-04','01008031477','male','Paliashvili #36','2290888','574558116','','otto@jumpstart.ge','12','Web Developer','JumpStart Georgia','a:3:{i:0;i:1;i:1;i:2;i:2;i:3;}','2011-07-01','2011-10-01','0000-00-00','khv','a:3:{i:0;s:12:\"Criminal law\";i:1;s:16:\"Human rights law\";i:2;s:6:\"my law\";}',''),(39,1,'tamarsarajishvili','0501280037c4ae533058392d31811d5666f2f647','staff,organisation',1,NULL,'Tamar','Sarajishvili','2011-09-05','12345678901','female','dgsadsakdhksaj','','','','tamar@gyla.ge','12','HR Manager','GYLA','a:3:{i:0;s:1:\"1\";i:1;s:1:\"2\";i:2;s:1:\"3\";}','0000-00-00',NULL,NULL,'Vigaca Ragacadze','','hdjksla hdslkja dhsjkla dhslakj fsdf ds fd.'),(38,0,'eric','7c4a8d09ca3762af61e59520943dc26494f8941b','organisation,',1,NULL,'Eric','Barrett','1977-10-09','12345678901','male','12 Gogebashvili Str.','','','','eric@jumpstart.ge','','Project Manager','JumpStart Georgia','a:2:{i:0;s:1:\"1\";i:1;s:1:\"3\";}','2011-09-01',NULL,NULL,'Nick Edilashvili','','Hello World!'),(42,0,'irakli','189d6f62cc7f0f5b7e0f560dff76ca7f87df686c',',',1,NULL,'irakli','darbuashvili','0000-00-00','','male','','','','','','NULL','','','a:3:{i:0;i:1;i:1;i:2;i:2;i:3;}','0000-00-00',NULL,NULL,'','','');
+INSERT INTO `people` VALUES (1,0,2,'admin','40bd001563085fc35165329ea1ff5c5ecbdbbeef','staff,',1,NULL,'ოთარ','ჩეკურიშვილი','1990-03-31','01008031477','male','Paliashvili #36','2290888','574558116','','otto@jumpstart.ge','12','Web Developer','JumpStart Georgia','a:3:{i:0;s:1:\"1\";i:1;s:1:\"2\";i:2;s:1:\"3\";}','2011-01-31','2011-10-01','0000-00-00','Khv','',''),(38,0,1,'eric','7c4a8d09ca3762af61e59520943dc26494f8941b','organisation,',1,NULL,'Eric','Barrett','1977-10-09','12345678901','male','12 Gogebashvili Str.','','','','eric@jumpstart.ge','','Project Manager','JumpStart Georgia','a:2:{i:0;s:1:\"1\";i:1;s:1:\"3\";}','2011-09-01',NULL,NULL,'Nick Edilashvili','','Hello World!');
 /*!40000 ALTER TABLE `people` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -339,7 +364,7 @@ CREATE TABLE `permissions` (
   `resource` varchar(50) DEFAULT NULL,
   `privilege` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=853 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=885 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -348,7 +373,7 @@ CREATE TABLE `permissions` (
 
 LOCK TABLES `permissions` WRITE;
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
-INSERT INTO `permissions` VALUES (601,39,0,'events','map'),(600,39,0,'events','calendar'),(465,1,2,'offices','delete'),(599,39,0,'events','add'),(598,39,0,'events','view'),(597,39,0,'searches','view'),(466,1,2,'admin','management'),(464,1,2,'offices','edit'),(463,1,2,'offices','add'),(462,1,2,'offices','view'),(461,1,2,'events','map'),(460,1,2,'events','calendar'),(459,1,2,'events','delete'),(458,1,2,'events','edit'),(457,1,2,'events','add'),(456,1,2,'events','view'),(455,1,2,'searches','delete'),(454,1,2,'searches','add'),(453,1,2,'searches','view'),(452,1,2,'people','search'),(451,1,2,'people','delete'),(450,1,2,'people','edit'),(449,1,2,'people','add'),(448,1,2,'people','view'),(447,1,2,'wall','delete_comment'),(446,1,2,'wall','add_comment'),(445,1,2,'wall','delete'),(444,1,2,'wall','add'),(443,1,2,'wall','view'),(596,39,0,'people','search'),(595,39,0,'people','view'),(594,39,0,'wall','add_comment'),(569,38,0,'offices','view'),(568,38,0,'events','map'),(567,38,0,'events','calendar'),(566,38,0,'events','add'),(565,38,0,'events','view'),(564,38,0,'searches','view'),(561,38,0,'wall','view'),(562,38,0,'wall','add'),(563,38,0,'wall','add_comment'),(560,37,0,'offices','view'),(559,37,0,'events','map'),(558,37,0,'events','calendar'),(557,37,0,'events','add'),(556,37,0,'events','view'),(555,37,0,'searches','view'),(554,37,0,'people','search'),(553,37,0,'people','view'),(552,37,0,'wall','add_comment'),(551,37,0,'wall','add'),(550,37,0,'wall','view'),(593,39,0,'wall','add'),(592,39,0,'wall','view'),(581,40,0,'wall','view'),(582,40,0,'wall','add'),(583,40,0,'wall','add_comment'),(584,40,0,'people','view'),(585,40,0,'people','search'),(586,40,0,'searches','view'),(587,40,0,'events','view'),(588,40,0,'events','add'),(589,40,0,'events','calendar'),(590,40,0,'events','map'),(591,40,0,'offices','view'),(602,39,0,'offices','view'),(603,41,0,'wall','view'),(604,41,0,'wall','add'),(605,41,0,'wall','add_comment'),(606,41,0,'people','view'),(607,41,0,'people','search'),(608,41,0,'searches','view'),(609,41,0,'events','view'),(610,41,0,'events','add'),(611,41,0,'events','calendar'),(612,41,0,'events','map'),(613,41,0,'offices','view'),(614,42,0,'wall','view'),(615,42,0,'wall','add'),(616,42,0,'wall','add_comment'),(617,42,0,'people','view'),(618,42,0,'people','search'),(619,42,0,'searches','view'),(620,42,0,'events','view'),(621,42,0,'events','add'),(622,42,0,'events','calendar'),(623,42,0,'events','map'),(624,42,0,'offices','view');
+INSERT INTO `permissions` VALUES (601,39,0,'events','map'),(600,39,0,'events','calendar'),(465,1,2,'offices','delete'),(599,39,0,'events','add'),(598,39,0,'events','view'),(597,39,0,'searches','view'),(466,1,2,'admin','management'),(464,1,2,'offices','edit'),(463,1,2,'offices','add'),(462,1,2,'offices','view'),(461,1,2,'events','map'),(460,1,2,'events','calendar'),(459,1,2,'events','delete'),(458,1,2,'events','edit'),(457,1,2,'events','add'),(456,1,2,'events','view'),(455,1,2,'searches','delete'),(454,1,2,'searches','add'),(453,1,2,'searches','view'),(452,1,2,'people','search'),(451,1,2,'people','delete'),(450,1,2,'people','edit'),(449,1,2,'people','add'),(448,1,2,'people','view'),(447,1,2,'wall','delete_comment'),(446,1,2,'wall','add_comment'),(445,1,2,'wall','delete'),(444,1,2,'wall','add'),(443,1,2,'wall','view'),(596,39,0,'people','search'),(595,39,0,'people','view'),(594,39,0,'wall','add_comment'),(569,38,0,'offices','view'),(568,38,0,'events','map'),(567,38,0,'events','calendar'),(566,38,0,'events','add'),(565,38,0,'events','view'),(564,38,0,'searches','view'),(561,38,0,'wall','view'),(562,38,0,'wall','add'),(563,38,0,'wall','add_comment'),(560,37,0,'offices','view'),(559,37,0,'events','map'),(558,37,0,'events','calendar'),(557,37,0,'events','add'),(556,37,0,'events','view'),(555,37,0,'searches','view'),(554,37,0,'people','search'),(553,37,0,'people','view'),(552,37,0,'wall','add_comment'),(551,37,0,'wall','add'),(550,37,0,'wall','view'),(593,39,0,'wall','add'),(592,39,0,'wall','view'),(581,40,0,'wall','view'),(582,40,0,'wall','add'),(583,40,0,'wall','add_comment'),(584,40,0,'people','view'),(585,40,0,'people','search'),(586,40,0,'searches','view'),(587,40,0,'events','view'),(588,40,0,'events','add'),(589,40,0,'events','calendar'),(590,40,0,'events','map'),(591,40,0,'offices','view'),(602,39,0,'offices','view'),(603,41,0,'wall','view'),(604,41,0,'wall','add'),(605,41,0,'wall','add_comment'),(606,41,0,'people','view'),(607,41,0,'people','search'),(608,41,0,'searches','view'),(609,41,0,'events','view'),(610,41,0,'events','add'),(611,41,0,'events','calendar'),(612,41,0,'events','map'),(613,41,0,'offices','view'),(614,42,0,'wall','view'),(615,42,0,'wall','add'),(616,42,0,'wall','add_comment'),(617,42,0,'people','view'),(618,42,0,'people','search'),(619,42,0,'searches','view'),(620,42,0,'events','view'),(621,42,0,'events','add'),(622,42,0,'events','calendar'),(623,42,0,'events','map'),(624,42,0,'offices','view'),(884,NULL,1,'offices','view'),(883,NULL,1,'events','view'),(882,NULL,1,'searches','view'),(881,NULL,1,'people','search'),(880,NULL,1,'people','delete'),(879,NULL,1,'people','edit'),(878,NULL,1,'people','add'),(877,NULL,1,'people','view'),(876,NULL,1,'wall','view');
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -365,7 +390,7 @@ CREATE TABLE `phones` (
   `type` varchar(100) NOT NULL,
   `number` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=108 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=167 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,7 +399,7 @@ CREATE TABLE `phones` (
 
 LOCK TABLES `phones` WRITE;
 /*!40000 ALTER TABLE `phones` DISABLE KEYS */;
-INSERT INTO `phones` VALUES (85,1,'mobile','022122 mob'),(84,1,'home','999832 sax'),(83,1,'home','244404 sax'),(82,1,'work','022122 samsax'),(56,36,'mobile','574123456'),(61,37,'mobile','574123456'),(103,38,'mobile','595139269'),(65,40,'mobile','555 55 55 55'),(94,42,'home','18664119401'),(106,39,'mobile','123456789'),(107,39,'work','123456');
+INSERT INTO `phones` VALUES (164,1,'mobile','022122 mob'),(163,1,'home','999832 sax'),(162,1,'home','244404 sax'),(161,1,'work','022122 samsax'),(56,36,'mobile','574123456'),(61,37,'mobile','574123456'),(152,38,'mobile','595139269'),(166,39,'mobile','123456789'),(65,40,'mobile','555 55 55 55'),(149,42,'home','18664119401'),(165,39,'work','123456');
 /*!40000 ALTER TABLE `phones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -485,6 +510,32 @@ INSERT INTO `saved_search` VALUES (1,0,'null','YToxMTp7czoxOToicGVyc29uX3N0YXR1c
 UNLOCK TABLES;
 
 --
+-- Table structure for table `transactions`
+--
+
+DROP TABLE IF EXISTS `transactions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `transactions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `paydate` date NOT NULL,
+  `amount` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `transactions`
+--
+
+LOCK TABLES `transactions` WRITE;
+/*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
+INSERT INTO `transactions` VALUES (12,39,'2012-01-25',3),(13,39,'2012-01-18',2222),(11,1,'2012-01-18',18),(19,1,'2011-05-18',14),(14,39,'2012-01-07',55),(15,39,'2012-01-18',325),(16,43,'2012-01-06',500),(17,43,'2012-01-06',10),(18,1,'2012-01-11',2),(20,44,'2007-05-11',151),(21,44,'2012-01-13',15);
+/*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user_groups`
 --
 
@@ -582,4 +633,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-01-03 15:23:42
+-- Dump completed on 2012-01-05 16:41:32
