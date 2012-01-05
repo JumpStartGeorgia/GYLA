@@ -127,11 +127,12 @@ class Controller_Transactions extends Controller_Application
 
 	foreach ($users as $idx => $user)
 	{
+	/*
 	    if ($user['pay_plan'] == 0)
 	    {
 		unset($users[$idx]);
 		continue;
-	    }
+	    }*/
 	    $cutoffs = array();
 	    $cutoffs_num = 0;
 	    $date = $user['becoming_member_date'];
@@ -147,7 +148,7 @@ class Controller_Transactions extends Controller_Application
 		    $date = date("Y-m-d", strtotime("+27 day", strtotime($date)));//$date = date("Y-m-d", 27 * 24 * 3600 + strtotime($date));
 		}
 	    }
-	    $diff = $user['total_amount'] - $cutoffs_num * $user['pay_plan'];
+	    $diff = $user['total_amount'] - $cutoffs_num/* * $user['pay_plan']*/;
 	    if ($diff >= 0)
 	    {
 		unset($users[$idx]);

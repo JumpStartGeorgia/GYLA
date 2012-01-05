@@ -376,7 +376,8 @@ class Controller_People extends Controller_Application
                 ->where('person_id', '=', $thisid)
                 ->execute()
                 ->as_array();
-		
+	if ( empty($query) )	
+	$this->request->redirect(URL::site('people'));
         $this->template->content = View::factory('forms/person');
         $this->template->content->default_languages = $this->getDefaultLanguages();
         $this->template->content->person = $this->returnUser($query[0]);
