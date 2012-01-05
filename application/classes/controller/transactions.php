@@ -5,6 +5,8 @@ defined('SYSPATH') OR exit('No direct script access.');
 class Controller_Transactions extends Controller_Application
 {
 
+    private $days_in_months = array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+
     public function before()
     {
         parent::before();
@@ -49,8 +51,6 @@ class Controller_Transactions extends Controller_Application
     		->as_array();
 	if (!empty($plan))
 	{
-	    $days_in_months = array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-
 	    $payment = $plan[0]['plan'];
    	    $changedate = (count($plan) == 1) ? '3333-12-12' : $plan[1]['datechanged'];
 
@@ -61,7 +61,7 @@ class Controller_Transactions extends Controller_Application
 	    while (strtotime($date) <= $end_date)
 	    {
 		$month = (int) substr($date, 5, 2);
-		$changedate = substr($changedate, 0, 8) . $days_in_months[$month - 1];
+		$changedate = substr($changedate, 0, 8) . $this->days_in_months[$month - 1];
 		if (strtotime($date) >= strtotime($changedate))
 		{
 		    $plan = DB::select('id', 'plan', 'datechanged')
@@ -92,7 +92,7 @@ class Controller_Transactions extends Controller_Application
 		}
 		elseif ($joinday > 28 and substr($date, 8) == 28)
 		{
-		    $maxdays = $days_in_months[$month - 1];
+		    $maxdays = $this->days_in_months[$month - 1];
 		    $day = ($joinday >= $maxdays) ? $maxdays : $joinday;
 		    $cutoffs[] = array('amount' => -$payment, 'paydate' => substr($date, 0, 7) . '-' . $day);
 		    $cutoffs_sum += $payment;
@@ -127,35 +127,74 @@ class Controller_Transactions extends Controller_Application
 
 	foreach ($users as $idx => $user)
 	{
-	/*
-	    if ($user['pay_plan'] == 0)
+	    $cutoffs = array();
+	    $cutoffs_sum = 0;
+	    $plan = DB::select('id', 'plan', 'datechanged')
+	    	    ->from('payplan_changes')
+	    	    ->where('user_id', '=', $user['id'])
+	    	    ->order_by('id')
+	    	    ->order_by('datechanged')
+	    	    ->limit(2)
+	    	    ->execute()
+	    	    ->as_array();
+	    if (empty($plan))
 	    {
 		unset($users[$idx]);
 		continue;
-	    }*/
-	    $cutoffs = array();
-	    $cutoffs_num = 0;
-	    $date = $user['becoming_member_date'];
+	    }
+	    //if (!empty($plan))
+	    //{
+	    $payment = $plan[0]['plan'];
+	    $changedate = (count($plan) == 1) ? '3333-12-12' : $plan[1]['datechanged'];
+
+	    $date = $plan[0]['datechanged'];
 	    (strtotime($date) <= 0) and $date = '1970-01-01';
 	    $joinday = substr($date, 8);
 	    $end_date = strtotime(date("Y-m-d"));
+
 	    while (strtotime($date) <= $end_date)
 	    {
-		$date = date("Y-m-d", strtotime("+1 day", strtotime($date)));//$date = date("Y-m-d", 24 * 3600 + strtotime($date));
+		$month = (int) substr($date, 5, 2);
+		$changedate = substr($changedate, 0, 8) . $this->days_in_months[$month - 1];
+		if (strtotime($date) >= strtotime($changedate))
+		{
+		    $plan = DB::select('id', 'plan', 'datechanged')
+			    ->from('payplan_changes')
+			    ->where('user_id', '=', $user['id'])
+			    ->and_where('id', '>', $plan[0]['id'])
+			    ->and_where('datechanged', '>=', $plan[0]['datechanged'])
+			    ->order_by('id')
+			    ->order_by('datechanged')
+			    ->limit(2)
+			    ->execute()
+			    ->as_array();
+		    $payment = $plan[0]['plan'];
+		    $changedate = (count($plan) == 1) ? '3333-12-12' : $plan[1]['datechanged'];
+		}
+		if ($payment == 0)
+		{
+		    $date = $changedate;
+		    continue;
+		}
+		$date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
+
 		if (substr($date, 8) == $joinday OR ($joinday > 28 and substr($date, 8) == 28))
 		{
-		    $cutoffs_num ++;
-		    $date = date("Y-m-d", strtotime("+27 day", strtotime($date)));//$date = date("Y-m-d", 27 * 24 * 3600 + strtotime($date));
+		    $cutoffs_sum += $payment;
+		    $date = date("Y-m-d", strtotime("+27 day", strtotime($date)));
 		}
 	    }
-	    $diff = $user['total_amount'] - $cutoffs_num/* * $user['pay_plan']*/;
+
+	    $diff = $user['total_amount'] - $cutoffs_sum;
 	    if ($diff >= 0)
 	    {
 		unset($users[$idx]);
 		continue;
 	    }
-	    $users[$idx]['fullname'] .= ' <span style="float: right; font-size: 13px;" class="am_red">' . $diff . ' ლ.</span>';
+	    $diff.='';
+	    $users[$idx]['diff'] = $diff;
 	}
+
 	$this->template->content->users = array_values($users);
     }
 

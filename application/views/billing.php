@@ -10,10 +10,13 @@
 	$nbmp = ($index == $num) ? " style='border: 0; margin-bottom: 0; padding-bottom: 0;'" : NULL; ?>
 	<div class='b-block group'<?php echo $nbmp ?>>
 	    <div class='b-block-header group'>
-		<span class="b-block-title" style="margin-bottom: 15px;"><?php echo $user['fullname'] ?></span>
+		<span class="b-block-title" style="float: left; margin-bottom: 15px;"><?php echo $user['fullname'] ?></span>
+		<span class="b-block-title am_red" style="padding: 1px 3px;min-width: 0px; font-size: 12px; margin-left: 2px;">
+		    <?php echo $user['diff'];  ?> ლ.
+		</span>
 		<a href="<?php echo URL::site('people/block/' . $user['id']); ?>" class="edit_button">დაბლოკვა</a>
 		<?php if (!empty($user['email'])): ?>
-		    <a href="<?php echo URL::site('transactions/email/' . $user['id']); ?>" style="margin-right: 15px;" class="edit_button">
+		    <a href="<?php echo URL::site('transactions/email/' . $user['id']); ?>" style="margin-right: 10px;" class="edit_button">
 			იმეილის მიწერა
 		    </a>
 		<?php else: ?>
