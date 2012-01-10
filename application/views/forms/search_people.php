@@ -72,16 +72,18 @@
 		</div>
 		<div class="box-devider"></div>
 		<div style="padding-bottom: 5px;">
-		<input type="submit" value="ძებნა" id="person_search" <?php if ( (isset($_POST) and !empty($_POST) and count($_POST)>0) ): ?> class="person_search_made" />			
-				<button id="person_search_save">შენახვა</button>
+		<input type="submit" value="ძებნა" id="person_search" <?php if ( (isset($_POST) and !empty($_POST) and count($_POST)>0) ): ?> class="person_search_made group" />
+			<button class="group" id="person_search_save">შენახვა</button>
 			<?php else: ?>
-				class="person_search" />
+				class="person_search group" />
 			<?php endif; ?>
-		<select id="person_saved_search"></select>
+		<?php if ( !empty($saved_search) ): ?>
+			<select id="person_saved_search"></select>
+		<?php endif; ?>
 		</div>
 	</form>
 </div>
-<?php if ( isset($_GET['id']) and !empty($_GET['id']) ): ?>
+<?php if ( isset($_GET['id']) and !empty($_GET['id']) and !empty($saved_search) ): ?>
 	<script>
 		var theSavedSearch = <?php echo $_GET['id'] ?>;
 	</script>

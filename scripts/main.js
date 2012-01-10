@@ -654,6 +654,9 @@ $(function(){
 							if ( name.length > 0 )
 								$.post(baseurl+'people/save_search',{name:name,data:Search.Form.self.serialize()},function(data){			
 									if ( data === 'Saved.' ){
+										Search.Form.SavedSearchList.self.remove();
+										Search.Form.Button.self.after('<select id="person_saved_search"></select>');
+										Search.Form.SavedSearchList.self = $('#person_saved_search');
 										Search.Form.SavedSearchList.Fill();							
 									}
 									else{
@@ -721,8 +724,10 @@ $(function(){
 		event.preventDefault();		
 		Search.Form.Button.Click();		
 	});
-	Search.Form.SavedSearchList.self.change(function(){		
-		Search.Form.SavedSearchList.GetSelected();
+	Search.Form.SavedSearchList.self.live({
+		change: function(){		
+			Search.Form.SavedSearchList.GetSelected();
+		}
 	});
 	
 });
