@@ -76,10 +76,12 @@
 			<?php else: ?>
 				class="person_search" />
 			<?php endif; ?>
-		<select id="person_saved_search"></select>
+		<?php if ( !empty($saved_search) ): ?>
+			<select id="person_saved_search"></select>
+		<?php endif; ?>
 	</form>
 </div>
-<?php if ( isset($_GET['id']) and !empty($_GET['id']) ): ?>
+<?php if ( isset($_GET['id']) and !empty($_GET['id']) and !empty($saved_search) ): ?>
 	<script>
 		var theSavedSearch = <?php echo $_GET['id'] ?>;
 	</script>
