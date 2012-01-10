@@ -702,7 +702,7 @@ $(function(){
 		}				
 	};
 	
-	Search.Devider.height(Search.Devider.parent().height()-65);
+	Search.Devider.height(Search.Devider.parent().height()-25);
 	for ( var i in Search.Form.Date )
 		Search.Form.Date[i].datepicker({
 			autoSize: true,

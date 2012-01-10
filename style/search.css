@@ -45,12 +45,13 @@
 .search-child-box {
 	border:0px solid #000;
 	min-width:50px;
-	height:20px;
-	margin-top:5px;
+	/*height:20px;*/
+	margin-bottom: 11px;
 }
 
 .search-child-box input {
-	margin-left:20px;	
+	/*margin-left:20px;	*/
+	background-color: #fff !important;
 }
 
 .search-child-box input[type="text"] {
@@ -105,7 +106,7 @@
 
 .search-main-box .right-box select[name="person_office"] {
 	display:block;
-	margin-left:20px;
+	/*margin-left:20px;*/
 	margin-top:5px;
 	width:155px;
 	height:20px;
@@ -151,7 +152,7 @@
 }
 
 #person_search_save {
-	margin-left:150px;
+
 	margin-top:-25px;
 }
 

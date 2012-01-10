@@ -14,30 +14,30 @@
 		'languages' => (isset($the_search['person_languages']) and !empty($the_search['person_languages'])) ? 'value="'.implode(', ',$the_search['person_languages']).'"' : ''
 	);
 ?>
-<div id="seach-main-box" class="thebox  search-main-box" >
+<div id="seach-main-box" class="thebox search-main-box" >
 	<form action="<?php echo URL::site('people/search') ?>" method="post">
 		<div class="left-box">
 			<div class="search-child-box">
 				სტატუსი:<br />
 					<input type="checkbox" name="person_status_state" id="person_status_state" <?php echo $_person['status_state'] ?>/>
-					<label for="person_status_state">შტატი</label> 
+					<label for="person_status_state">წევრი</label> 
 					<input type="checkbox" name="person_status_organization" id="person_status_organization" <?php echo $_person['status_organization'] ?>/>
-					<label for="person_status_organization">ორგანიზაცია</label>			
-			</div><br />
+					<label for="person_status_organization">თანამშრომელი</label>			
+			</div>
 			<div class="search-child-box">
 				<label for="person_name">სახელი:</label><br />
-					<input type="text" name="person_name" id="person_name"<?php echo $_person['name'] ?>/>
-			</div><br />
-			<div class="search-child-box" style="margin-top:10px;">
+					<input type="text" class="text_field" name="person_name" id="person_name"<?php echo $_person['name'] ?>/>
+			</div>
+			<div class="search-child-box">
 				<label for="person_date_start">დაბადების თარიღი:</label><br />
-					<input type="text" name="person_date_start" id="person_date_start" <?php echo $_person['date_start'] ?>/> - დან
-					<input type="text" name="person_date_end" id="person_date_end" <?php echo $_person['date_end'] ?>/> - მდე
+					<input type="text" class="text_field" name="person_date_start" id="person_date_start" <?php echo $_person['date_start'] ?>/> - დან
+					<input type="text" class="text_field" name="person_date_end" id="person_date_end" <?php echo $_person['date_end'] ?>/> - მდე
 			</div>
-			<div class="search-child-box" style="margin-top:20px;">
+			<div class="search-child-box">
 				<label for="person_private_number">პირადი ნომერი:</label>
-					<input type="text" name="person_private_number" id="person_private_number" <?php echo $_person['private_number'] ?>/>
+					<input type="text" class="text_field" name="person_private_number" id="person_private_number" <?php echo $_person['private_number'] ?>/>
 			</div>
-			<div class="search-child-box" style="margin-top:30px;">
+			<div class="search-child-box">
 				სქესი: <br />
 					<input type="radio" name="person_gender" value="male" id="person_gender_male" <?php echo $_person['gender_male'] ?>/>
 					<label for="person_gender_male">მამრობითი</label><br />
@@ -50,15 +50,15 @@
 		<div class="right-box">	
 			<div class="search-child-box">
 				<label for="person_tel">ტელეფონი:</label><br />
-					<input type="text" name="person_tel" id="person_tel" <?php echo $_person['tel'] ?>/>
+					<input type="text" class="text_field" name="person_tel" id="person_tel" <?php echo $_person['tel'] ?>/>
 			</div>
-			<div class="search-child-box" style="margin-top:30px;">
+			<div class="search-child-box">
 				<label for="person_email">ელფოსტა:</label><br />
-					<input type="text" name="person_email" id="person_email" <?php echo $_person['email'] ?>/>
+					<input type="text" class="text_field" name="person_email" id="person_email" <?php echo $_person['email'] ?>/>
 			</div>
-			<div class="search-child-box" style="margin-top:30px;height:auto;">
+			<div class="search-child-box" style="height:auto;">
 				ენები:<br />					
-					<input type="text" name="person_languages" id="person_languages" <?php echo $_person['languages'] ?>/>
+					<input type="text" class="text_field" name="person_languages" id="person_languages" <?php echo $_person['languages'] ?>/>
 			</div>
 			<div class="search-child-box">
 				ოფისი:<br />
@@ -71,12 +71,14 @@
 			</div>
 		</div>
 		<div class="box-devider"></div>
+		<div style="padding-bottom: 5px;">
 		<input type="submit" value="ძებნა" id="person_search" <?php if ( (isset($_POST) and !empty($_POST) and count($_POST)>0) ): ?> class="person_search_made" />			
 				<button id="person_search_save">შენახვა</button>
 			<?php else: ?>
 				class="person_search" />
 			<?php endif; ?>
 		<select id="person_saved_search"></select>
+		</div>
 	</form>
 </div>
 <?php if ( isset($_GET['id']) and !empty($_GET['id']) ): ?>

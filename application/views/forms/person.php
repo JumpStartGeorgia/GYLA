@@ -81,11 +81,11 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
         <div class="right_fields">
             <input type="checkbox" name="person_member_of[]" class="text_field" id="pmemberstaff" value="staff"
                    <?php echo $s1 ?> />
-            <label for="pmemberstaff">შტატი </label>
+            <label for="pmemberstaff">წევრი </label>
             <?php /* <div style='display:none;margin:7px 0px 10px 25px;' id='officesdropdown'></div> */ ?>
             <input type="checkbox" name="person_member_of[]" class="text_field"
                    id="pmemberorg" value="organisation" <?php echo $s2 ?> />
-            <label for="pmemberorg">ორგანიზაცია </label>
+            <label for="pmemberorg">თანამშრომელი </label>
         </div>
     </div>
 
@@ -400,10 +400,8 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
                         $s = "selected='selected'";
                         ?>
                         <select name='person_affiliation_type[]'>
-                            <option <?php ($aff['type'] == "work") AND print($s); ?> value='staff'>შტატის</option>
-                            <option <?php ($aff['type'] == "work") AND print($s); ?> value='organisation'>
-                						ორგანიზაციის
-                            </option>
+                            <option <?php ($aff['type'] == "work") AND print($s); ?> value='staff'>წევრი</option>
+                            <option <?php ($aff['type'] == "work") AND print($s); ?> value='organisation'>თანამშრომელი</option>
                         </select>&nbsp;&nbsp;&nbsp;
                 				საიდან:
                         <input type="text" name="person_affiliation_from[]" class="text_field datepicker"
@@ -414,8 +412,8 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
                            <?php endforeach;
                        else: ?>
                     <select name='person_affiliation_type[]'>
-                        <option value='staff'>შტატის</option>
-                        <option value='organisation'>ორგანიზაციის</option>
+                        <option value='staff'>წევრი</option>
+                        <option value='organisation'>თანამშრომელი</option>
                     </select>&nbsp;&nbsp;&nbsp;
         				საიდან:
                     <input type="text" name="person_affiliation_from[]" class="text_field datepicker"

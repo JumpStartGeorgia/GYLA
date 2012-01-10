@@ -68,11 +68,11 @@
                 foreach ($affiliation as $aff):
                     if ($is_first_staff AND $aff['type'] == "staff"):
                         $is_first_staff = FALSE;
-                        echo "შტატის აქტივობის თარიღები";
+                        echo "წევრობის აქტივობის თარიღები";
                     endif;
                     if ($is_first_org AND $aff['type'] == "organisation"):
                         $is_first_org = FALSE;
-                        echo "ორგანიზაციის აქტივობის თარიღები";
+                        echo "თანამშრომლობის აქტივობის თარიღები";
                     endif;
                     echo "<hr class='splitter-left' />&nbsp;";
                 endforeach;
