@@ -355,10 +355,10 @@ function another_degree()
     '<option value="phd">დოქტორანტი</option>' +
     '</select> &nbsp;&nbsp;&nbsp; ' +
     'საიდან: ' +
-    '<input type="text" id="datepicker" class="text_field datepicker" ' +
+    '<input type="text" class="text_field datepicker" ' +
     'name="person_education_degree_from[]" style="width:73px;" />&nbsp;&nbsp; ' +
     'სადამდე: ' +
-    '<input type="text" id="datepicker" class="text_field datepicker" ' +
+    '<input type="text" class="text_field datepicker" ' +
     'name="person_education_degree_to[]" style="width:73px;" /><br />';
 
     $("#fromto").css("display", "inline").append(addcode);

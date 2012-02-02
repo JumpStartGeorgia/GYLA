@@ -30,7 +30,7 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
             <select name="group_id" id="group_id">
             <?php foreach ($groups as $group):
             	$selected = (!empty($person['group_id']) AND $group['id'] == $person['group_id']) ? 'selected="selected"': NULL; ?>
-            	<option <?php echo $selected; ?> value="<? echo $group['id'] ?>"><?php echo $group['name']; ?></option>
+            	<option <?php echo $selected; ?> value="<? echo $group['id'] ?>"><?php echo (($group['name'] == 'admin') ? 'ადმინისტრატორი' : 'შესვლა'); ?></option>
             <?php endforeach; ?>
             </select>
         </div>
