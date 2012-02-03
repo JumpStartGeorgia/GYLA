@@ -316,7 +316,7 @@ class Controller_Events extends Controller_Application
     {
         $mappings = DB::select()
                 ->from('mapping')
-                ->where('coordinates', '!=', array('NULL'))
+                //->where('coordinates', '!=', array('NULL'))
                 ->execute()
                 ->as_array();
 
@@ -376,15 +376,12 @@ class Controller_Events extends Controller_Application
                 $features[] = array(
                     'type' => 'Feature',
                     'properties' => array(
-                        'region' => $mapping['region_ka'],
+                        //'region' => $mapping['region_ka'],
                         'district' => $mapping['district_ka'],
                         'proportion' => $proportion,
                         'event' => $event_info
                     ),
-                    'geometry' => array(
-                        'type' => 'Polygon',
-                        'coordinates' => unserialize($mapping['coordinates'])
-                    )
+                    'geometry' => unserialize($mapping['geometry'])
                 );
             }
             $mappings = $features;
