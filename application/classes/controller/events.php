@@ -117,8 +117,8 @@ class Controller_Events extends Controller_Application
     }
 
     public function action_edit()
-    {    	
-     
+    {
+
         $this->check_access('events', 'edit');
 
         $query = DB::select('events.*')
@@ -127,8 +127,8 @@ class Controller_Events extends Controller_Application
                 ->on('events.district_id', '=', 'districts.id')
                 ->where('events.id', '=', $this->request->param('id'));
         $e = $this->db->query(Database::SELECT, $query)->as_array();
-        if ( empty($e) )	
-        	$this->request->redirect(URL::site('events'));
+        if (empty($e))
+            $this->request->redirect(URL::site('events'));
         $this->template->content = View::factory('forms/event');
         $this->template->content->districts = $this->districts();
         $this->template->content->event = $e[0];
@@ -316,7 +316,7 @@ class Controller_Events extends Controller_Application
     {
         $mappings = DB::select()
                 ->from('mapping')
-                ->where('coordinates', '!=', array('NULL'))
+                //->where('coordinates', '!=', array('NULL'))
                 ->execute()
                 ->as_array();
 
@@ -376,15 +376,12 @@ class Controller_Events extends Controller_Application
                 $features[] = array(
                     'type' => 'Feature',
                     'properties' => array(
-                        'region' => $mapping['region_ka'],
+                        //'region' => $mapping['region_ka'],
                         'district' => $mapping['district_ka'],
                         'proportion' => $proportion,
                         'event' => $event_info
                     ),
-                    'geometry' => array(
-                        'type' => 'Polygon',
-                        'coordinates' => unserialize($mapping['coordinates'])
-                    )
+                    'geometry' => unserialize($mapping['geometry'])
                 );
             }
             $mappings = $features;
@@ -401,13 +398,13 @@ class Controller_Events extends Controller_Application
         $calendar = '<table cellpadding="0" cellspacing="0" class="calendar">';
 
         /* table headings */
-        $headings = array( 'ორშაბათი', 'სამშაბათი', 'ოთხშაბათი', 'ხუთშაბათი', 'პარასკევი', 'შაბათი' ,'კვირა');
+        $headings = array('ორშაბათი', 'სამშაბათი', 'ოთხშაბათი', 'ხუთშაბათი', 'პარასკევი', 'შაბათი', 'კვირა');
         $calendar.= '<tr class="calendar-row"><td class="calendar-day-head">' . implode('</td><td class="calendar-day-head">', $headings) . '</td></tr>';
 
         /* days and weeks vars now ... */
-        $running_day = date('w', mktime(0, 0, 0, $month, 1, $year));		    
-        if ( $running_day != 0 )
-        	$running_day --;
+        $running_day = date('w', mktime(0, 0, 0, $month, 1, $year));
+        if ($running_day != 0)
+            $running_day--;
         $days_in_month = date('t', mktime(0, 0, 0, $month, 1, $year));
         $days_in_this_week = 1;
         $day_counter = 0;
@@ -493,6 +490,30 @@ class Controller_Events extends Controller_Application
                 $years[] = $item['year'];
         }
         return $years;
+    }
+
+    function action_to_geo()
+    {
+
+        function to_geo($text)
+        {
+            $alphabet = array(
+                'latin' => array('a', 'b', 'g', 'd', 'e', 'v', 'z', 't', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'zh', 'r', 's', 't', 'u', 'f', 'q', 'gh', 'y', 'sh', 'ch', 'ts', 'dz', 'w', 'ch', 'kh', 'j', 'h'),
+                'unicode' => array('ა', 'ბ', 'გ', 'დ', 'ე', 'ვ', 'ზ', 'თ', 'ი', 'კ', 'ლ', 'მ', 'ნ', 'ო', 'პ', 'ჟ', 'რ', 'ს', 'ტ', 'უ', 'ფ', 'ქ', 'ღ', 'ყ', 'შ', 'ჩ', 'ც', 'ძ', 'წ', 'ჭ', 'ხ', 'ჯ', 'ჰ')
+            );
+            return str_replace($alphabet['latin'], $alphabet['unicode'], $text);
+        }
+
+        $sql = "SELECT * FROM mapping;";
+        $result = $this->db->query(Database::SELECT, $sql)->as_array();
+        foreach ($result AS $item)
+        {
+            $lowered = strtolower($item['district_ka'][0]);
+            DB::update('mapping')
+                    ->set(array('district_ka' => to_geo($lowered)))
+                    ->where('district_ka', '=', $item['district_ka'])
+                    ->execute();
+        }
     }
 
 }

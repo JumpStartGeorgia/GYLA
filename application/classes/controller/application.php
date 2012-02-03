@@ -15,7 +15,7 @@ class Controller_Application extends Controller_Template
         parent::before();
         $this->db = Database::instance('default');
 
-        session_start();
+        isset($_SESSION) OR session_start();
 
         //self::$acl = new Zend_Acl();
         isset($_SESSION['userid']) OR $_SESSION['userid'] = NULL;

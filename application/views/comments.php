@@ -3,13 +3,13 @@
 
 			$delete_button = $allow_delete_comment ? "<a id='comment_" . $comment['id'] . "' class='edit_button delete_comment' style='color: #fff;padding-bottom:3px;'>წაშლა</a>" : NULL;
 
-			$width = "width: 310px";
-			empty($delete_button) AND $width = "width: 365px";
+			$width = "width: 300px";
+			empty($delete_button) AND $width = "width: 355px";
 
 	  		echo "
 			<div class='group comments_box'>
 
-				<div class='leftbox group' style=\"width: 120px\">
+				<div class='leftbox group' style=\"width: 130px\">
 					<img src='" . URL::base() . "/images/images/user.png' />
 
 					<a href='" . URL::site('user/profile/' . $comment['user_id']) . "' class='userprofilelink'>

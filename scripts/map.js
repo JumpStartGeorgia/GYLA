@@ -14,7 +14,8 @@ function map_init()
     // Map
     map = new OpenLayers.Map('map', {
         controls: [],
-        restrictedExtent: new OpenLayers.Bounds(options.boundsLeft, options.boundsBottom, options.boundsRight, options.boundsTop)
+        restrictedExtent: new OpenLayers.Bounds(options.boundsLeft, options.boundsBottom, options.boundsRight, options.boundsTop),
+        projection: 'EPSG:900913'
     });
 
     // Base Layer
@@ -24,9 +25,10 @@ function map_init()
     base.setOpacity(0);
 
     // Overlay Layer
-    layer = new OpenLayers.Layer.GML('Regions', '/gyla/events/districts', {
+    layer = new OpenLayers.Layer.GML('Districts', '/gyla/events/districts_new', {
         format: OpenLayers.Format.GeoJSON,
-        styleMap: map_styles()
+        styleMap: map_styles(),
+        projection: 'EPSG:900913'
     });
 
     // Selection
@@ -34,13 +36,15 @@ function map_init()
         hover: true,
         onSelect: function(feature)
         {
-            console.log(feature.attributes);
             var content = ['<b>' + feature.attributes.district + '</b>'];
             if (feature.attributes.event !== false)
             {
-                content.push(feature.attributes.event.name);
-                content.push(feature.attributes.event.address);
-                content.push(feature.attributes.event.start_at);
+                if (typeof(feature.attributes.event.name) !== 'undefined')
+                    content.push(feature.attributes.event.name);
+                if (typeof(feature.attributes.event.address) !== 'undefined')
+                    content.push(feature.attributes.event.address);
+                if (typeof(feature.attributes.event.start_at) !== 'undefined')
+                    content.push(feature.attributes.event.start_at);
             }
             $('#map-info').html(content.join(', ')).show(0);
         },
