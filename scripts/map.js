@@ -24,7 +24,7 @@ function map_init()
     base.setOpacity(0);
 
     // Overlay Layer
-    layer = new OpenLayers.Layer.GML('Regions', '/gyla/events/districts', {
+    layer = new OpenLayers.Layer.GML('Regions', '/gyla/events/districts_new', {
         format: OpenLayers.Format.GeoJSON,
         styleMap: map_styles()
     });
