@@ -508,8 +508,9 @@ class Controller_Events extends Controller_Application
         $result = $this->db->query(Database::SELECT, $sql)->as_array();
         foreach ($result AS $item)
         {
+            $lowered = strtolower($item['district_ka'][0]);
             DB::update('mapping')
-                    ->set(array('district_ka' => to_geo($item['district_ka'])))
+                    ->set(array('district_ka' => to_geo($lowered)))
                     ->where('district_ka', '=', $item['district_ka'])
                     ->execute();
         }
