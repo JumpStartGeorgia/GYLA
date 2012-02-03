@@ -27,7 +27,8 @@ function map_init()
     // Overlay Layer
     layer = new OpenLayers.Layer.GML('Districts', '/gyla/events/districts_new', {
         format: OpenLayers.Format.GeoJSON,
-        styleMap: map_styles()
+        styleMap: map_styles(),
+        projection: 'EPSG:900913'
     });
 
     // Selection
