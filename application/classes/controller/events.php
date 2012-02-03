@@ -506,7 +506,7 @@ class Controller_Events extends Controller_Application
 
         $sql = "SELECT * FROM mapping;";
         $result = $this->db->query(Database::SELECT, $sql)->as_array();
-        foreach ($resuult AS $item)
+        foreach ($result AS $item)
         {
             DB::update('mapping')
                     ->set(array('district_ka' => to_geo($item['district_ka'])))
