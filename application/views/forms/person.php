@@ -130,7 +130,7 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
         </div>
 
         <div class="right_fields">
-            <input type="text" id="datepicker1" class="text_field widefield" name="person_birth_date"
+            <input type="text" id="datepicker1" class="text_field widefield datepicker" name="person_birth_date"
                    value="<?php echo $person['birth_date']; ?>" style="width:98%" />
         </div>
     </div>
@@ -400,8 +400,8 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
                         $s = "selected='selected'";
                         ?>
                         <select name='person_affiliation_type[]'>
-                            <option <?php ($aff['type'] == "work") AND print($s); ?> value='staff'>წევრი</option>
-                            <option <?php ($aff['type'] == "work") AND print($s); ?> value='organisation'>თანამშრომელი</option>
+                            <option <?php ($aff['type'] == "staff") AND print($s); ?> value='staff'>წევრი</option>
+                            <option <?php ($aff['type'] == "organisation") AND print($s); ?> value='organisation'>თანამშრომელი</option>
                         </select>&nbsp;&nbsp;&nbsp;
                 				საიდან:
                         <input type="text" name="person_affiliation_from[]" class="text_field datepicker"

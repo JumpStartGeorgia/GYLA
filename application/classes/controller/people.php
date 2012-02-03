@@ -93,8 +93,8 @@ class Controller_People extends Controller_Application
         $this->template->content->affiliation = DB::select()
                 ->from('affiliation_history')
                 ->where('person_id', '=', $id)
-                ->order_by('type')
                 ->order_by('from')
+                ->order_by('type')
                 ->execute()
                 ->as_array();
 
@@ -165,7 +165,42 @@ class Controller_People extends Controller_Application
             'group_id'
         );
 
-        $_POST['person_languages'] = empty($_POST['person_languages']) ? NULL : serialize($_POST['person_languages']);        
+	if (NULL != $_POST['person_languages'] and is_array($_POST['person_languages']))
+	{
+		$languages = $_POST['person_languages'];
+		$existing = $new = array();
+		foreach ($languages as $key => $lang)
+		{
+		    $e = DB::select('id')->from('languages');
+		    if (is_numeric($lang))
+		    {
+			$e = $e->where('id', '=', $lang);
+		    }
+		    elseif (NULL != $lang AND strlen((string)$lang) > 1)
+		    {
+			$e = $e->where('language', '=', $lang);
+		    }
+		    else
+		    {
+			continue;
+		    }
+		    $e = $e->execute()->as_array();
+		    if (empty($e))
+		    {
+			$e = DB::insert('languages', array('language'))->values(array($lang))->execute();
+			$new[] = $e[0];
+		    }
+		    else
+		    {
+			$existing[] = $e[0]['id'];
+		    }
+		}
+		$_POST['person_languages'] = serialize(array_merge($new, $existing));
+	}
+	else
+	{
+	    $_POST['person_languages'] = NULL;
+	}
         $_POST['person_interested'] = empty($_POST['person_interested']) ? NULL : serialize($_POST['person_interested']);
       
         $values = array
@@ -341,17 +376,17 @@ class Controller_People extends Controller_Application
     {
     	/*	Process Languages	*/
     	$personLanguagesArray = unserialize($personArray['languages']);    	    	
-    	if ( !empty($personLanguagesArray) ){    	
-			$sql = sprintf("SELECT * FROM languages WHERE id IN (%s)",implode(',',$personLanguagesArray));
-			$status = $this->db->query(Database::SELECT,$sql)->as_array();				
-			$personArray['languages'] = $status; 
-			/* Processs Reference	*/
-			if ( is_numeric($personArray['reference']) ):
-				$sql = sprintf("SELECT CONCAT(first_name,' ',last_name) first_last_name,username user_name FROM people WHERE id='%d' LIMIT 1 ;",$personArray['reference']);
-				$status = $this->db->query(Database::SELECT,$sql)->as_array();
-				$personArray['reference'] = $status[0]['first_last_name'] . '(' . $status[0]['user_name'] . ')';
-					return $personArray;
-			endif;    	    	
+    	if ( !empty($personLanguagesArray) ){
+		$sql = sprintf("SELECT * FROM languages WHERE id IN (%s)",implode(',',$personLanguagesArray));
+		$status = $this->db->query(Database::SELECT,$sql)->as_array();
+		$personArray['languages'] = $status;
+		/* Processs Reference	*/
+		if ( is_numeric($personArray['reference']) ):
+			$sql = sprintf("SELECT CONCAT(first_name,' ',last_name) first_last_name,username user_name FROM people WHERE id='%d' LIMIT 1 ;",$personArray['reference']);
+			$status = $this->db->query(Database::SELECT,$sql)->as_array();
+			$personArray['reference'] = $status[0]['first_last_name'] . '(' . $status[0]['user_name'] . ')';
+				return $personArray;
+		endif;
     	}
     	return $personArray;
     }
@@ -406,8 +441,8 @@ class Controller_People extends Controller_Application
         $this->template->content->affiliation = DB::select()
                 ->from('affiliation_history')
                 ->where('person_id', '=', $thisid)
-                ->order_by('type')
                 ->order_by('from')
+                ->order_by('type')
                 ->execute()
                 ->as_array();
 	$this->template->content->is_admin = $this->check_access('admin', 'management', FALSE);
@@ -440,36 +475,55 @@ class Controller_People extends Controller_Application
 		
 		/*	START PERSON LANGUAGES PROCESSING !!! */
 		if ( isset($_POST['person_languages']) && is_array($_POST['person_languages']) ) {
-		
-			/*	Get Known Variables 	*/
+
+			$languages = $_POST['person_languages'];
+			$existing = $new = array();
+			foreach ($languages as $key => $lang)
+			{
+			    $e = DB::select('id')->from('languages');
+			    if (is_numeric($lang))
+			    {
+				$e = $e->where('id', '=', $lang);
+			    }
+			    elseif (NULL != $lang AND strlen((string)$lang) > 1)
+			    {
+				$e = $e->where('language', '=', $lang);
+			    }
+			    else
+			    {
+				continue;
+			    }
+			    $e = $e->execute()->as_array();
+			    if (empty($e))
+			    {
+				$e = DB::insert('languages', array('language'))->values(array($lang))->execute();
+				$new[] = $e[0];
+			    }
+			    else
+			    {
+				$existing[] = $e[0]['id'];
+			    }
+			}
+			$person_languages = serialize(array_merge($new, $existing));
+/*
 				
 		
 				$knownArray = array();				
 				foreach ($_POST['person_languages'] as $index => $value)
 					if (is_numeric($value)){
 						$knownArray[] = $value;
-
 					}
 						
-			/*	End	Known Variables	 */	
-		
-			/*	Get The String Language Variables	*/	
-			
 				$_POST['person_languages'] = array_values($_POST['person_languages']);
 				$_POST['person_languages'] = $_POST['person_languages'][0];		
 			
-			/*	End Get String Variables 	*/
 		
-			/*	Explode The String And Work Out Which Is Already Known And Which Is Not	*/
-		
-				/*	Get Rid Of Unwanted Variables	*/				
 					$newArray = explode(',',$_POST['person_languages']);		
-						unset($_POST['person_languages']);							
+						unset($_POST['person_languages']);
 					foreach ($newArray as $index => $value)		
 						if ( strlen($value)<2 )
 							unset($newArray[$index]);
 						else $newArray[$index] = trim($value);		
-				/*	End Unwanted Variables	*/		
 
 			$sql = sprintf("SELECT * FROM languages WHERE language IN ('%s');",implode('\',\'',$newArray));
 	
@@ -479,17 +533,19 @@ class Controller_People extends Controller_Application
 				$knownArray[] = $lang['id'];
 				if ( in_array($lang['language'],$newArray) )
 					unset($newArray[array_search($lang['language'],$newArray)]);
-			}		
+			}
 			$knownArray = array_unique($knownArray);
 			if ( !empty($newArray) ){
 				foreach ( $newArray as $index => $value ){
-					$sql = sprintf("INSERT INTO languages(language) VALUES('%s')",mysql_real_escape_string($value));				
-					$status = $this->db->query(Database::INSERT,$sql);
-					$knownArray[] = $status[0];
+				    $sql = sprintf("INSERT INTO languages(language) VALUES('%s')",mysql_real_escape_string($value));
+				    $status = $this->db->query(Database::INSERT,$sql);
+				    $knownArray[] = $status[0];
 				}
 			}
 			unset($newArray);
+
 			$person_languages = serialize($knownArray);
+*/
 			
 		}
 		else $person_languages = false;
@@ -968,7 +1024,7 @@ class Controller_People extends Controller_Application
             $columns = array('person_id', 'type', 'from', 'to');
             $insert_affiliation = DB::insert('affiliation_history', $columns);
             $insert = FALSE;
-            $valid_types = array('staff', 'organisation');
+            $valid_types = array('staff', 'organization', 'organisation');
             foreach ($types AS $index => $type)
             {
                 if (!empty($type) AND !empty($from[$index]) AND !empty($to[$index]) AND in_array($type, $valid_types))

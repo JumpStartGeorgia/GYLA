@@ -255,23 +255,32 @@ $(document).ready(function() {
 
 });
 
-$(function(){
+function datepicker_init()
+{
+/*
     $.datepicker.formatDate('yy-mm-dd', new Date(2007, 1 - 1, 26));
+*/
     $( ".datepicker").datepicker({
         dateFormat: 'yy-mm-dd',
         changeMonth: true,
-        changeYear: true
+        changeYear: true,
+        yearRange: '1970:+0'
     });
-    for(i = 1; i <= 100; i++)
+}
+
+
+$(function(){
+    datepicker_init();
+    /*for(i = 1; i <= 100; i++)
     {
         $( "#datepicker" + i).datepicker({
             dateFormat: 'yy-mm-dd',
             changeMonth: true,
         	changeYear: true
         });
-    }
+    }*/
 
-    $("#ui-datepicker-div").css("zoom", "80%");
+    $("#ui-datepicker-div").css( {'fontSize': 13} /*"zoom", "80%"*/);
 });
 
 
@@ -363,9 +372,7 @@ function another_degree()
 
     $("#fromto").css("display", "inline").append(addcode);
 
-    $( ".datepicker").datepicker({
-        dateFormat: 'yy-mm-dd'
-    });
+    datepicker_init();
 }
 
 
@@ -387,8 +394,8 @@ $(function(){
     $('#another_affiliation').click(function(){
         var html = "" +
         "<select name='person_affiliation_type[]'>" +
-        "<option value='staff'>შტატის</option>" +
-        "<option value='organisation'>ორგანიზაციის</option>" +
+        "<option value='staff'>წევრი</option>" +
+        "<option value='organisation'>თანამშრომელი</option>" +
         "</select>&nbsp;&nbsp;&nbsp; " +
         "საიდან: " +
         "<input type='text' name='person_affiliation_from[]' class='text_field datepicker'" +
@@ -396,9 +403,7 @@ $(function(){
         " სადამდე: " +
         "<input type='text' name='person_affiliation_to[]' class='text_field datepicker' style='width: 75px' />";
         $(this).parent().find('div').append(html);
-        $( ".datepicker").datepicker({
-            dateFormat: 'yy-mm-dd'
-        });
+        datepicker_init();
     });
 
     $('#potherlanguage').change(function(){
@@ -533,17 +538,17 @@ $(function(){
 				if ( $.inArray(value,labelValues) === -1 && $.inArray(value,languagesToAdd) === -1  )
 					languagesToAdd.push(value);				
 			});
-			
-			
+
+
 			for ( var i in languagesToAdd ) {
 				var html = new Array;
-					html.push('<input type="checkbox" name="person_languages[]" class="text_field" id="p'+languagesToAdd[i]+'" checked="checked" value="22">');
+					html.push('<input type="checkbox" name="person_languages[]" class="text_field" id="p'+languagesToAdd[i]+'" checked="checked" value="' + languagesToAdd[i] + '">');
 					html.push('<label class="personLangLabel" for="p'+languagesToAdd[i]+'">'+languagesToAdd[i]+'</label>');					
 				$('#show_other_languages').before(html.join(''));
 			}	
-			
-			otherLanguages.Field.attr('value','');					
-			
+
+			otherLanguages.Field.attr('value','');
+
 			fireUpLanguageCheckBoxes($('input[type="checkbox"][name="person_languages[]"]'));
 		});
 
