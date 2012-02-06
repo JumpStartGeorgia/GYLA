@@ -156,7 +156,8 @@
 
 	    <tr>
 		<td left>სტატუსი</td>
-		<td right><?php echo empty($person['member_of']) ? ' ― ' : str_replace(',', ', ', $person['member_of']) ?></td>
+		<td right><?php echo empty($person['member_of']) ? ' ― ' : strtr($person['member_of'], array(',' => ', ', 'staff' => 'წევრი', 'organisation' => 'თანამშრომელი'))
+		 ?></td>
 	    </tr>
 
 	    <tr>
