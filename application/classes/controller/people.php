@@ -90,16 +90,47 @@ class Controller_People extends Controller_Application
                 ->execute()
                 ->as_array();
 
-        $this->template->content->affiliation = DB::select()
+        $this->template->content->affiliation = array(
+	    'staff' =>
+		DB::select()
                 ->from('affiliation_history')
                 ->where('person_id', '=', $id)
+                ->and_where('type', '=', 'staff')
                 ->order_by('from')
-                ->order_by('type')
                 ->execute()
-                ->as_array();
+                ->as_array(),
+           'organisation' => 
+		DB::select()
+                ->from('affiliation_history')
+                ->where('person_id', '=', $id)
+                ->and_where('type', '=', 'organisation')
+                ->order_by('from')
+                ->execute()
+                ->as_array()
+        );
 
         $this->template->content->allow_edit = $this->check_access('people', 'edit', FALSE);
         $this->template->content->allow_transactions = $this->check_access('admin', 'management', FALSE);
+    }
+
+    public static function reformat_date($date)
+    {
+	list($year, $month, $day) = array(substr($date, 0, 4), substr($date, 5, 2), substr($date, 8, 2));
+	$months = array(
+	    'იანვარი',
+	    'თებერვალი',
+	    'მარტი',
+	    'აპრილი',
+	    'მაისი',
+	    'ივნისი',
+	    'ივლისი',
+	    'აგვისტო',
+	    'სექტემბერი',
+	    'ოქტომბერი',
+	    'ნოემბერი',
+	    'დეკემბერი'
+	);
+	return ((string)(int)$day) . ' ' . $months[(int)$month - 1] . ', ' . $year;
     }
 
     public function action_block()

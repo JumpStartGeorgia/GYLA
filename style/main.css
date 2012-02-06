@@ -528,3 +528,9 @@ a#feedback
 #new_ta_form th, #new_ta_form td { text-align: center; }
 .am_red { color: red; }
 .am_green { color: green; }
+
+table.info_list{ width: 100%; border: 0 none; line-height: 25px; margin-top: 20px; }
+table.info_list td{ border-bottom: 1px solid #E0E0E0; }
+table.info_list td[noborder]{ border-bottom: 0 none; }
+table.info_list td[left] { text-align: left; color: #595D82; padding-right: 7px; padding-left: 20px; border-right: 1px solid #E0E0E0; }
+table.info_list td[right]{ text-align: left; color: #353444; padding-left: 8px;  }
