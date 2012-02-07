@@ -14,21 +14,22 @@ function map_init()
     // Map
     map = new OpenLayers.Map('map', {
         controls: [],
-        restrictedExtent: new OpenLayers.Bounds(options.boundsLeft, options.boundsBottom, options.boundsRight, options.boundsTop),
-        projection: 'EPSG:900913'
+        restrictedExtent: new OpenLayers.Bounds(options.boundsLeft, options.boundsBottom, options.boundsRight, options.boundsTop)/*,
+        projection: 'EPSG:900913'*/
     });
 
     // Base Layer
     base = new OpenLayers.Layer.OSM('Georgia', 'http://a.tile.mapspot.ge/ndi_en/${z}/${x}/${y}.png', {
+    //base = new OpenLayers.Layer.OSM('Georgia', 'http://tile.openstreetmap.org/${z}/${x}/${y}.png', {
         numZoomLevels: 19
     });
-    base.setOpacity(0);
+    //base.setOpacity(0);
 
     // Overlay Layer
-    layer = new OpenLayers.Layer.GML('Districts', '/gyla/events/districts_new', {
+    layer = new OpenLayers.Layer.GML('Districts', '/gyla/events/districts', {
         format: OpenLayers.Format.GeoJSON,
-        styleMap: map_styles(),
-        projection: 'EPSG:900913'
+        styleMap: map_styles()/*,
+        projection: 'EPSG:900913'*/
     });
 
     // Selection
