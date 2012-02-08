@@ -425,9 +425,10 @@ div.search_term
     top: 0;
     right: 0;
     padding: 5px;
-    background: #F0EFED;
+    background: #fff;
     color: #73769F;
     font-size: 125%;
+    z-index: 9999;
     -webkit-border-bottom-left-radius: 5px;
     -moz-border-radius-bottomleft: 5px;
     border-bottom-left-radius: 5px;
@@ -534,3 +535,7 @@ table.info_list td{ border-bottom: 1px solid #E0E0E0; }
 table.info_list td[noborder]{ border-bottom: 0 none; }
 table.info_list td[left] { text-align: left; color: #595D82; padding-right: 7px; padding-left: 20px; border-right: 1px solid #E0E0E0; }
 table.info_list td[right]{ text-align: left; color: #353444; padding-left: 8px; width: 49%; }
+
+#map_events{ line-height: 22px; padding: 0px 15px 15px 15px; background: #FfF; }
+#map_events div{ display:block; border-top: 1px solid #EEE; }
+#map_events a{ text-decoration: underline; color: #343673; }

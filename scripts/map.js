@@ -37,8 +37,12 @@ function map_init()
         hover: true,
         onSelect: function(feature)
         {
-            var content = ['<b>' + feature.attributes.district + '</b>'];
-            if (feature.attributes.event !== false)
+            var content = ['<b>' + feature.attributes.district + '</b>'],
+            events = feature.attributes.event,
+            info = (events.length > 0 ? 'მოვლენები: ' + events.length : '');
+            $('#map-info').html(info).show(0)
+            content = '';
+            /*if (feature.attributes.event !== false)
             {
                 if (typeof(feature.attributes.event.name) !== 'undefined')
                     content.push(feature.attributes.event.name);
@@ -47,7 +51,18 @@ function map_init()
                 if (typeof(feature.attributes.event.start_at) !== 'undefined')
                     content.push(feature.attributes.event.start_at);
             }
-            $('#map-info').html(content.join(', ')).show(0);
+            $('#map-info').html(content.join(', ')).show(0);*/
+
+	    for (i in events)
+	    {
+		content += 
+		    '<div><a href="' + baseurl + 'events/index#event' + events[i].id + '">' +
+		        events[i].name + ', ' + ' ' +  events[i].address + ', ' + events[i].start_at +
+		    '</a></div>';
+	    }
+            $('#map_events').prepend(content);
+
+            //console.log(feature);
         },
         onUnselect: function()
         {
@@ -56,11 +71,15 @@ function map_init()
             });
         }
     });
+
     map.addControl(select);
     select.activate();
 
     // Configuration
-    map.addLayers([base, layer]);
+    map.addLayers([
+	base,
+	layer
+    ]);
     map.setCenter(new OpenLayers.LonLat(options.lon, options.lat));
     map.zoomTo(options.zoom);
 

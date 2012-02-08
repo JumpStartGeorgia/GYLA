@@ -14,6 +14,9 @@
         <div id="map-info"></div>
     </div>
 
+    <div id="map_events">
+    </div>
+
 </center>
 
 <script type="text/javascript">
