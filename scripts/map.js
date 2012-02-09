@@ -37,11 +37,11 @@ function map_init()
         hover: true,
         onSelect: function(feature)
         {
-            var content = ['<b>' + feature.attributes.district + '</b>'],
+            var info = ['<b style="font-weight: bold;">' + feature.attributes.Distr_Geo + '</b> '],
             events = feature.attributes.event,
-            info = (events.length > 0 ? 'მოვლენები: ' + events.length : '');
-            $('#map-info').html(info).show(0)
             content = '';
+            info += (events.length > 0 ? 'მოვლენები: ' + events.length : '');
+            $('#map-info').html(info).show(0);
             /*if (feature.attributes.event !== false)
             {
                 if (typeof(feature.attributes.event.name) !== 'undefined')
@@ -53,7 +53,7 @@ function map_init()
             }
             $('#map-info').html(content.join(', ')).show(0);*/
 
-	    for (i in events)
+	    /*for (i in events)
 	    {
 		content += 
 		    '<div><a href="' + baseurl + 'events/index#event' + events[i].id + '">' +
@@ -62,13 +62,27 @@ function map_init()
 	    }
             $('#map_events').prepend(content);
 
-            //console.log(feature);
+            console.log(feature);*/
         },
         onUnselect: function()
         {
             $('#map-info').hide(0, function(){
                 $(this).text('');
             });
+        },
+        clickFeature: function(feature)
+        {
+            var events = feature.attributes.event,
+            content = '';
+
+	    for (i in events)
+	    {
+		content += 
+		    '<div class="switch"><a href="' + baseurl + 'events/index#event' + events[i].id + '">' +
+		        events[i].name + ', ' + ' ' +  events[i].address + ', ' + events[i].start_at +
+		    '</a></div>';
+	    }
+            $('#map_events').html(content);
         }
     });
 
