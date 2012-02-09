@@ -60,6 +60,15 @@
 				  	    $s = ($district['id'] == $office['district_id']) ? "selected='selected'" : NULL;
 				  	    echo $office['district_id'];
 				  	    echo "<option ".$s." value='".$district['id']."'>".$district['name']."</option>";
+
+					    if (!empty($district['districts']))
+					    {
+						foreach($district['districts'] as $indis)
+						{
+						    $s = ($indis['id'] == $office['district_id'] ) ? "selected='selected'" : NULL;
+						    echo "<option " . $s . " value='" . $indis['id'] . "'> – " . $indis['name']."</option>";
+						}
+					    }
 				  	}
 				  ?>
 				</select>

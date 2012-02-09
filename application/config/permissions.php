@@ -10,7 +10,8 @@ return array(
     	'delete_comment'
     ),
     'people' => array(
-    	'view',
+    	'view_own',
+    	'view_all',
     	'add',
     	'edit',
     	'delete',

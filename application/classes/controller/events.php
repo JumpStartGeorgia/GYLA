@@ -20,6 +20,36 @@ class Controller_Events extends Controller_Application
                 ->as_array();
     }
 
+    public static function districts_sorted()
+    {
+        $tbilisi =  DB::select('id', 'name')
+                ->from('districts')
+                ->and_where('name', '=', 'თბილისი')
+                ->execute()
+                ->as_array();
+        $districts =  DB::select('id', 'name')
+                ->from('districts')
+                ->where('language', '=', 'ka')
+                ->and_where('parent', 'is', NULL)
+                ->and_where('name', '!=', 'თბილისი')
+                ->order_by('name')
+                ->execute()
+                ->as_array();
+        $districts = array_merge($tbilisi, $districts);
+	foreach ($districts as &$d)
+	{
+	    $indis = DB::select('id', 'name')
+			    ->from('districts')
+			    ->where('language', '=', 'ka')
+			    ->and_where('parent', '=', $d['id'])
+			    ->order_by('name')
+			    ->execute()
+			    ->as_array();
+	    empty($indis) or $d['districts'] = $indis;
+	}
+	return $districts;
+    }
+
     public function action_index()
     {
         $sql = DB::select('events.*', array('districts.name', 'district'))
@@ -124,7 +154,7 @@ class Controller_Events extends Controller_Application
         $this->check_access('events', 'add');
 
         $this->template->content = View::factory('forms/event');
-        $this->template->content->districts = $this->districts();
+        $this->template->content->districts = $this->districts_sorted();
         $this->template->content->event = array(
             'id' => NULL, 'user_id' => NULL, 'name' => NULL, 'type' => NULL,
             'district' => NULL, 'address' => NULL, 'start_at' => NULL, 'end_at' => NULL,
@@ -146,7 +176,7 @@ class Controller_Events extends Controller_Application
         if (empty($e))
             $this->request->redirect(URL::site('events'));
         $this->template->content = View::factory('forms/event');
-        $this->template->content->districts = $this->districts();
+        $this->template->content->districts = $this->districts_sorted();
         $this->template->content->event = $e[0];
     }
 

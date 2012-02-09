@@ -8,7 +8,7 @@ class Controller_People extends Controller_Application
     public function before()
     {
         parent::before();
-        $this->check_access('people', 'view');
+
     }
 
     private $interests = array(
@@ -46,6 +46,7 @@ class Controller_People extends Controller_Application
 
     public function action_index()
     {
+        $this->check_access('people', 'view_all');
         $sql = DB::select('people.*')->from('people')->order_by('first_name');
         $people = $this->db->query(Database::SELECT, $sql)->as_array();
 
@@ -65,8 +66,13 @@ class Controller_People extends Controller_Application
     public function action_view()
     {
         $id = $this->request->param('id');
-		if ( $id !== $_SESSION['userid'] and $_SESSION['username'] !== 'admin' )
-			$this->request->redirect(URL::site('people'));
+        if ($this->check_access('people', 'view_all', FALSE) === FALSE)
+        {
+            if ($_SESSION['userid'] != $id or $this->check_access('people', 'view_own', FALSE) === FALSE)
+            {
+		$this->request->redirect(URL::site('user/denied'));
+            }
+        }
         $this->template->content = View::factory('person');
 
         $person = DB::select('people.*', array('offices.name', 'office_name'), array('offices.address', 'office_address'))
@@ -926,6 +932,7 @@ class Controller_People extends Controller_Application
     
     public function action_search()
     {
+	$this->check_access('people', 'search');
     	$this->template->content = View::factory('people');
     	if ( isset($_GET['id']) && !empty($_GET['id']) )
     	{
@@ -944,6 +951,7 @@ class Controller_People extends Controller_Application
     
     public function action_list_saved_search()
     {
+	//$this->check_access('people', 'search');
     	$sql = DB::select('saved_search.id','saved_search.name')->from('saved_search');
     	$saved_searches = $this->db->query(Database::SELECT,$sql)->as_array();
 		exit(json_encode($saved_searches));    	
@@ -951,7 +959,8 @@ class Controller_People extends Controller_Application
     }
     
     public function action_get_saved_search()
-    {    	
+    {
+	//$this->check_access('people', 'search');
     	$sql = DB::select('saved_search.code')->from('saved_search')->where('id','=',$_GET['id']);
     	$get_saved_search = $this->db->query(Database::SELECT,$sql)->as_array();
     	$get_saved_search = unserialize(base64_decode($get_saved_search[0]['code']));

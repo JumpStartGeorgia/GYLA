@@ -39,7 +39,16 @@
 				  <?php foreach($districts as $district)
 				  	{
 				  	    $s = ($district['id'] == $event['district_id'] ) ? "selected='selected'" : NULL;
-				  	    echo "<option ".$s." value='".$district['id']."'>".$district['name']."</option>";
+				  	    echo "<option " . $s . " value='" . $district['id'] . "'>" . $district['name'] . "</option>";
+
+					    if (!empty($district['districts']))
+					    {
+						foreach($district['districts'] as $indis)
+						{
+						    $s = ($indis['id'] == $event['district_id'] ) ? "selected='selected'" : NULL;
+						    echo "<option " . $s . " value='" . $indis['id'] . "'> – " . $indis['name']."</option>";
+						}
+					    }
 				  	}
 				  ?>
 				</select>

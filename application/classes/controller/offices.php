@@ -72,7 +72,7 @@ class Controller_offices extends Controller_Application
         $this->check_access('offices', 'add');
 
         $this->template->content = View::factory('forms/office');
-        $this->template->content->districts = $this->districts();
+        $this->template->content->districts = Controller_Events::districts_sorted();
         $this->template->content->office = array(
             'id' => NULL,
             'name' => NULL,
@@ -102,7 +102,7 @@ class Controller_offices extends Controller_Application
         if ( empty($e) )  
         	$this->request->redirect(URL::site('offices'));
         $this->template->content = View::factory('forms/office');
-        $this->template->content->districts = $this->districts();
+        $this->template->content->districts = Controller_Events::districts_sorted();
         $this->template->content->office = $e[0];
     }
 

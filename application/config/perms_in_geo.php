@@ -5,6 +5,8 @@ defined('SYSPATH') or die('No direct access allowed.');
 return array(
     'wall' => 'კედელი',
     'view' => 'ნახვა',
+    'view_own' => 'საკუთარი პროფილის ნახვა',
+    'view_all' => 'ყველას ნახვა',
     'add' => 'დამატება',
     'delete' => 'წაშლა',
     'add_comment' => 'კომენტარის დამატება',
