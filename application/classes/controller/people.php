@@ -116,7 +116,9 @@ class Controller_People extends Controller_Application
     public static function reformat_date($date)
     {
 	list($year, $month, $day) = array(substr($date, 0, 4), substr($date, 5, 2), substr($date, 8, 2));
+	($month < 1 OR $month > 12) and $month = 0;
 	$months = array(
+	    -1 => 'none',
 	    'იანვარი',
 	    'თებერვალი',
 	    'მარტი',

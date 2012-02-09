@@ -21,7 +21,7 @@
 
 			<div class="right_fields">
 				<select name="event_type" id="etype">
-					<option	<?php echo ($event['type'] == "member") ? "selected='selected'" : NULL ?>
+					<option	<?php echo ($event['type'] == "members") ? "selected='selected'" : NULL ?>
 						value="members">წევრებისთვის</option>
 					<option <?php echo ($event['type'] == "staff") ? "selected='selected'" : NULL ?>
 						value="staff">თანამშრომლებისთვის</option>

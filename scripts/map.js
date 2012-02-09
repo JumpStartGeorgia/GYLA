@@ -23,7 +23,7 @@ function map_init()
     //base = new OpenLayers.Layer.OSM('Georgia', 'http://tile.openstreetmap.org/${z}/${x}/${y}.png', {
         numZoomLevels: 19
     });
-    //base.setOpacity(0);
+    base.setOpacity(0);
 
     // Overlay Layer
     layer = new OpenLayers.Layer.GML('Districts', '/gyla/events/districts', {
@@ -78,7 +78,7 @@ function map_init()
 	    for (i in events)
 	    {
 		content += 
-		    '<div class="switch"><a href="' + baseurl + 'events/index#event' + events[i].id + '">' +
+		    '<div class="switch"><a href="' + baseurl + 'events/view/' + events[i].id + '">' +
 		        events[i].name + ', ' + ' ' +  events[i].address + ', ' + events[i].start_at +
 		    '</a></div>';
 	    }
@@ -108,32 +108,37 @@ function map_styles()
     {
         from: 0,
         to: 16,
-        color: 'F5CC00'
+        color: '9183B5'//'F5CC00',
     },
     {
         from: 16,
         to: 33,
-        color: 'F5A300'
+        color: '7A6DA0'//'F5A300'
     },
     {
         from: 33,
         to: 50,
-        color: 'F57A00'
+        color: '64588C'//'F57A00'
     },
     {
         from: 50,
         to: 66,
-        color: 'F55200'
+        color: '4D4277'//'F55200'
     },
     {
         from: 66,
         to: 82,
-        color: 'F52900'
+        color: '372D63'//'F52900'
     },
     {
         from: 82,
         to: 100,
-        color: 'F50000'
+        color: '21184F'//'F50000'
+    },
+    {
+        from: 100,
+        to: 9999,
+        color: '000000'
     }
     ],
     first_filter_type = OpenLayers.Filter.Comparison.GREATER_THAN;
@@ -151,7 +156,10 @@ function map_styles()
         }),
         symbolizer: {
             'Polygon': {
-                'fillColor': '#F5F500'
+                'fillColor': '#beaede',
+                'strokeColor': '#fff',
+                'strokeWidth': 1,
+                'fillOpacity': 1
             }
         }
     }));
@@ -179,7 +187,9 @@ function map_styles()
             }),
             symbolizer: {
                 'Polygon': {
-                    'fillColor': '#' + comparisons[idx].color
+                    'fillColor': '#' + comparisons[idx].color,
+                    'strokeColor': '#fff',
+                    'fillOpacity': 1
                 }
             }
         }));
@@ -190,9 +200,10 @@ function map_styles()
     return new OpenLayers.StyleMap({
         'default': theme,
         'select': {
-            'strokeColor': '#4D5181',
-            'fillColor': '#595D82',
-            'strokeWidth': 2
+            'strokeColor': '#fff',
+            'fillColor': '#9183B5',
+            'strokeWidth': 0,
+            'fillOpacity': .9
         }
     });
 }

@@ -33,6 +33,22 @@ class Controller_Events extends Controller_Application
         $this->template->content->allow_edit = $this->check_access('events', 'edit', FALSE);
     }
 
+    public function action_view()
+    {
+	$id = $this->request->param('id');
+        $event = DB::select('events.*', array('districts.name', 'district'))
+                ->from('events')
+                ->join('districts')
+                ->on('events.district_id', '=', 'districts.id')
+                ->where('events.id', '=', $id)
+                ->execute()
+                ->as_array();
+        empty($event) and $this->request->redirect(URL::site('events'));;
+        $this->template->content = View::factory('event');
+        $this->template->content->event = $event[0];
+        $this->template->content->allow_edit = $this->check_access('events', 'edit', FALSE);
+    }
+
     public function action_calendar()
     {
         $this->check_access('events', 'calendar');
@@ -154,7 +170,7 @@ class Controller_Events extends Controller_Application
                 ->execute();
 
         //if($query){
-        $this->request->redirect(URL::site('events'));
+        $this->request->redirect(URL::site('events/view/' . $id));
         die('redirect');
         //}
     }
@@ -442,7 +458,7 @@ class Controller_Events extends Controller_Application
             $events = $this->get_events_for_date($date);
             foreach ($events as $event)
                 $calendar .= "
-	      		<a href='" . URL::site('events/index#event' . $event['id']) . "' class='eventlink'>" .
+	      		<a href='" . URL::site('events/view/' . $event['id']) . "' class='eventlink'>" .
                         substr($event['start_at'], 11, 5) . "<br />" . $event['name'] . "
 	      		 </a>
 	      	";

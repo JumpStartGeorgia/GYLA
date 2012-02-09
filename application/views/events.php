@@ -18,43 +18,54 @@
 	$nbmp = ($index == $num) ? " style='border: 0; margin-bottom: 0; padding-bottom: 0;'" : NULL;
 ?>
 	<a name='event<?php echo $event['id'] ?>'></a>
-	<div class='b-block group'<?php echo $nbmp ?>>
-	    <div class='b-block-header group'>
-		    <div class='b-block-title'><?php echo $event['name']; ?></div>
+	<div class="b-block group"<?php echo $nbmp ?> style="border-bottom: 0px; margin-bottom: 35px;">
+	    <div class="b-block-header group">
+		    <a class='b-block-title' href="<?php echo URL::site('events/view/' . $event['id']); ?>"><?php echo $event['name']; ?></a>
 		    <?php echo $edit_button; /*?>
 		    <a class='edit_button' href='<?php echo URL::site() ?>' onclick='return confirm("დარწმუნებული ხართ?")'>წაშლა</a>*/ ?>
 	    </div>
 
 
-	    <div class='b-block-left group'>
-	    	<div class='small-spacer'></div>
-	        მოვლენის სახეობა
-	        <hr class='splitter-left' />
-	        მისამართი
-	        <hr class='splitter-left' />
-	        რაიონი
-	        <hr class='splitter-left' />
-	     	  დასაწყისი   
-	        <hr class='splitter-left' />
-	        დასასრული
-	        <hr class='splitter-left' />
-	        საკონტაქტო ინფორმაცია
-	    </div>
+	<table class="info_list" id="testid" style="margin: 0px;">
 
-	    <div class='b-block-right group'>
-	        <div class='small-spacer'></div>
-		<?php echo ($event['type'] == "members") ? "წევრებისთვის" : "თანამშრომლებისთვის" ?>
-		<hr class='splitter-right' />
-		<?php echo $event['address'] ?>
-		<hr class='splitter-right' />
-		<?php echo $event['district'] ?>
-		<hr class='splitter-right' />
-		<?php echo substr($event['start_at'], 0, -3) ?>
-		<hr class='splitter-right' />
-		<?php echo substr($event['end_at'], 0, -3) ?>
-		<hr class='splitter-right' />
-		<?php echo $event['contact_info'] ?>
-	    </div>
+	    <?php /*<tr>
+		<td left>სახელი</td>
+		<td right><?php echo empty($event['name']) ? ' ― ' : $event['name'] ?></td>
+	    </tr>*/ ?>
+
+	    <tr>
+		<td left>მოვლენის სახეობა</td>
+		<td right>
+		    <?php echo empty($event['type']) ? ' ― ' : strtr($event['type'], array('members' => 'წევრებისთვის', 'staff' => 'თანამშრომლებისთვის')) ?>
+		</td>
+	    </tr>
+
+	    <tr>
+		<td left>რაიონი</td>
+		<td right><?php echo empty($event['district']) ? ' ― ' : $event['district'] ?></td>
+	    </tr>
+
+	    <tr>
+		<td left>მისამართი</td>
+		<td right><?php echo empty($event['address']) ? ' ― ' : $event['address'];?></td>
+	    </tr>
+
+	    <tr>
+		<td left>დასაწყისი</td>
+		<td right><?php echo empty($event['start_at']) ? ' ― ' : Controller_People::reformat_date($event['start_at']) ?></td>
+	    </tr>
+
+	    <tr>
+		<td left>დასასრული</td>
+		<td right><?php echo empty($event['end_at']) ? ' ― ' : Controller_People::reformat_date($event['end_at']) ?></td>
+	    </tr>
+
+	    <tr>
+		<td left>საკონტაქტო ინფორმაცია</td>
+		<td right><?php echo (empty($event['contact_info']) ? ' ― ' : $event['contact_info']); ?></td>
+	    </tr>
+
+	</table>
 
 	</div>
 
