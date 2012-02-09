@@ -10,43 +10,45 @@
 
 	$nbmp = ($index == $num) ? ' style="border: 0; margin: 0;"' : NULL;
 ?>
-	<div class='b-block group'<?php echo $nbmp ?>>
+	<div class="b-block group"<?php echo $nbmp ?> style="border-bottom: 0px; margin-bottom: 37px;">
 
-	    <div class='b-block-header group'>
-		<div class='b-block-title'><?php echo $office['office_name'] ?></div>
+	    <div class="b-block-header group">
+		<div class="b-block-title"><?php echo $office['office_name'] ?></div>
 		   <?php echo $edit_button; ?>
 	    </div>
 
-	    <div class='b-block-left group'>
-		<div class='small-spacer'></div>
-		რაიონი
-		<hr class='splitter-left' />
-		მისამართი
-		<hr class='splitter-left' />
-		ტელეფონი
-		<hr class='splitter-left' />
-		ფაქსი
-		<hr class='splitter-left' />
-		ელფოსტა
-		<hr class='splitter-left' />
-	    </div>
+		
+		
+	<table class="info_list" id="testid" style="margin: 0px;">
 
-	    <div class='b-block-right group'>
-		<div class='small-spacer'></div>
-		<?php echo empty($office['district_name']) ? ' ― ' : $office['district_name'] ?>
-		<hr class='splitter-left' />
-		<?php echo empty($office['address']) ? ' ― ' : $office['address'] ?>
-		<hr class='splitter-left' />
-		<?php echo empty($office['phone']) ? ' ― ' : $office['phone'] ?>
-		<hr class='splitter-left' />
-		<?php echo empty($office['fax']) ? ' ― ' : $office['fax'] ?>
-		<hr class='splitter-left' />
-		<?php echo empty($office['email']) ? ' ― ' : $office['email'] ?>
-		<hr class='splitter-left' />
-		<?php /* echo $office['manager_first_name'] . " " . $office['manager_last_name'] */ ?>
-	    </div>
+	    <tr>
+		<td left>რაიონი</td>
+		<td right><?php echo empty($office['district_name']) ? ' ― ' : $office['district_name'] ?></td>
+	    </tr>
 
-	</div>
+	    <tr>
+		<td left>მისამართი</td>
+		<td right><?php echo empty($office['address']) ? ' ― ' : $office['address'] ?></td>
+	    </tr>
+
+	    <tr>
+		<td left>ტელეფონი</td>
+		<td right><?php echo empty($office['phone']) ? ' ― ' : $office['phone'] ?></td>
+	    </tr>
+
+	    <tr>
+		<td left>ფაქსი</td>
+		<td right><?php echo empty($office['fax']) ? ' ― ' : $office['fax'] ?></td>
+	    </tr>
+
+	    <tr>
+		<td left>ელფოსტა</td>
+		<td right><?php echo empty($office['email']) ? ' ― ' : $office['email'] ?></td>
+	    </tr>
+
+	</table>
+
+    </div>
 
 <?php
     endforeach;

@@ -59,9 +59,10 @@
 			echo '</fieldset>';
 		}
 ?>
+
+			    <div style="line-height: 22px;">(იგულისხმება ადმინისტრატორის, ტრანზაქციების და დავალიანებების გვერდების ნახვა, ჯგუფების დამატება და შეცვლა, მომხმარებლისთვის ჯგუფის და გადასახადის რაოდენობის შეცვლა, მომხმარებლის დაბლოკვა)</div>
 			</div>
 		</div>
-
 
 		<div class="block last">
 			<input type="submit" value="შენახვა" class="text_field" id="new_post_submit" />

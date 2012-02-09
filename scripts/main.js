@@ -361,8 +361,8 @@ function another_degree()
     '<select name="person_education_degree[]">' +
     '<option value="null" selected="selected" disabled>None</option>' +
     '<option value="bachelor">ბაკალავრი</option>' +
-    '<option value="llm">მაგისტრი</option>' +
-    '<option value="phd">დოქტორანტი</option>' +
+    '<option value="llm">მაგისტრი (LL.M.)</option>' +
+    '<option value="phd">დოქტორანტი (Ph.D.)</option>' +
     '</select> &nbsp;&nbsp;&nbsp; ' +
     'საიდან: ' +
     '<input type="text" class="text_field datepicker" ' +
@@ -741,3 +741,18 @@ $(function(){
 });
 
 
+
+$(function(){
+
+    $('#change_password_button').click(function(){
+	$(this).parent().parent().find('.hidden').show(0);
+	$(this).parent().hide(0);
+    });
+
+    $('#cancel_change_password_button').click(function(){
+	$(this).parent().parent().hide(0);
+	$('#change_password_button').parent().show(0);
+	$('#password').val('');
+    });
+
+});

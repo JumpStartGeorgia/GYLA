@@ -7,7 +7,7 @@
                     <li><a href="<?php echo URL::site('people/new') ?>">პიროვნების დამატება</a></li>
                     <li><a href="<?php echo URL::site('people') ?>">წევრების/თანამშრომლების სია</a></li>
                     <li><a href="<?php echo URL::site('people/searches') ?>">შენახული ძებნის პარამეტრების სია</a></li>
-                    <li><a href="<?php echo URL::site('people/search') ?>">კომპლექსური ძებნა</a></li>
+                    <?php /*<li><a href="<?php echo URL::site('people/search') ?>">კომპლექსური ძებნა</a></li>*/ ?>
                 </ul>
             </td>
             <td>

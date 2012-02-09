@@ -1080,7 +1080,7 @@ class Controller_People extends Controller_Application
                     $filedata['size'] / 1024 < 4097)
             {
                 $path = "uploads/people/documents/";
-                $name = mt_rand(0, 1000) . $filedata['name'];
+                $name = mt_rand(0, 1000) . str_replace(' ', '_', $filedata['name']);
                 if (file_exists($path . $name))
                     $name = mt_rand(0, 1000) . time() . $name;
                 $upload = move_uploaded_file($filedata["tmp_name"], $path . $name);

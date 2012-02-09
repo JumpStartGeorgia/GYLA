@@ -28,11 +28,6 @@
 
 	<table class="info_list" id="testid" style="margin: 0px;">
 
-	    <?php /*<tr>
-		<td left>სახელი</td>
-		<td right><?php echo empty($event['name']) ? ' ― ' : $event['name'] ?></td>
-	    </tr>*/ ?>
-
 	    <tr>
 		<td left>მოვლენის სახეობა</td>
 		<td right>

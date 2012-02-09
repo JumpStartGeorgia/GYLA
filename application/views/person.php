@@ -161,6 +161,12 @@
 	    </tr>
 
 	    <tr>
+		<td left>დოკუმენტი</td>
+		<td right><?php echo empty($person['document_url']) ? ' ― ' : '<a target="_blank" href="' . URL::site($person['document_url']) . '">' . substr($person['document_url'], 25); ?>
+		</td>
+	    </tr>
+
+	    <tr>
 		<td left>მისამართი</td>
 		<td right><?php echo empty($person['address']) ? ' ― ' : $person['address'] ?></td>
 	    </tr>
@@ -259,8 +265,13 @@
 	    ?>
 
 	    <tr>
-		<td noborder left>რეკომენდატორი</td>
-		<td noborder right><?php echo (empty($person['reference']) ? ' ― ' : $person['reference']); ?></td>
+		<td left>რეკომენდატორი</td>
+		<td right><?php echo (empty($person['reference']) ? ' ― ' : $person['reference']); ?></td>
+	    </tr>
+
+	    <tr>
+		<td noborder left>კომენტარი</td>
+		<td noborder right><?php echo (empty($person['comment']) ? ' ― ' : $person['comment']); ?></td>
 	    </tr>
 
 	</table>

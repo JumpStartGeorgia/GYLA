@@ -12,14 +12,26 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
         </div>
     </div>
 
-    <div class="block group">
+    <div>
+    <?php
+    $newuser = empty($person['username']);
+    ?>
+    <div class="block group<?php $newuser OR print ' hidden' ?>">
         <div class="left_labels">
             <label for="password">პაროლი:<?php empty($person['username']) AND print '<span class="required">*</span>' ?></label>
         </div>
         <div class="right_fields">
-            <input type="password" name="password" class="text_field widefield" id="password" value="" />
+            <input type="password" name="password" class="text_field widefield" id="password" <?php $newuser or print 'style="width: 60%;"'; ?> value="" />
+	    <?php if (!$newuser): ?><div class="switch" id="cancel_change_password_button">გაუქმება</div><?php endif; ?>
         </div>
-    </div>    
+    </div>
+    <?php
+    if (!$newuser): ?>
+	<div class="block group">
+	    <div class="switch group" id="change_password_button">პაროლის შეცვლა</div>
+	</div>
+    <?php endif; ?>
+    </div>
 
     <?php if ($is_admin): ?>
     <div class="block group">
@@ -30,7 +42,7 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
             <select name="group_id" id="group_id">
             <?php foreach ($groups as $group):
             	$selected = (!empty($person['group_id']) AND $group['id'] == $person['group_id']) ? 'selected="selected"': NULL; ?>
-            	<option <?php echo $selected; ?> value="<? echo $group['id'] ?>"><?php echo (($group['name'] == 'admin') ? 'ადმინისტრატორი' : 'შესვლა'); ?></option>
+            	<option <?php echo $selected; ?> value="<? echo $group['id'] ?>"><?php empty($group['name']) OR print $group['name']; ?></option>
             <?php endforeach; ?>
             </select>
         </div>
@@ -40,7 +52,7 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
         <div class="left_labels">
             <label>დაბლოკილი:</label>
         </div>
-        <div class="right_fields"><?php isset($person['blocked']) or $person['blocked'] = 9; ?>
+        <div class="right_fields"><?php isset($person['blocked']) or $person['blocked'] = 0; ?>
             <label><input type="radio" name="blocked" <?php ($person['blocked'] == 1) AND print 'checked="checked"'; ?> value="1" />კი&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <label><input type="radio" name="blocked" <?php ($person['blocked'] == 0) AND print 'checked="checked"'; ?> value="0" />არა</label>
         </div>
@@ -96,7 +108,7 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
 
         <div class="right_fields">
             <input type="file" name="person_document" id="pdoc" />
-            <a href='<?php echo URL::site($person['document_url']) ?>'>
+            <a target="_blank" href="<?php echo URL::site($person['document_url']) ?>">
                 <?php echo substr($person['document_url'], 25); ?>
             </a>
         </div>
@@ -221,12 +233,12 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
             <label for="peducation">განათლება: </label>
         </div>
 
-        <div class="right_fields" style='width: 450px; text-align: right;'>
+        <div class="right_fields" style='width: 480px; text-align: right;'>
 				<?php /* წლები სკოლაში:
             <input type="text" name="person_years_in_school" class="text_field" style='margin-left:30px;'
                    value="<?php echo $person['years_in_school']; ?>" id="peducation" /> */ ?>
             <br /><br />ხარისხი: <br /><br />
-            <div id='fromto' style='display:inline;'>
+            <div id='fromto' style="display: inline;">
                 <?php
                 if (!empty($degrees) AND is_array($degrees) AND count($degrees) > 0):
                     foreach ($degrees as $index => $degree):
@@ -237,9 +249,9 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
                         echo "
 				<select name='person_education_degree[]'>
 					<option value='null' selected='selected' disabled>None</option>
-					<option " . $ds1 . " value='bachelor'>ბაკალავრი </option>
-					<option " . $ds2 . " value='llm'>მაგისტრი </option>
-					<option " . $ds3 . " value='phd'>დოქტორანტი</option>
+					<option " . $ds1 . " value='bachelor'>ბაკალავრი</option>
+					<option " . $ds2 . " value='llm'>მაგისტრი (LL.M.)</option>
+					<option " . $ds3 . " value='phd'>დოქტორანტი (Ph.D.)</option>
 				</select> &nbsp;&nbsp;&nbsp;
 
 				საიდან:
@@ -250,22 +262,7 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
 				       style='width:73px;' value='" . $degree['to'] . "' /><br/>
 			    ";
                     endforeach;
-                else:
-                    ?>
-                    <select name='person_education_degree[]'>
-                        <option value='null' selected='selected' disabled>None</option>
-                        <option value='bachelor'>Bachelor</option>
-                        <option value='llm'>LL. M.</option>
-                        <option value='phd'>PH. D.</option>
-                    </select> &nbsp;&nbsp;&nbsp;
-
-        				საიდან:
-                    <input type='text' class='text_field datepicker' name='person_education_degree_from[]'
-                           style='width:73px;' />&nbsp;&nbsp;
-        				სადამდე:
-                    <input type='text' class='text_field datepicker' name='person_education_degree_to[]'
-                           style='width:73px;' /> <br />
-                       <? endif; ?>
+                endif; ?>
             </div>
             <br /><br />
             <span style='cursor:pointer;' onclick='another_degree();'>+ხარისხის დამატება</span>
@@ -480,7 +477,7 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
         </div>
 
         <div class="right_fields">
-				გთხოვთ მიუთითოთ: <input type="text" class="text_field" id='potherinterest' />
+		გთხოვთ მიუთითოთ: <input type="text" class="text_field" id='potherinterest' />
         </div>
     </div>
 
