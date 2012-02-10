@@ -15,7 +15,7 @@
     </head>
     <body>
 
-        <?php if (isset($_SESSION['userid']) AND !empty($_SESSION['userid'])): ?>
+    <?php if (isset($_SESSION['userid']) AND !empty($_SESSION['userid'])): ?>
     <a href="https://docs.google.com/spreadsheet/embeddedform?formkey=dFY4VDlYbG9wZXJMaU11azFzd1pNeGc6MQ" id="feedback" title="Give us a feedback or just say hello!">Feedback</a>
     <?php endif; ?>
 

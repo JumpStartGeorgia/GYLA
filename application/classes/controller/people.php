@@ -204,7 +204,7 @@ class Controller_People extends Controller_Application
             'group_id'
         );
 
-	if (NULL != $_POST['person_languages'] and is_array($_POST['person_languages']))
+	if (!empty($_POST['person_languages']) and is_array($_POST['person_languages']))
 	{
 		$languages = $_POST['person_languages'];
 		$existing = $new = array();
@@ -215,7 +215,7 @@ class Controller_People extends Controller_Application
 		    {
 			$e = $e->where('id', '=', $lang);
 		    }
-		    elseif (NULL != $lang AND strlen((string)$lang) > 1)
+		    elseif (!empty($lang) AND strlen((string)$lang) > 1)
 		    {
 			$e = $e->where('language', '=', $lang);
 		    }
@@ -238,8 +238,9 @@ class Controller_People extends Controller_Application
 	}
 	else
 	{
-	    $_POST['person_languages'] = NULL;
+	    $_POST['person_languages'] = serialize(NULL);
 	}
+
         $_POST['person_interested'] = empty($_POST['person_interested']) ? NULL : serialize($_POST['person_interested']);
       
         $values = array
@@ -524,7 +525,7 @@ class Controller_People extends Controller_Application
 			    {
 				$e = $e->where('id', '=', $lang);
 			    }
-			    elseif (NULL != $lang AND strlen((string)$lang) > 1)
+			    elseif (!empty($lang) AND strlen((string)$lang) > 1)
 			    {
 				$e = $e->where('language', '=', $lang);
 			    }
@@ -585,7 +586,6 @@ class Controller_People extends Controller_Application
 
 			$person_languages = serialize($knownArray);
 */
-			
 		}
 		else $person_languages = false;
 		/*	ENDS PERSON	LANGUAGE PROCESSING !!!	*/
