@@ -1,9 +1,12 @@
 <?php
 $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::site('people/update/' . $person['id']);
+$errors = isset($_SESSION['errors']) ? $_SESSION['errors'] : array();
 ?>
 <form action="<?php echo $action ?>" method="post" id='form_person' enctype="multipart/form-data">
 
-    <div class="block group">
+    <?php isset($_SESSION['message']) and print '<span class="error">' . $_SESSION['message'] . '</span>'; ?>
+
+    <div class="block group <?php in_array('username', $errors) and print 'errorbox'; ?>">
         <div class="left_labels">
             <label for="username">მომხმარებელი: <span class='required'>*</span></label>
         </div>
@@ -16,7 +19,7 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
     <?php
     $newuser = empty($person['username']);
     ?>
-    <div class="block group<?php $newuser OR print ' hidden' ?>">
+    <div class="block group<?php $newuser OR print ' hidden'; in_array('password', $errors) and print ' errorbox'; ?>">
         <div class="left_labels">
             <label for="password">პაროლი:<?php empty($person['username']) AND print '<span class="required">*</span>' ?></label>
         </div>
@@ -114,7 +117,7 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
         </div>
     </div>
 
-    <div class="block group">
+    <div class="block group <?php in_array('person_first_name', $errors) and print 'errorbox'; ?>">
         <div class="left_labels">
             <label for="pname">სახელი: <span class='required'>*</span></label>
         </div>
@@ -125,7 +128,7 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
         </div>
     </div>
 
-    <div class="block group">
+    <div class="block group <?php in_array('person_last_name', $errors) and print 'errorbox'; ?>">
         <div class="left_labels">
             <label for="plast">გვარი: <span class='required'>*</span></label>
         </div>
@@ -502,3 +505,5 @@ $action = ($person['first_name'] === NULL) ? URL::site('people/create') : URL::s
     </div>
 
 </form>
+
+<?php unset($_SESSION['message'], $_SESSION['errors']); ?>

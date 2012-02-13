@@ -169,6 +169,17 @@ class Controller_People extends Controller_Application
     public function action_create()
     {
         $this->check_access('people', 'add');
+        $errors = array();
+        (empty($_POST['person_first_name']) OR strlen($_POST['person_first_name']) == 0) and $errors[] = 'person_first_name';
+        (empty($_POST['person_last_name']) OR strlen($_POST['person_last_name']) == 0) and $errors[] = 'person_last_name';
+        (empty($_POST['username']) OR strlen($_POST['username']) == 0) and $errors[] = 'username';
+        (empty($_POST['password']) OR strlen($_POST['password']) == 0) and $errors[] = 'password';
+	if (count($errors) > 0)
+	{
+	    $_SESSION['message'] = 'გთხოვთ შეავსოთ აუცილებელი ველები';
+	    $_SESSION['errors'] = $errors;
+	    $this->request->redirect('people/new');
+	}
 
         $up = $this->document_upload($_FILES['person_document']);
         if (substr($up, 0, 8) != "uploads/" && $up != NULL)  //return if any errors

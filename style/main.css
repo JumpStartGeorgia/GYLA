@@ -345,6 +345,7 @@ div#login .right_fields
 .widefield{ width:98%; }
 
 .error{ color: red; width: 400px; margin: 20px auto 0px auto; text-align: center; }
+span.error{ display: block; text-align: left; margin: 0px; margin-bottom: 20px; }
 
 
 table#userlist td, table#userlist th
@@ -551,3 +552,7 @@ table.info_list td[right]{ text-align: left; color: #353444; padding-left: 8px; 
 
 #change_password_button{ margin: 0px; cursor: pointer; }
 #cancel_change_password_button{ margin: 0px; float: right; cursor: pointer; }
+.errorbox{ border: 1px solid red !important; padding: 5px 0px 5px 5px !important; -webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px; }
+.errorbox .right_fields{ margin-right: 6px; }
