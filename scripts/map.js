@@ -37,7 +37,7 @@ function map_init()
         hover: true,
         onSelect: function(feature)
         {
-            var info = ['<b style="font-weight: bold;">' + feature.attributes.Distr_Geo + '</b> '],
+            var info = ['<b style="font-weight: bold;">' + feature.attributes.name_2_geo + '</b> '],
             events = feature.attributes.event,
             content = '';
             info += (events.length > 0 ? 'მოვლენები: ' + events.length : '');
