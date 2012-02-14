@@ -59,6 +59,7 @@ class Controller_People extends Controller_Application
         $this->template->content->people = $people;
         $this->template->content->allow_transactions = 
         $this->template->content->allow_perm = $this->check_access('admin', 'management', FALSE);
+        $this->template->content->allow_new = $this->check_access('people', 'add', FALSE);
         $this->template->content->allow_edit = $this->check_access('people', 'edit', FALSE);
         $this->template->content->allow_dele = $this->check_access('people', 'delete', FALSE);
     }
@@ -121,7 +122,7 @@ class Controller_People extends Controller_Application
 
     public static function reformat_date($date)
     {
-	list($year, $month, $day) = array(substr($date, 0, 4), substr($date, 5, 2), substr($date, 8, 2));
+	list($year, $month, $day, $hour) = array(substr($date, 0, 4), substr($date, 5, 2), substr($date, 8, 2), substr($date, 11, 5));
 	($month < 1 OR $month > 12) and $month = 0;
 	$months = array(
 	    -1 => 'none',
@@ -138,7 +139,7 @@ class Controller_People extends Controller_Application
 	    'ნოემბერი',
 	    'დეკემბერი'
 	);
-	return ((string)(int)$day) . ' ' . $months[(int)$month - 1] . ', ' . $year;
+	return ((string)(int)$day) . ' ' . $months[(int)$month - 1] . ', ' . $year . ', ' . $hour;
     }
 
     public function action_block()

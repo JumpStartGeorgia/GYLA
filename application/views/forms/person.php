@@ -252,9 +252,9 @@ $errors = isset($_SESSION['errors']) ? $_SESSION['errors'] : array();
                         echo "
 				<select name='person_education_degree[]'>
 					<option value='null' selected='selected' disabled>None</option>
-					<option " . $ds1 . " value='bachelor'>ბაკალავრი</option>
-					<option " . $ds2 . " value='llm'>მაგისტრი (LL.M.)</option>
-					<option " . $ds3 . " value='phd'>დოქტორანტი (Ph.D.)</option>
+					<option " . $ds1 . " value='bachelor'>ბაკალავრი  (B.A.)</option>
+					<option " . $ds2 . " value='llm'>მაგისტრი     (LL.M.)</option>
+					<option " . $ds3 . " value='phd'>დოქტორი    (Ph.D.)</option>
 				</select> &nbsp;&nbsp;&nbsp;
 
 				საიდან:

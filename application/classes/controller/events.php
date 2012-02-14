@@ -322,6 +322,27 @@ class Controller_Events extends Controller_Application
                         ->bind(':district_id', $district['id'])
                         ->execute()
                         ->as_array();
+		if ('თბილისი' == $district['name'])
+		{
+		    $district_events = array_merge
+		    (
+			$district_events,
+			DB::query
+			(
+			    Database::SELECT,
+			    "SELECT e.*, (select count(id) from events where e.id = events.id) AS total
+			    FROM events as e
+			    inner join districts as d
+			    on d.id = e.district_id
+			    WHERE d.id IN (select id from districts where parent = :parent)
+			    AND DATE(start_at) > CURDATE()
+			    ORDER BY DATE(start_at) ASC;"
+			)
+                        ->bind(':parent', $district['id'])
+                        ->execute()
+                        ->as_array()
+		    );
+		}
 
                 // Calculate proportions
                 if (empty($district_events[0]['total']) OR empty($count_result[0]['total']))
@@ -335,7 +356,7 @@ class Controller_Events extends Controller_Application
                 if
                 (
                         !empty($district_events[0]['name'])
-                        AND !empty($district_events[0]['address'])
+                        //AND !empty($district_events[0]['address'])
                         AND !empty($district_events[0]['start_at'])
                 )
                 {
@@ -349,7 +370,7 @@ class Controller_Events extends Controller_Application
 			    'id' => $de['id'],
 			    'name' => trim($de['name']),
 			    'address' => trim($de['address']),
-			    'start_at' => date('Y-m-d', strtotime($de['start_at']))
+			    'start_at' => Controller_People::reformat_date($de['start_at'])//date('Y-m-d', strtotime($de['start_at']))
 			);
                     }
                 }
@@ -493,7 +514,31 @@ class Controller_Events extends Controller_Application
     }
 
 
-    /*public function action_districts_new()
+    /*public function action_tbilisi()
+    {
+	$events = DB::select('events.id', 'events.name', 'address', 'start_at')
+		  ->from('events')
+		  ->join('districts')
+		  ->on('events.district_id', '=', 'districts.id')
+		  ->where
+		  (
+			'districts.parent',
+			'=',
+			DB::select('id')->from('districts')->where('name', '=', 'თბილისი')->execute()->get('id')
+		  )
+		  ->and_where('DATE("start_at")', '>', date('Y-m-d'))
+                  ->order_by('start_at', 'ASC')
+		  ->execute()
+		  ->as_array();
+	foreach ($events as &$event)
+	{
+	    $event['start_at'] = Controller_People::reformat_date($event['start_at']);
+	}
+	echo json_encode($events);
+	die;
+    }
+
+    public function action_districts_new()
     {
         $mappings = DB::select()
                 ->from('mapping')

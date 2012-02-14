@@ -1,10 +1,14 @@
 
-<a href="<?php echo URL::site('people/view/' . $_SESSION['userid']) ?>" id="profile"><img src="<?php echo URL::base() ?>images/images/user.png" /> პროფილი</a>
-
-<?php if (!empty($is_admin) && $is_admin): ?>
-    <span id="splitter"> | </span>
-    <a href="<?php echo URL::site('admin') ?>" id="panel">ადმინისტრირება</a>
+<?php
+$show_divider = FALSE;
+if (!empty($view_profile) and $view_profile): $show_divider = TRUE; ?>
+    <a href="<?php echo URL::site('people/view/' . $_SESSION['userid']) ?>" id="profile"><img src="<?php echo URL::base() ?>images/images/user.png" /> <?php echo $_SESSION['username']; //პროფილი ?></a>
 <?php endif; ?>
+
+<?php //if (!empty($is_admin) && $is_admin): ?>
+    <?php if ($show_divider): ?><span id="splitter"> | </span><?php endif; ?>
+    <a href="<?php echo URL::site('admin') ?>" id="panel">ადმინისტრირება</a>
+<?php //endif; ?>
 
 <a href="<?php echo URL::site('user/logout') ?>" id="logout"><img src="<?php echo URL::base() ?>images/images/logout.png" class="fiximage" /> გასვლა</a>
 
@@ -13,14 +17,23 @@
 <div id="menu" class="group">
 
     <div id="menu_items">
-        <a href="<?php echo URL::base(); ?>"" class="menuitem">კედელი</a>
-
-        <a href="<?php echo URL::site('events'); ?>" class="menuitem">მოვლენები</a>
-	<?php if ( $_SESSION['username'] === 'admin' ): ?>
-        <a href="<?php echo URL::site('people'); ?>" class="menuitem">წევრები/თანამშრომლები</a>
-        <a href="<?php echo URL::site('offices'); ?>" class="menuitem" style="margin: 0px;">ოფისები</a>
+        <?php if (!empty($view_wall) and $view_wall): ?>
+	    <a href="<?php echo URL::base(); ?>"" class="menuitem">კედელი</a>
 	<?php endif; ?>
 
+        <?php if (!empty($view_events) and $view_events): ?>
+	    <a href="<?php echo URL::site('events'); ?>" class="menuitem">მოვლენები</a>
+	<?php endif; ?>
+
+        <?php if (!empty($view_people) and $view_people): ?>
+	    <a href="<?php echo URL::site('people'); ?>" class="menuitem">წევრები/თანამშრომლები</a>
+	<?php endif; ?>
+
+        <?php if (!empty($view_offices) and $view_offices): ?>
+	    <a href="<?php echo URL::site('offices'); ?>" class="menuitem" style="margin: 0px;">ოფისები</a>
+	<?php endif; ?>
+
+	<?php //if ( $_SESSION['username'] === 'admin' ): endif; ?>
     </div>
 
     <script type='text/javascript'>

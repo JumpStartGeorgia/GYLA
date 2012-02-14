@@ -37,6 +37,11 @@ class Controller_Application extends Controller_Template
             ($this->request->controller() == "search" AND $this->request->action() == "index")
                     AND $this->template->top->search_keyword = $this->request->param('id');
             $this->template->top->is_admin = $this->check_access('admin', 'management', FALSE);
+            $this->template->top->view_people = $vp = $this->check_access('people', 'view_all', FALSE);
+            $this->template->top->view_profile = ($this->check_access('people', 'view_own', FALSE) OR $vp);
+            $this->template->top->view_wall = $this->check_access('wall', 'view', FALSE);
+            $this->template->top->view_offices = $this->check_access('offices', 'view', FALSE);
+            $this->template->top->view_events = $this->check_access('events', 'view', FALSE);
         }
 
         $this->template->is_map = (trim(Request::detect_uri(), '/') == 'events/map');

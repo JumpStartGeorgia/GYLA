@@ -409,9 +409,12 @@ div.search_term
 {
     background-color:#FFF;
     border:0px solid #000;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
+-webkit-border-top-left-radius: 10px;
+-webkit-border-top-right-radius: 10px;
+-moz-border-radius-topleft: 10px;
+-moz-border-radius-topright: 10px;
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
     padding-top:9px;
     padding-bottom:4px;
     width:100%;

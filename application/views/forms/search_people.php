@@ -30,8 +30,8 @@
 			</div>
 			<div class="search-child-box">
 				<label for="person_date_start">დაბადების თარიღი:</label><br />
-					<input type="text" class="text_field" name="person_date_start" id="person_date_start" <?php echo $_person['date_start'] ?>/> - დან
-					<input type="text" class="text_field" name="person_date_end" id="person_date_end" <?php echo $_person['date_end'] ?>/> - მდე
+					<input type="text" class="text_field datepicker" name="person_date_start" id="person_date_start" <?php echo $_person['date_start'] ?>/> - დან
+					<input type="text" class="text_field datepicker" name="person_date_end" id="person_date_end" <?php echo $_person['date_end'] ?>/> - მდე
 			</div>
 			<div class="search-child-box">
 				<label for="person_private_number">პირადი ნომერი:</label>

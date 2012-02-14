@@ -75,15 +75,14 @@ function map_init()
         {
             var events = feature.attributes.event,
             content = '';
-
 	    for (i in events)
 	    {
 		content += 
 		    '<div class="switch"><a href="' + baseurl + 'events/view/' + events[i].id + '">' +
-		        events[i].name + ', ' + ' ' +  events[i].address + ', ' + events[i].start_at +
+			events[i].name + ', ' + ' ' +  events[i].address + ', ' + events[i].start_at +
 		    '</a></div>';
 	    }
-            $('#map_events').html(content);
+	    $('#map_events').html(content);
         }
     });
 
@@ -135,11 +134,6 @@ function map_styles()
         from: 82,
         to: 100,
         color: '21184F'//'F50000'
-    },
-    {
-        from: 100,
-        to: 9999,
-        color: '000000'
     }
     ],
     first_filter_type = OpenLayers.Filter.Comparison.GREATER_THAN;

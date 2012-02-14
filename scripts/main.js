@@ -264,7 +264,7 @@ function datepicker_init()
         dateFormat: 'yy-mm-dd',
         changeMonth: true,
         changeYear: true,
-        yearRange: '1970:+0'
+        yearRange: '1900:+0'
     });
 }
 
@@ -360,9 +360,9 @@ function another_degree()
     addcode = '<br />' +
     '<select name="person_education_degree[]">' +
     '<option value="null" selected="selected" disabled>None</option>' +
-    '<option value="bachelor">ბაკალავრი</option>' +
-    '<option value="llm">მაგისტრი (LL.M.)</option>' +
-    '<option value="phd">დოქტორანტი (Ph.D.)</option>' +
+    '<option value="bachelor">ბაკალავრი  (B.A.)</option>' +
+    '<option value="llm">მაგისტრი     (LL.M.)</option>' +
+    '<option value="phd">დოქტორი    (Ph.D.)</option>' +
     '</select> &nbsp;&nbsp;&nbsp; ' +
     'საიდან: ' +
     '<input type="text" class="text_field datepicker" ' +
