@@ -104,7 +104,7 @@ class Controller_Transactions extends Controller_Application
 	$data = array_merge($tas, $cutoffs);
 	foreach ($data as $key => $row)
 	{
-	    $value[$key]  = $row['paydate'];
+	    $value[$key] = $row['paydate'];
 	}
 	empty($data) OR array_multisort($value, SORT_DESC, $data);
 
@@ -215,9 +215,9 @@ class Controller_Transactions extends Controller_Application
     {
         $id = $this->request->param('id');
         $email = DB::select('email')->from('people')->where('id', '=', $id)->execute()->get('email');
-	$subject = "obshiaki";
-	$message = "shemosatania ra dzmao.";
-	$from = "qurdebi@zona.ge";
+	$subject = "";
+	$message = "";
+	$from = "";
 	$headers = "From:" . $from;
 	if (mail($email, $subject, $message, $headers))
 	{
