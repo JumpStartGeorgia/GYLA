@@ -311,8 +311,10 @@ class Controller_Events extends Controller_Application
 
                 // Get district info
                 $sql = "
-                    SELECT *, (select count(id) from events where e.id = events.id) AS total
+                    SELECT e.*, d.name as district_name, (select count(id) from events where e.id = events.id) AS total
                     FROM events as e
+                    inner join districts as d
+                    on d.id = e.district_id
                     WHERE district_id = :district_id
                     AND DATE(start_at) > CURDATE()
                     ORDER BY DATE(start_at) ASC
@@ -330,7 +332,7 @@ class Controller_Events extends Controller_Application
 			DB::query
 			(
 			    Database::SELECT,
-			    "SELECT e.*, (select count(id) from events where e.id = events.id) AS total
+			    "SELECT e.*, d.name as district_name, (select count(id) from events where e.id = events.id) AS total
 			    FROM events as e
 			    inner join districts as d
 			    on d.id = e.district_id
@@ -370,6 +372,7 @@ class Controller_Events extends Controller_Application
 			    'id' => $de['id'],
 			    'name' => trim($de['name']),
 			    'address' => trim($de['address']),
+			    'district_name' => trim($de['district_name']),
 			    'start_at' => Controller_People::reformat_date($de['start_at'])//date('Y-m-d', strtotime($de['start_at']))
 			);
                     }

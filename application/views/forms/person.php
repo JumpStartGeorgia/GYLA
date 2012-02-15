@@ -110,10 +110,20 @@ $errors = isset($_SESSION['errors']) ? $_SESSION['errors'] : array();
         </div>
 
         <div class="right_fields">
-            <input type="file" name="person_document" id="pdoc" />
-            <a target="_blank" href="<?php echo URL::site($person['document_url']) ?>">
-                <?php echo substr($person['document_url'], 25); ?>
-            </a>
+	    <?php if (!empty($documents)):
+		foreach ($documents as $doc): ?>
+		    <div class="document_box group">
+			<a class="document_link" target="_blank" href="<?php echo URL::site($doc['url']) ?>">
+			    <?php echo substr(basename($doc['url']), 0, 21); ?>
+			</a>
+			<div class="document_delete_button" doc_id="<?php echo $doc['id']; ?>">⨯</div>
+		    </div>
+		<?php endforeach;
+	    endif; ?>
+	    <div class="document_box group" style="border: 0px;">
+		<input type="file" name="person_document[]" id="pdoc" />
+		<div class="document_delete_button" style="display: none;">⨯</div>
+	    </div>
         </div>
     </div>
 

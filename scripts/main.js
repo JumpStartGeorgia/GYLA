@@ -5,6 +5,8 @@ function setbaseurl(url)
     baseurl = url;
 }
 
+/*$(function(){ $('[confirm]').click(function(){ return confirm('დარწმუნებული ხართ?'); }); });*/
+
 // Feedback Form
 $(function(){
 
@@ -436,7 +438,7 @@ extractLast = function( term ) {
 };
 
 $(function(){
-    setbaseurl('http://www.localhost.com/gyla/');
+    /*setbaseurl('http://www.localhost.com/gyla/');*/
     var pref = $('#pref'),
     reference_conf = {
         source: baseurl + 'people/autocomplete/reference/'
@@ -759,5 +761,35 @@ $(function(){
 	$('#change_password_button').parent().show(0);
 	$('#password').val('');
     });
+
+    $('.document_delete_button').click(function()
+    {
+	var check = confirm('დარწმუნებული ხართ?'),
+	doc_id = $(this).attr('doc_id'),
+	element = $(this);
+	if (!check)
+	{
+	    return;
+	}
+	$.get(baseurl + 'people/delete_document_ajax/' + doc_id, function(response){
+	    if (response)
+	    {
+		element.parent().remove();
+	    }
+	});
+    });
+
+    function document_new()
+    {
+	var parent = $(this).parent();
+	parent.find('div').show(0).click(function(){ $(this).parent().remove(); });
+	parent.parent().append($(this).parent().clone());
+	added = parent.parent().find('div:last-child > input')
+	added.change(document_new);
+	added.parent().find('div').hide(0).click(function(){ $(this).parent().remove(); });
+	$(this).unbind('change');
+    }
+
+    $('#pdoc').change(document_new);
 
 });

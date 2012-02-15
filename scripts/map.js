@@ -79,7 +79,7 @@ function map_init()
 	    {
 		content += 
 		    '<div class="switch"><a href="' + baseurl + 'events/view/' + events[i].id + '">' +
-			events[i].name + ', ' + ' ' +  events[i].address + ', ' + events[i].start_at +
+			events[i].name + ', ' + ' ' +  events[i].district_name + ', ' + events[i].start_at +
 		    '</a></div>';
 	    }
 	    $('#map_events').html(content);

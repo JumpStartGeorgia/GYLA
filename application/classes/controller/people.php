@@ -90,6 +90,13 @@ class Controller_People extends Controller_Application
 			$this->request->redirect(URL::site('people'));
         $this->template->content->person = $this->returnUser($person[0]);
 
+        $this->template->content->docs = DB::select('url')
+                ->from('user_documents')
+                ->where('user_id', '=', $id)
+                ->order_by('id')
+                ->execute()
+                ->as_array();
+
         $this->template->content->phones = DB::select()
                 ->from('phones')
                 ->where('person_id', '=', $id)
@@ -182,9 +189,9 @@ class Controller_People extends Controller_Application
 	    $this->request->redirect('people/new');
 	}
 
-        $up = $this->document_upload($_FILES['person_document']);
+        /*$up = $this->document_upload($_FILES['person_document']);
         if (substr($up, 0, 8) != "uploads/" && $up != NULL)  //return if any errors
-            exit($up);
+            exit($up);*/
 
         if (empty($_POST['person_member_of'][0]) OR !isset($_POST['person_member_of'][0]))
             $_POST['person_member_of'][0] = NULL;
@@ -197,7 +204,7 @@ class Controller_People extends Controller_Application
             'username',
             'member_of',
             'office_id',
-            'document_url',
+            //'document_url',
             'first_name',
             'last_name',
             'birth_date',
@@ -260,7 +267,7 @@ class Controller_People extends Controller_Application
             $_POST['username'],
             $_POST['person_member_of'][0] . ',' . $_POST['person_member_of'][1],
             $_POST['person_office'],
-            $up,
+            //$up,
             $_POST['person_first_name'],
             $_POST['person_last_name'],
             $_POST['person_birth_date'],
@@ -301,6 +308,14 @@ class Controller_People extends Controller_Application
 
         $query1 = DB::insert('people', $columns)->values($values)->execute();
         $last_id = $query1[0];
+        $up = $this->document_upload($_FILES['person_document']);
+        if (is_array($up))
+        {
+	    foreach ($up as $url)
+	    {
+		DB::insert('user_documents', array('user_id', 'url'))->values(array($last_id, $url))->execute();
+	    }
+        }
 
 	if (isset($_POST['pay_plan']) && $access)
 	{
@@ -411,7 +426,8 @@ class Controller_People extends Controller_Application
             'reference' => NULL,
             'languages' => NULL,
             'member_of' => NULL,
-            'document_url' => NULL,
+            //'document_url' => NULL,
+            'documents' => NULL,
             'sex' => NULL,
             'years_in_school' => NULL,
             'interested_in' => NULL,
@@ -465,11 +481,19 @@ class Controller_People extends Controller_Application
                 ->where('person_id', '=', $thisid)
                 ->execute()
                 ->as_array();
-	if ( empty($query) )	
-	$this->request->redirect(URL::site('people'));
+	if (empty($query))
+	{
+	    $this->request->redirect(URL::site('people'));
+	}
         $this->template->content = View::factory('forms/person');
         $this->template->content->default_languages = $this->getDefaultLanguages();
         $this->template->content->person = $this->returnUser($query[0]);
+        $this->template->content->documents = DB::select('id', 'url')
+        				    ->from('user_documents')
+        				    ->where('user_id', '=', $thisid)
+        				    ->order_by('id')
+        				    ->execute()
+        				    ->as_array();
         $this->template->content->payplan = DB::select('plan')
         				    ->from('payplan_changes')
         				    ->where('user_id', '=', $thisid)
@@ -510,13 +534,21 @@ class Controller_People extends Controller_Application
         $thisid = $this->request->param('id');
         $u = TRUE;
 
-        $up = $this->document_upload($_FILES['person_document']);
+        /*$up = $this->document_upload($_FILES['person_document']);
         if (substr($up, 0, 8) != "uploads/" && $up != NULL)  //return if any errors
             exit($up);
         else if (substr($up, 0, 8) == "uploads/")
         {
             $this->document_delete($thisid);
             $u = DB::update('people')->set(array('document_url' => $up))->where('id', '=', $thisid)->execute();
+        }*/
+	$up = $this->document_upload($_FILES['person_document']);
+        if (is_array($up))
+        {
+	    foreach ($up as $url)
+	    {
+		DB::insert('user_documents', array('user_id', 'url'))->values(array($thisid, $url))->execute();
+	    }
         }
 
         if (empty($_POST['person_member_of']) OR count($_POST['person_member_of']) == 0)
@@ -1030,8 +1062,34 @@ class Controller_People extends Controller_Application
             return;
         }
 
+        $docs = DB::select('url')->from('user_documents')->where('user_id', '=', $id)->execute()->as_array();
+        foreach ($docs as $doc)
+        {
+	    if (!empty($doc['url']) and file_exists($doc['url']))
+	    {
+		unlink($doc['url']);
+	    }
+	}
+	DB::delete('user_documents')->where('user_id', '=', $id)->execute();
         DB::delete('people')->where('id', '=', $id)->execute();
         $this->request->redirect(URL::site('people'));
+    }
+
+    public function action_delete_document_ajax()
+    {
+        $this->check_access('people', 'edit', FALSE) OR die;
+        $id = $this->request->param('id');
+
+        if ($this->request->is_ajax())
+        {
+	    $file = DB::select('url')->from('user_documents')->where('id', '=', $id)->execute()->get('url');
+	    if (file_exists($file))
+	    {
+		$unlink = unlink($file);
+	    }
+	    var_dump(DB::delete('user_documents')->where('id', '=', $id)->execute());
+        }
+        die;
     }
 
     public function action_searches()
@@ -1095,24 +1153,25 @@ class Controller_People extends Controller_Application
 
     private function document_upload($filedata)
     {
-        if ($filedata['size'] > 0)
-            if (/* ($filedata['type'] == "image/jpeg" || $filedata['type'] == "image/pjpeg" ||
-              $filedata['type'] == "image/gif"  || $filedata['type'] == "image/png")  && */
-                    $filedata['size'] / 1024 < 4097)
+	$paths = array();
+	for ($i = 0, $num = count($filedata['name']); $i < $num; $i ++)
+	{
+	    if ($filedata['size'][$i] < 2 OR $filedata['size'][$i] > 4097 * 1024)
+	    {
+		continue;
+	    }
+            $path = "uploads/people/documents/";
+	    $name = mt_rand(0, 1000) . substr(sha1(uniqid()), 0, 5) . str_replace(' ', '_', $filedata['name'][$i]);
+            if (file_exists($path . $name))
             {
-                $path = "uploads/people/documents/";
-                $name = mt_rand(0, 1000) . str_replace(' ', '_', $filedata['name']);
-                if (file_exists($path . $name))
-                    $name = mt_rand(0, 1000) . time() . $name;
-                $upload = move_uploaded_file($filedata["tmp_name"], $path . $name);
-                if (!$upload)
-                    return "file is valid but upload failed";
-                return $path . $name;
+                $name = mt_rand(0, 1000) . substr(sha1(time()), 0, 7) . $name;
             }
-            else
-                return "ატვირთული ფაილის ზომა მეტია 4 მბ-ზე";
-        else
-            return NULL;
+            $upload = move_uploaded_file($filedata["tmp_name"][$i], $path . $name);
+            /*if (!$upload) return "file is valid but upload failed";*/
+            $paths[] = $path . $name;
+            /*else return "ატვირთული ფაილის ზომა მეტია 4 მბ-ზე"; else return NULL;*/
+	}
+	return $paths;
     }
 
     private function document_delete($person_id)

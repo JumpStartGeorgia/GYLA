@@ -1,3 +1,5 @@
+@font-face { font-family: fightme; font-style:   normal; font-weight: normal; src:url(bpg_mrgvlovani_caps_2010.ttf); }
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -149,16 +151,17 @@ a#logout
 }
 
 div#menu_items{
-    float:left;
-    padding: 20px 0px 21px 40px;
-    font-size:14px;
+    float: left;
+    padding: 22px 0px 21px 40px;
+    font-size: 13px;
+    font-family: fightme;
 }
 
 a.menuitem
 {
     text-decoration: none;
     color: #343673;
-    margin-right:23px;
+    margin-right: 10px;
 }
 a.menuitem:hover
 {
@@ -549,7 +552,7 @@ table.info_list td[right]{ text-align: left; color: #353444; padding-left: 8px; 
 
 #map_events{ line-height: 22px; padding: 0px 15px 2px 15px; background: #FFF; }
 #map_events div{ display:block; margin-bottom: 5px; padding: 0px; }
-#map_events a{ text-decoration: none; color: #343673; display: block; padding: 3px; }
+#map_events a{ text-decoration: none; color: #343673; display: block; padding: 0px 3px; }
 
 .hidden{ display: none; }
 
@@ -559,3 +562,15 @@ table.info_list td[right]{ text-align: left; color: #353444; padding-left: 8px; 
 -moz-border-radius: 10px;
 border-radius: 10px; }
 .errorbox .right_fields{ margin-right: 6px; }
+
+.document_box{ border: 1px solid #bebebe; border-right: 0px; margin-bottom: 3px; 
+-webkit-border-top-left-radius: 10px; -webkit-border-bottom-left-radius: 10px; -moz-border-radius-topleft: 10px;
+-moz-border-radius-bottomleft: 10px; border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
+
+.document_box:hover{ background: #E4E4E4; }
+
+.document_link{ text-decoration: none; color: #595D82; padding: 6px 7px; float: left; display: block; }
+.document_link:hover{ text-decoration: underline; text-shadow: none !important; }
+
+.document_delete_button{ padding: 6px 5px; cursor: pointer; border: 0px solid white; float: right; font-size: 15px; }
+.document_delete_button:hover { background: #bebebe; color: #000; }

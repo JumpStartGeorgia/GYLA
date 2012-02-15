@@ -162,7 +162,17 @@
 
 	    <tr>
 		<td left>დოკუმენტი</td>
-		<td right><?php echo empty($person['document_url']) ? ' ― ' : '<a target="_blank" href="' . URL::site($person['document_url']) . '">' . substr($person['document_url'], 25); ?>
+		<td right>
+		<?php
+		if (!empty($docs))
+		    foreach ($docs as $doc): ?>
+			<a class="document_link" style="float: none; padding: 0px;" target="_blank" href="<?php echo URL::site($doc['url']); ?>">
+			    <?php echo substr(basename($doc['url']), 0, 21); ?>
+			</a><?php
+		    endforeach;
+		else
+		    echo ' ― ';
+		?>
 		</td>
 	    </tr>
 
