@@ -404,10 +404,10 @@ $errors = isset($_SESSION['errors']) ? $_SESSION['errors'] : array();
                             <option <?php ($aff['type'] == "organisation") AND print($s); ?> value='organisation'>თანამშრომელი</option>
                         </select>&nbsp;&nbsp;&nbsp;
                 				საიდან:
-                        <input type="text" name="person_affiliation_from[]" class="text_field datepicker"
+                        <input type="text" name="person_affiliation_from[]" class="text_field datepicker_max"
                                style='width:75px;margin-right:11px;margin-bottom:7px;' value='<?php echo $aff['from'] ?>' />
                 				სადამდე:
-                        <input type="text" name="person_affiliation_to[]" class="text_field datepicker" style='width: 75px'
+                        <input type="text" name="person_affiliation_to[]" class="text_field datepicker_max" style="width: 75px"
                                value='<?php echo $aff['to'] ?>' />
                            <?php endforeach;
                        else: ?>
@@ -416,10 +416,10 @@ $errors = isset($_SESSION['errors']) ? $_SESSION['errors'] : array();
                         <option value='organisation'>თანამშრომელი</option>
                     </select>&nbsp;&nbsp;&nbsp;
         				საიდან:
-                    <input type="text" name="person_affiliation_from[]" class="text_field datepicker"
+                    <input type="text" name="person_affiliation_from[]" class="text_field datepicker_max"
                            style='width: 75px; margin-right: 11px; margin-bottom: 7px;' />
         				სადამდე:
-                    <input type="text" name="person_affiliation_to[]" class="text_field datepicker" style='width: 75px' />
+                    <input type="text" name="person_affiliation_to[]" class="text_field datepicker_max" style="width: 75px;" />
                 <?php endif; ?>
             </div>
             <span style='cursor: pointer; display: inline-block; float:right;' id='another_affiliation'>

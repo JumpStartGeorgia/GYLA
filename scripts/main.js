@@ -257,14 +257,19 @@ $(document).ready(function() {
 
 function datepicker_init()
 {
-/*
-    $.datepicker.formatDate('yy-mm-dd', new Date(2007, 1 - 1, 26));
-*/
+/*$.datepicker.formatDate('yy-mm-dd', new Date(2007, 1 - 1, 26));*/
     $( ".datepicker").datepicker({
         dateFormat: 'yy-mm-dd',
         changeMonth: true,
         changeYear: true,
         yearRange: '1900:+0'
+    });
+
+    $( ".datepicker_max").datepicker({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '1900:+25'
     });
 }
 
@@ -399,10 +404,10 @@ $(function(){
         "<option value='organisation'>თანამშრომელი</option>" +
         "</select>&nbsp;&nbsp;&nbsp; " +
         "საიდან: " +
-        "<input type='text' name='person_affiliation_from[]' class='text_field datepicker'" +
+        "<input type='text' name='person_affiliation_from[]' class='text_field datepicker_max'" +
         "style='width: 75px; margin-right: 11px; margin-bottom: 7px;' />" +
         " სადამდე: " +
-        "<input type='text' name='person_affiliation_to[]' class='text_field datepicker' style='width: 75px' />";
+        "<input type='text' name='person_affiliation_to[]' class='text_field datepicker_max' style='width: 75px' />";
         $(this).parent().find('div').append(html);
         datepicker_init();
     });
