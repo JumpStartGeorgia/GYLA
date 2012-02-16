@@ -688,7 +688,8 @@ $(function(){
                 self: $('#person_saved_search'),
                 Fill: function ()
                 {
-                    $.getJSON(baseurl+'people/list_saved_search',function(data){
+                    //$.getJSON(baseurl + 'people/list_saved_search',function(data){
+                    $.getJSON('http://deda.omc.ge/gyla/people/list_saved_search',function(data){
                         Search.Form.SavedSearchList.self.empty();
                         var html = new Array('<option value="0">Select Search</option>');
                         for ( var i in data ) {
