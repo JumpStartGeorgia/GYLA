@@ -486,7 +486,7 @@ $(function(){
 
 
 $(function(){
-    setbaseurl('http://www.localhost.com/gyla/');
+    /*setbaseurl('http://www.localhost.com/gyla/');*/
     var personLanguages = {
         CheckBoxes: $('input[type="checkbox"][name="person_languages[]"]'),
         Labels: $('.personLangLabel[for]')
