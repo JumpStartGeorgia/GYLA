@@ -221,7 +221,16 @@ class Controller_Transactions extends Controller_Application
  
 გაცნობებთ, რომ საქართველოს ახალგაზრდა იურისტთა ასოციაციაში თქვენი საწევრო დავალიანება შეადგენს " . $bill . " ლარს.";
 	$from = "sacevro@gyla.ge";
-	$headers = "From:" . $from;
+	$headers = "Reply-To: The Sender <" . $from . ">\r\n"; 
+	$headers .= "Return-Path: The Sender <" . $from . ">\r\n"; 
+	$headers .= "From: <" . $from . ">\r\n";
+	$headers .= "Organization: GYLA\r\n";
+	$headers .= "MIME-Version: 1.0\r\n";
+	$headers .= "Content-type: text/plain; charset=utf-8\r\n";
+	$headers .= "X-Priority: 3\r\n";
+	$headers .= "X-Mailer: PHP". phpversion() ."\r\n";
+	$headers .= "Envelope-to: <" . $from . ">";
+	$headers .= "for " . $from . ";";
 	if (mail($email, $subject, $message, $headers))
 	{
 	    $this->template->content = 'წერილი წარმატებით გაიგზავნა.';

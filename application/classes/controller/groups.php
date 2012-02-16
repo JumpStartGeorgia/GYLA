@@ -80,6 +80,7 @@ class Controller_Groups extends Controller_Application
                 ->where('id', '=', $thisid)
                 ->execute()
                 ->as_array();
+	empty($group) and $this->request->redirect(URL::site('groups'));
 
         $current_permissions = array();
         $current_permissions_data = DB::select()->from('permissions')->where('group_id', '=', $thisid)->execute()->as_array();
