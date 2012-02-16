@@ -5,13 +5,13 @@
         <title><?php empty($title) OR print $title . ' - ' ?>GYLA</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="icon" href="<?php echo URL::base() ?>favicon.ico">
+        <script type='text/javascript'>var baseurl = "<?php echo URL::base() ?>";</script>
         <?php
         foreach ($styles as $file)
             echo "\t" . HTML::style($file), PHP_EOL;
         foreach ($scripts as $file)
             echo "\t" . HTML::script($file), PHP_EOL;
         ?>
-        <script type='text/javascript'>$(document).ready(function(){ setbaseurl("<?php echo URL::base() ?>"); });</script>
     </head>
     <body>
 
