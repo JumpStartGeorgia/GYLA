@@ -216,7 +216,7 @@ class Controller_Transactions extends Controller_Application
         $id = $this->request->param('id');
 	$bill = -(int)$_SESSION['billings'][$id];
         $email = DB::select('email')->from('people')->where('id', '=', $id)->execute()->get('email');
-	$subject = "";
+	$subject = "[საია] შემხსენებელი";
 	$message = "მოგესალმებით,
  
 გაცნობებთ, რომ საქართველოს ახალგაზრდა იურისტთა ასოციაციაში თქვენი საწევრო დავალიანება შეადგენს " . $bill . " ლარს.";
