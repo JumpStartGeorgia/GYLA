@@ -191,7 +191,7 @@ class Controller_Transactions extends Controller_Application
 		unset($users[$idx]);
 		continue;
 	    }
-	    $diff.='';
+	    $diff .= '';
 	    $users[$idx]['diff'] = $diff;
 	}
 
@@ -214,10 +214,13 @@ class Controller_Transactions extends Controller_Application
     public function action_email()
     {
         $id = $this->request->param('id');
+	$bill = -(int)$_SESSION['billings'][$id];
         $email = DB::select('email')->from('people')->where('id', '=', $id)->execute()->get('email');
 	$subject = "";
-	$message = "";
-	$from = "";
+	$message = "მოგესალმებით,
+ 
+გაცნობებთ, რომ საქართველოს ახალგაზრდა იურისტთა ასოციაციაში თქვენი საწევრო დავალიანება შეადგენს " . $bill . " ლარს.";
+	$from = "sacevro@gyla.ge";
 	$headers = "From:" . $from;
 	if (mail($email, $subject, $message, $headers))
 	{
@@ -227,7 +230,7 @@ class Controller_Transactions extends Controller_Application
 	{
 	    $this->template->content = 'შეცდომა გაგზავნის დროს.';
 	}
-	$this->template->content .= '<meta http-equiv="refresh" content="3; url=' . URL::site('transactions/billing') . '" />';
+	$this->template->content .= '<meta http-equiv="refresh" content="2; url=' . URL::site('transactions/billing') . '" />';
     }
 
     public function action_delete()

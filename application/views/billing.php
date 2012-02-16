@@ -6,7 +6,9 @@
 
     <?php
     $num = count($users) - 1;
+    $_SESSION['billings'] = array();
     foreach ($users as $index => $user):
+	$_SESSION['billings'][$user['id']] = $user['diff'];
 	$nbmp = ($index == $num) ? " style='border: 0; margin-bottom: 0; padding-bottom: 0;'" : NULL; ?>
 	<div class='b-block group'<?php echo $nbmp ?>>
 	    <div class='b-block-header group'>
