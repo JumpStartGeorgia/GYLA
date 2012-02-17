@@ -4,14 +4,15 @@ defined('SYSPATH') or die('No direct access allowed.');
 
 switch (Kohana::$environment)
 {
-    case Kohana::PRODUCTION:
+    /*INSERT_NEW_ENV_CONFIG_HERE*/
+    /*case Kohana::PRODUCTION:
         $db = array(
             'name' => 'gyla',
             'user' => 'root',
             'pass' => 'asdfg',
             'profiling' => FALSE
         );
-        break;
+        break;*/
     case Kohana::TESTING:
         $db = array(
             'name' => 'gyla',

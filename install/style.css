@@ -1,0 +1,84 @@
+@font-face { font-family: fightme; font-style:   normal; font-weight: normal; src:url(bpg_mrgvlovani_caps_2010.ttf); }
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary, time, mark, audio, video
+{ margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
+
+body { font-size: 12px; line-height: 1; color: #3b417f; font-family: Arial; background-image: url('../images/images/bg.jpg'); width: 100%; }
+table { border-collapse: collapse; border-spacing: 0; }
+
+.group:after { visibility: hidden; display: block; content: ""; clear: both; height: 0; }
+* html .group             { zoom: 1; } /* IE6 */
+*:first-child+html .group { zoom: 1; } /* IE7 */
+
+a{ cursor: pointer; }
+a:hover { text-shadow:1px 1px 20px #ababca; }
+
+textarea { resize:vertical; }
+
+:focus { outline: 0 }
+
+
+#container{
+    background: url('../images/images/content_bg.jpg') repeat; margin: 0 auto; width: 600px; min-height: 200px; padding-bottom: 25px;
+    -webkit-border-bottom-right-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+#header{ font-weight: bold; font-size: 14px; padding: 20px 10px 0px 15px; }
+
+#content {
+    padding: 23px;
+    padding-right: 28px;
+    width: 497px;
+    background: #F8F8F8;
+    margin: 28px auto 0px auto;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.line { display: block; margin-bottom: 17px; }
+
+input[type="text"], input[type="password"] {
+    border-left: 2px solid #D9D9D9;
+    border-top: 2px solid #CCC;
+    border-right: 2px solid #FDFDFD;
+    border-bottom: 2px solid #FBFBFB;
+    padding: 3px;
+    color: #5B5D8E;
+}
+
+input[type="text"], input[type="password"], input[type="submit"] {
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+input[type="submit"] {
+    cursor: pointer;
+    background: url('../images/images/bg.jpg');
+    border: 0;
+    color: white;
+    font-size: 13px;
+    width: 100px;
+    height: 25px;
+    border-image: initial;
+}
+
+input[type="submit"]:hover {
+    background: white;
+    color: #4E537F;
+    border: 1px solid #6D7099;
+}
+
+[green]{ color: green; }
+[red]{ color: red; }

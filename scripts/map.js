@@ -26,7 +26,7 @@ function map_init()
     base.setOpacity(0);
 
     // Overlay Layer
-    layer = new OpenLayers.Layer.GML('Districts', '/gyla/events/districts', {
+    layer = new OpenLayers.Layer.GML('Districts', baseurl + 'events/districts', {
         format: OpenLayers.Format.GeoJSON,
         styleMap: map_styles()/*,
         projection: 'EPSG:900913'*/
