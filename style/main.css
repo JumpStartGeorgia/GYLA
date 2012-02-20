@@ -505,7 +505,7 @@ a.b-block-title:hover{ background: #f0f0f0; }
 .deletelink{ display: block; float: right; color: blue; text-decoration: none; }
 .deletelink:hover{ text-decoration: underline; }
 
-.phonefield{ margin-bottom: 7px; width: 58%; margin-left: 11px; }
+.phonefield{ width: 50%; margin-left: 11px; }
 
 .olPopup { border-radius:10px; }
 
@@ -572,5 +572,7 @@ border-radius: 10px; }
 .document_link{ text-decoration: none; color: #595D82; padding: 6px 7px; float: left; display: block; }
 .document_link:hover{ text-decoration: underline; text-shadow: none !important; }
 
-.document_delete_button{ padding: 6px 5px; cursor: pointer; border: 0px solid white; float: right; font-size: 15px; }
-.document_delete_button:hover { background: #bebebe; color: #000; }
+.document_delete_button, .o_delete_button{ padding: 6px 5px; cursor: pointer; border: 0px solid white; float: right; font-size: 15px; }
+.document_delete_button:hover, .o_delete_button:hover { background: #bebebe; color: #000; }
+
+.o_delete_button{ padding: 7px 5px !important; }

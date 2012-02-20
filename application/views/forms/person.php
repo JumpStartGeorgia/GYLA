@@ -203,27 +203,33 @@ $errors = isset($_SESSION['errors']) ? $_SESSION['errors'] : array();
         </div>
 
         <div class="right_fields">
-            <div style='text-align: right; margin-bottom: 13px;'>
+            <div class="p_values_container" style="margin-bottom: 13px;">
                 <?php
                 if (!empty($phones) AND is_array($phones)):
                     foreach ($phones as $index => $phone):
                         $s = "selected='selected'";
                         ?>
-                        <select name='person_phone_type[]'>
-                            <option <?php ($phone['type'] == "home") AND print($s); ?> value='home'>სახლი</option>
-                            <option <?php ($phone['type'] == "mobile") AND print($s); ?> value='mobile'>მობილური</option>
-                            <option <?php ($phone['type'] == "work") AND print($s); ?> value='work'>სამსახური</option>
-                        </select>
-                        <input type="text" name="person_phone_number[]" class="text_field phonefield"
-                               value="<?php echo $phone['number']; ?>" />
-                           <?php endforeach;
-                       else: ?>
-                    <select name='person_phone_type[]'>
-                        <option value='home'>სახლი</option>
-                        <option value='mobile'>მობილური</option>
-                        <option value='work'>სამსახური</option>
-                    </select>
-                    <input type="text" name="person_phone_number[]" class="text_field phonefield" />
+                        <div class="document_box group" style="border: 0 none;">
+			    <select name='person_phone_type[]'>
+				<option <?php ($phone['type'] == "home") AND print($s); ?> value='home'>სახლი</option>
+				<option <?php ($phone['type'] == "mobile") AND print($s); ?> value='mobile'>მობილური</option>
+				<option <?php ($phone['type'] == "work") AND print($s); ?> value='work'>სამსახური</option>
+			    </select>
+			    <input type="text" name="person_phone_number[]" class="text_field phonefield"
+				   value="<?php echo $phone['number']; ?>" />
+			    <div class="o_delete_button">⨯</div>
+                        </div>
+                    <?php endforeach;
+                else: ?>
+		    <div class="document_box group" style="border: 0 none;">
+			<select name='person_phone_type[]'>
+			    <option value='home'>სახლი</option>
+			    <option value='mobile'>მობილური</option>
+			    <option value='work'>სამსახური</option>
+			</select>
+			<input type="text" name="person_phone_number[]" class="text_field phonefield" />
+			<div class="o_delete_button">⨯</div>
+		    </div>
                 <?php endif; ?>
             </div>
             <span style='cursor:pointer;' id='another_phone'>+ტელეფონის დამატება</span>
@@ -246,39 +252,41 @@ $errors = isset($_SESSION['errors']) ? $_SESSION['errors'] : array();
             <label for="peducation">განათლება: </label>
         </div>
 
-        <div class="right_fields" style='width: 480px; text-align: right;'>
-				<?php /* წლები სკოლაში:
+        <div class="right_fields" style="width: 500px;">
+	    <?php /*
+	    წლები სკოლაში:
             <input type="text" name="person_years_in_school" class="text_field" style='margin-left:30px;'
-                   value="<?php echo $person['years_in_school']; ?>" id="peducation" /> */ ?>
-            <br /><br />ხარისხი: <br /><br />
-            <div id='fromto' style="display: inline;">
+                   value="<?php echo $person['years_in_school']; ?>" id="peducation" />
+            */ ?>
+            <span style="display: block; width: 100%; text-align: right;">ხარისხი:</span>
+            <div id="fromto" style="display: block; margin: 15px 0px 20px;">
                 <?php
                 if (!empty($degrees) AND is_array($degrees) AND count($degrees) > 0):
                     foreach ($degrees as $index => $degree):
-                        ($index == 0) OR print("<br />");
                         $ds1 = ($degree['degree'] == 'bachelor') ? "selected='selected'" : NULL;
                         $ds2 = ($degree['degree'] == 'llm') ? "selected='selected'" : NULL;
                         $ds3 = ($degree['degree'] == 'phd') ? "selected='selected'" : NULL;
-                        echo "
-				<select name='person_education_degree[]'>
-					<option value='null' selected='selected' disabled>None</option>
-					<option " . $ds1 . " value='bachelor'>ბაკალავრი  (B.A.)</option>
-					<option " . $ds2 . " value='llm'>მაგისტრი     (LL.M.)</option>
-					<option " . $ds3 . " value='phd'>დოქტორი    (Ph.D.)</option>
+                        echo '
+			    <div class="document_box group" style="border: 0 none; margin-bottom: 10px;">
+				<select name="person_education_degree[]">
+					<option value="null" selected="selected" disabled>None</option>
+					<option ' . $ds1 . ' value="bachelor">ბაკალავრი  (B.A.)</option>
+					<option ' . $ds2 . ' value="llm">მაგისტრი     (LL.M.)</option>
+					<option ' . $ds3 . ' value="phd">დოქტორი    (Ph.D.)</option>
 				</select> &nbsp;&nbsp;&nbsp;
-
 				საიდან:
-				<input type='text' class='text_field datepicker' name='person_education_degree_from[]'
-					style='width:73px;' value='" . $degree['from'] . "' />&nbsp;&nbsp;
+				<input type="text" class="text_field datepicker" name="person_education_degree_from[]"
+					style="width: 73px;" value="' . $degree['from'] . '" />&nbsp;&nbsp;
 				სადამდე:
-				<input type='text' class='text_field datepicker' name='person_education_degree_to[]'
-				       style='width:73px;' value='" . $degree['to'] . "' /><br/>
-			    ";
+				<input type="text" class="text_field datepicker" name="person_education_degree_to[]"
+				       style="width: 73px;" value="' . $degree['to'] . '" />
+				<div class="o_delete_button">⨯</div>
+			    </div>
+			    ';
                     endforeach;
                 endif; ?>
             </div>
-            <br /><br />
-            <span style='cursor:pointer;' onclick='another_degree();'>+ხარისხის დამატება</span>
+            <span style="cursor: pointer; float:right;" onclick="another_degree();">+ხარისხის დამატება</span>
         </div>
     </div>
 
@@ -402,39 +410,28 @@ $errors = isset($_SESSION['errors']) ? $_SESSION['errors'] : array();
             <label for="pphone">აქტივობის თარიღები: </label>
         </div>
 
-        <div class="right_fields" style='width: 500px; text-align: center;'>
-            <div style='text-align: right; margin-bottom: 13px;'>
-                <?php
-                if (!empty($affiliation) AND is_array($affiliation)):
+        <div class="right_fields" style="width: 490px;">
+            <div class="p_aff_container" style="margin: 13px 0px;">
+                <?php if (!empty($affiliation) AND is_array($affiliation)):
                     foreach ($affiliation as $index => $aff):
-                        $s = "selected='selected'";
-                        ?>
-                        <select name='person_affiliation_type[]'>
-                            <option <?php ($aff['type'] == "staff") AND print($s); ?> value='staff'>წევრი</option>
-                            <option <?php ($aff['type'] == "organisation") AND print($s); ?> value='organisation'>თანამშრომელი</option>
-                        </select>&nbsp;&nbsp;&nbsp;
-                				საიდან:
-                        <input type="text" name="person_affiliation_from[]" class="text_field datepicker_max"
-                               style='width:75px;margin-right:11px;margin-bottom:7px;' value='<?php echo $aff['from'] ?>' />
-                				სადამდე:
-                        <input type="text" name="person_affiliation_to[]" class="text_field datepicker_max" style="width: 75px"
-                               value='<?php echo $aff['to'] ?>' />
-                           <?php endforeach;
-                       else: ?>
-                    <select name='person_affiliation_type[]'>
-                        <option value='staff'>წევრი</option>
-                        <option value='organisation'>თანამშრომელი</option>
-                    </select>&nbsp;&nbsp;&nbsp;
-        				საიდან:
-                    <input type="text" name="person_affiliation_from[]" class="text_field datepicker_max"
-                           style='width: 75px; margin-right: 11px; margin-bottom: 7px;' />
-        				სადამდე:
-                    <input type="text" name="person_affiliation_to[]" class="text_field datepicker_max" style="width: 75px;" />
-                <?php endif; ?>
+                        $s = "selected='selected'"; ?>
+			<div class="document_box group" style="border: 0 none; margin-bottom: 10px;">
+			    <select name='person_affiliation_type[]'>
+				<option <?php ($aff['type'] == "staff") AND print($s); ?> value='staff'>წევრი</option>
+				<option <?php ($aff['type'] == "organisation") AND print($s); ?> value='organisation'>თანამშრომელი</option>
+			    </select>&nbsp;&nbsp;&nbsp;
+			    საიდან:
+			    <input type="text" name="person_affiliation_from[]" class="text_field datepicker_max"
+				   style="width: 75px; margin-right: 11px;" value="<?php echo $aff['from'] ?>" />
+			    სადამდე:
+			    <input type="text" name="person_affiliation_to[]" class="text_field datepicker_max" style="width: 75px"
+				   value="<?php echo $aff['to'] ?>" />
+			    <div class="o_delete_button">⨯</div>
+			</div>
+		    <?php endforeach;
+                endif; ?>
             </div>
-            <span style='cursor: pointer; display: inline-block; float:right;' id='another_affiliation'>
-			    	+დამატება&nbsp;
-            </span>
+            <span style="cursor: pointer; display: inline-block; float:right;" id="another_affiliation">+დამატება&nbsp;</span>
         </div>
     </div>
 

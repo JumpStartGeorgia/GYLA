@@ -364,53 +364,68 @@ function get_offices(person_id)
 
 function another_degree()
 {
-    addcode = '<br />' +
-    '<select name="person_education_degree[]">' +
-    '<option value="null" selected="selected" disabled>None</option>' +
-    '<option value="bachelor">ბაკალავრი  (B.A.)</option>' +
-    '<option value="llm">მაგისტრი     (LL.M.)</option>' +
-    '<option value="phd">დოქტორი    (Ph.D.)</option>' +
-    '</select> &nbsp;&nbsp;&nbsp; ' +
-    'საიდან: ' +
-    '<input type="text" class="text_field datepicker" ' +
-    'name="person_education_degree_from[]" style="width:73px;" />&nbsp;&nbsp; ' +
-    'სადამდე: ' +
-    '<input type="text" class="text_field datepicker" ' +
-    'name="person_education_degree_to[]" style="width:73px;" /><br />';
+    addcode = '<div class="document_box group" style="border: 0 none; margin-bottom: 10px;">' +
+        "<select name='person_education_degree[]'>" +
+        '<option value="null" selected="selected" disabled>None</option>' +
+        '<option value="bachelor">ბაკალავრი  (B.A.)</option>' +
+        '<option value="llm">მაგისტრი     (LL.M.)</option>' +
+        '<option value="phd">დოქტორი    (Ph.D.)</option>' +
+        '</select> &nbsp;&nbsp;&nbsp; ' +
+        "საიდან: " +
+        '<input type="text" class="text_field datepicker" name="person_education_degree_from[]" style="width: 73px;" /> ' +
+        "&nbsp;&nbsp;სადამდე: " + 
+        '<input type="text" class="text_field datepicker" name="person_education_degree_to[]" style="width: 73px !important;" />' +
+        '<div class="o_delete_button">⨯</div>' +
+        "</div>";
 
-    $("#fromto").css("display", "inline").append(addcode);
+    $("#fromto").append(addcode);
+    $('.o_delete_button').unbind('click', o_delete_handler).click(o_delete_handler);
 
     datepicker_init();
 }
 
-
-
-
+function o_delete_handler()
+{
+    var check = confirm('დარწმუნებული ხართ?');
+    if (!check)
+    {
+	return;
+    }
+    $(this).parent().remove();
+}
 
 
 $(function(){
+
     $('#another_phone').click(function(){
-        var html = "<select name='person_phone_type[]'>" +
+        var html = '<div class="document_box group" style="border: 0 none;">' +
+        "<select name='person_phone_type[]'>" +
         "<option value='home'>სახლი</option>" +
         "<option value='mobile'>მობილური</option>" +
         "<option value='work'>სამსახური</option>" +
         "</select> " +
-        "<input type='text' name='person_phone_number[]' class='text_field phonefield' id='pphone' />";
-        $(this).parent().find('div').append(html);
+        '<input type="text" name="person_phone_number[]" class="text_field phonefield" />' +
+        '<div class="o_delete_button">⨯</div>' +
+        '</div>';
+        $(this).parent().find('.p_values_container').append(html);
+        $('.o_delete_button').unbind('click', o_delete_handler).click(o_delete_handler);
     });
 
     $('#another_affiliation').click(function(){
-        var html = "" +
-        "<select name='person_affiliation_type[]'>" +
-        "<option value='staff'>წევრი</option>" +
-        "<option value='organisation'>თანამშრომელი</option>" +
-        "</select>&nbsp;&nbsp;&nbsp; " +
-        "საიდან: " +
-        "<input type='text' name='person_affiliation_from[]' class='text_field datepicker_max'" +
-        "style='width: 75px; margin-right: 11px; margin-bottom: 7px;' />" +
-        " სადამდე: " +
-        "<input type='text' name='person_affiliation_to[]' class='text_field datepicker_max' style='width: 75px' />";
-        $(this).parent().find('div').append(html);
+        var html = '<div class="document_box group" style="border: 0 none; margin-bottom: 10px;">' +
+        '<select name="person_affiliation_type[]">' +
+        '<option value="staff">წევრი</option>' +
+        '<option value="organisation">თანამშრომელი</option>' +
+        '</select>&nbsp;&nbsp;&nbsp; ' +
+        'საიდან: ' +
+        '<input type="text" name="person_affiliation_from[]" class="text_field datepicker_max" ' +
+        'style="width: 75px; margin-right: 11px;" /> ' +
+        'სადამდე: ' +
+        '<input type="text" name="person_affiliation_to[]" class="text_field datepicker_max" style="width: 75px" />' +
+        '<div class="o_delete_button">⨯</div>' +
+        '</div>';
+        $(this).parent().find('.p_aff_container').append(html);
+        $('.o_delete_button').unbind('click', o_delete_handler).click(o_delete_handler);
         datepicker_init();
     });
 
@@ -778,6 +793,8 @@ $(function(){
 	    }
 	});
     });
+
+    $('.o_delete_button').click(o_delete_handler);
 
     function document_new()
     {
