@@ -809,7 +809,11 @@ class Controller_People extends Controller_Application
 	if (isset($_searchData['person_tel']) and !empty($_searchData['person_tel']))
 	{
 	    $sql .= " inner join phones on phones.person_id = people.id ";
-	    $sql .= empty($_SSQL) ? ' where number like \'%' . $_searchData['person_tel'] . '%\' ' : ' WHERE ' . $_SSQL . ' and number like \'%' . $_searchData['person_tel'] . '%\' ';
+	    $sql .= empty($_SSQL) ? (' where number like \'%' . $_searchData['person_tel'] . '%\' ') : (' WHERE ' . $_SSQL . ' and number like \'%' . $_searchData['person_tel'] . '%\' ');
+	}
+	else
+	{
+	    $sql .= ' where  ' . $_SSQL;
 	}
     	$sql .= ";";
     	$DBData = $this->db->query(Database::SELECT,$sql)->as_array();
