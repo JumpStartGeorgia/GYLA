@@ -356,10 +356,10 @@ class Controller_People extends Controller_Application
 
             (!isset($_POST['person_affiliation_type']) OR empty($_POST['person_affiliation_type']))
                     AND $_POST['person_affiliation_type'] = NULL;
-            (!isset($_POST['person_affiliation_from[]']) OR empty($_POST['person_affiliation_from[]']))
-                    AND $_POST['person_affiliation_from[]'] = NULL;
-            (!isset($_POST['person_affiliation_to[]']) OR empty($_POST['person_affiliation_to[]']))
-                    AND $_POST['person_affiliation_to[]'] = NULL;
+            (!isset($_POST['person_affiliation_from']) OR empty($_POST['person_affiliation_from']))
+                    AND $_POST['person_affiliation_from'] = NULL;
+            (!isset($_POST['person_affiliation_to']) OR empty($_POST['person_affiliation_to']))
+                    AND $_POST['person_affiliation_to'] = NULL;
             $this->insert_affiliation(
                     $last_id, $_POST['person_affiliation_type'], $_POST['person_affiliation_from'], $_POST['person_affiliation_to']
             );
