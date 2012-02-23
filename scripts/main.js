@@ -790,7 +790,9 @@ $(function(){
     {
 	var parent = $(this).parent();
 	parent.find('div').show(0).click(function(){ $(this).parent().remove(); });
-	parent.parent().append($(this).parent().clone());
+	clone = $(this).parent().clone();
+	clone.html(clone.html());
+	parent.parent().append(clone);
 	added = parent.parent().find('div:last-child > input')
 	added.change(document_new);
 	added.parent().find('div').hide(0).click(function(){ $(this).parent().remove(); });
