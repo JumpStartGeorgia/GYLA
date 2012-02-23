@@ -63,6 +63,7 @@ class Controller_Events extends Controller_Application
         $this->template->content = View::factory('events');
         $this->template->content->events = $e;
         $this->template->content->allow_edit = $this->check_access('events', 'edit', FALSE);
+        $this->template->content->allow_delete = $this->check_access('events', 'delete', FALSE);
     }
 
     public function action_view()
@@ -79,6 +80,7 @@ class Controller_Events extends Controller_Application
         $this->template->content = View::factory('event');
         $this->template->content->event = $event[0];
         $this->template->content->allow_edit = $this->check_access('events', 'edit', FALSE);
+        $this->template->content->allow_delete = $this->check_access('events', 'delete', FALSE);
     }
 
     public function action_calendar()
@@ -205,6 +207,14 @@ class Controller_Events extends Controller_Application
         $this->request->redirect(URL::site('events/view/' . $id));
         die('redirect');
         //}
+    }
+
+    public function action_delete()
+    {
+	$id = $this->request->param('id');
+	empty($id) and $this->request->redirect('events');
+	DB::delete('events')->where('id', '=', $id)->execute();
+	$this->request->redirect('events');
     }
 
     public function action_map()
@@ -515,7 +525,6 @@ class Controller_Events extends Controller_Application
                     ->execute();
         }
     }
-
 
     /*public function action_tbilisi()
     {

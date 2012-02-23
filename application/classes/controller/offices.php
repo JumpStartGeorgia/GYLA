@@ -28,6 +28,7 @@ class Controller_offices extends Controller_Application
         $this->template->content = View::factory('offices');
         $this->template->content->offices = $e;
         $this->template->content->allow_edit = $this->check_access('offices', 'edit', FALSE);
+        $this->template->content->allow_delete = $this->check_access('offices', 'delete', FALSE);
     }
 
     public function action_create()
@@ -124,6 +125,14 @@ class Controller_offices extends Controller_Application
                 ->where('id', '=', $this->request->param('id'))
                 ->execute();
          $this->request->redirect(URL::site('offices'));
+    }
+
+    public function action_delete()
+    {
+	$id = $this->request->param('id');
+	empty($id) and $this->request->redirect('offices');
+	DB::delete('offices')->where('id', '=', $id)->execute();
+	$this->request->redirect('offices');
     }
 
 }

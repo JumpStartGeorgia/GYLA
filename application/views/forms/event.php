@@ -73,7 +73,7 @@
 
 			<div class="right_fields">
 				<input type="text" id="datepicker1" class="text_field datepicker" name="event_start_at_date"
-				      value="<?php echo substr($event['start_at'], 0, 10); ?>" style='width: 150px;margin-right:85px;' />
+				      value="<?php echo substr($event['start_at'], 0, 10); ?>" style="width: 150px; margin-right:80px;" />
 				<select name="event_start_at_hour">
 				<?php
 				    $j = 0;
@@ -100,7 +100,7 @@
 
 			<div class="right_fields">
 				<input type="text" id="datepicker2" class="text_field datepicker" name="event_end_at_date"
-					value="<?php echo substr($event['end_at'], 0, 10); ?>" style='width: 150px;margin-right:85px;' />
+					value="<?php echo substr($event['end_at'], 0, 10); ?>" style="width: 150px; margin-right:80px;" />
 				<select name="event_end_at_hour">
 				<?php
 				    $j = 0;

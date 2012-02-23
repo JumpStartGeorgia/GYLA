@@ -7,14 +7,15 @@
     foreach($offices as $index => $office):
 
 	$edit_button = $allow_edit ? "<a href='" . URL::site('offices/edit/' . $office['id']) . "' class='edit_button'>შეცვლა</a>" : NULL;
+	$del_button = $allow_delete ? "<a style='margin-left: 7px;' onclick='return confirm(\"დარწმუნებული ხართ?\")' href='" . URL::site('offices/delete/' . $office['id']) . "' class='edit_button'>წაშლა</a>" : NULL;
 
 	$nbmp = ($index == $num) ? ' style="border: 0; margin: 0;"' : NULL;
 ?>
 	<div class="b-block group"<?php echo $nbmp ?> style="border-bottom: 0px; margin-bottom: 37px;">
 
-	    <div class="b-block-header group">
+	    <div class="b-block-header group" style="text-align: left;">
 		<div class="b-block-title"><?php echo $office['office_name'] ?></div>
-		   <?php echo $edit_button; ?>
+		   <?php echo $del_button . $edit_button; ?>
 	    </div>
 
 		

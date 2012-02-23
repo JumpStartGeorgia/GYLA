@@ -475,7 +475,7 @@ border-top-right-radius: 10px;
 .b-block{ border-bottom: 1px dotted #ccc; margin-bottom: 20px; line-height: 19px; }
 .b-block-header{ font-size: 15px; width:100%; padding-left:16px; text-align: center; margin: 0px auto 0px auto; }
 .b-block-title{ display: inline-block; border: 1px solid #ccc; min-width: 200px; background: #fff; -webkit-border-radius: 5px;
-                -moz-border-radius: 5px; border-radius: 5px; padding: 1px; }
+                -moz-border-radius: 5px; border-radius: 5px; padding: 1px; text-align: center; }
 a.b-block-title{ color: #343673; text-decoration: none; display: inline-block; margin-bottom: 15px; }
 a.b-block-title:hover{ background: #f0f0f0; }
 .b-block-left{ color: #595D82; width: 241px; float: left; text-align: right; padding-right: 7px;  padding-bottom: 6px; }

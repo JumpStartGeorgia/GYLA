@@ -14,14 +14,15 @@
 
     foreach($events as $index => $event):
 	$edit_button = $allow_edit ? "<a href='" . URL::site('events/edit/' . $event['id']) . "' class='edit_button'>შეცვლა</a>" : NULL;
+	$del_button = $allow_delete ? "<a style='margin-left: 7px;' onclick='return confirm(\"დარწმუნებული ხართ?\")' href='" . URL::site('events/delete/' . $event['id']) . "' class='edit_button'>წაშლა</a>" : NULL;
 
 	$nbmp = ($index == $num) ? " style='border: 0; margin-bottom: 0; padding-bottom: 0;'" : NULL;
 ?>
-	<a name='event<?php echo $event['id'] ?>'></a>
+	<a name="event<?php echo $event['id'] ?>"></a>
 	<div class="b-block group"<?php echo $nbmp ?> style="border-bottom: 0px; margin-bottom: 35px;">
-	    <div class="b-block-header group">
-		    <a class='b-block-title' href="<?php echo URL::site('events/view/' . $event['id']); ?>"><?php echo $event['name']; ?></a>
-		    <?php echo $edit_button; /*?>
+	    <div class="b-block-header group" style="text-align: left;">
+		    <a class="b-block-title" href="<?php echo URL::site('events/view/' . $event['id']); ?>"><?php echo $event['name']; ?></a>
+		    <?php echo $del_button . $edit_button; /*?>
 		    <a class='edit_button' href='<?php echo URL::site() ?>' onclick='return confirm("დარწმუნებული ხართ?")'>წაშლა</a>*/ ?>
 	    </div>
 

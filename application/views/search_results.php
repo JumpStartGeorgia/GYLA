@@ -35,7 +35,7 @@
 
 		$nbmp = ($index == $num) ? " style='border: 0; margin: 0; '" : NULL;
 
-		$link_to_event = URL::site('events/index/#event' . $event['id']);
+		$link_to_event = URL::site('events/view/' . $event['id']);
 		echo "
 			<a href='" . $link_to_event . "' class='search_result'".$nbmp.">" . $event['name'] . "</a>
 		";
