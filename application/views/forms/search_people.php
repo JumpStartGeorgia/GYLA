@@ -70,15 +70,15 @@
 					</select>
 			</div>
 		</div>
-		<div class="box-devider"></div>
-		<div style="padding-bottom: 5px;">
-		<input type="submit" value="ძებნა" id="person_search" <?php if ( (isset($_POST) and !empty($_POST) and count($_POST)>0) ): ?> class="person_search_made group" />
-			<button class="group" id="person_search_save">შენახვა</button>
-			<?php else: ?>
-				class="person_search group" />
-			<?php endif; ?>
+		<div class="box-devider group"></div>
+		<?php $made = (!empty($_POST) and count($_POST) > 0); ?>
+		<div id="search_buttons" <?php $made and print 'style="margin-left: 110px;"'; ?>>
+		<input type="submit" value="ძებნა" id="person_search" class="group person_search" />
+		<?php if ($made): ?>
+		    <button class="group" id="person_search_save">შენახვა</button>
+		<?php endif; ?>
 		<?php if ( !empty($saved_search) ): ?>
-			<select id="person_saved_search"></select>
+		    <select id="person_saved_search"></select>
 		<?php endif; ?>
 		</div>
 	</form>

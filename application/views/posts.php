@@ -4,7 +4,7 @@
     <a id="filter_video"></a>
     <a id="filter_document"></a>
 </div>
-<div id="new_post" class="group post_text">
+<div id="new_post" class="post_text group">
     <?php
     foreach ($forms as $form)
         echo $form;

@@ -130,15 +130,15 @@ div.comments
 
 div#new_post
 {
-    display:none;
-    margin-left:auto;
-    margin-right:auto;
-    color:#414350;
+    display: none;
+    margin: 0px auto;
+    color: #414350;
+    height: auto;
 }
 
 #text_form, #video_form, #photo_form, #document_form
 {
-    display:none;
+    display: none;
 }
 
 #new_post_submit, .new_post_submit, .comment_submit

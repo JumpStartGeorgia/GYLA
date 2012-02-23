@@ -47,15 +47,18 @@ class Controller_People extends Controller_Application
     public function action_index()
     {
         $this->check_access('people', 'view_all');
-        $sql = DB::select('people.*')->from('people')->order_by('first_name');
-        $people = $this->db->query(Database::SELECT, $sql)->as_array();
-
+        $people = DB::select('people.*')->from('people')->order_by('first_name')->execute()->as_array();
         $this->template->content = View::factory('people');
-        $this->template->content->search_form = View::factory('forms/search_people');
-        $sql = DB::select('*')->from('offices')->order_by('id');
-        $this->template->content->search_form->offices = $this->db->query(Database::SELECT, $sql)->as_array();
-        $sql = DB::select('*')->from('saved_search');
-	$this->template->content->search_form->saved_search = $this->db->query(Database::SELECT,$sql)->as_array();
+        if ($this->check_access('people', 'search', FALSE))
+        {
+            $this->template->content->search_form = View::factory('forms/search_people');
+            $this->template->content->search_form->offices = DB::select('*')->from('offices')->order_by('id')->execute()->as_array();
+	    $this->template->content->search_form->saved_search = DB::select('*')->from('saved_search')->execute()->as_array();
+	}
+	else
+	{
+	    $this->template->content->search_form = NULL;
+	}
         $this->template->content->people = $people;
         $this->template->content->allow_transactions = 
         $this->template->content->allow_perm = $this->check_access('admin', 'management', FALSE);
@@ -740,202 +743,74 @@ class Controller_People extends Controller_Application
         
     }
 
-    /*public function action_search()
-    {
-        $this->check_access('people', 'search');
-
-
-        $build = $this->request->param('id');
-
-        if (!isset($_POST['people']) && empty($build))
-        {
-            $this->template->content = View::factory('forms/people_search');
-            unset($_SESSION['people']);
-            return;
-        }
-        elseif (isset($_POST['people']) && empty($build))
-        {
-            $action = "people/search/" . base64_encode(serialize($_SESSION['people']));
-            $action = URL::site($action);
-            $this->request->redirect($action);
-        }
-        else
-        {
-            $params = unserialize(base64_decode($build));
-            //print_r($params);die;
-
-            $activity_params = array('org_leave_date', 'org_enter_date', 'gyla_leave_date', 'gyla_enter_date');
-            $phone_params = array();
-            $aff_params = array();
-            $aff_joined = FALSE;
-            $phone_joined = FALSE;
-
-            $query = DB::select('people.*')->from('people')->distinct(TRUE);
-            foreach ($params AS $index => $param)
-            {
-                switch ($param['method'])
-                {
-                    case 'equals_to':
-                        $cond = ' = ';
-                        break;
-                    case 'does_not_equal_to':
-                        $cond = ' != ';
-                        break;
-                    case 'like':
-                        $cond = ' LIKE ';
-                        break;
-                    case 'not_like':
-                        $cond = ' NOT LIKE ';
-                        break;
-                    case 'greater_than':
-                        $cond = ' > ';
-                        break;
-                    case 'less_than':
-                        $cond = ' < ';
-                        break;
-                }
-                $params[$index]['method'] = trim($cond);
-
-                $is_like = in_array($param['method'], array('like', 'not like'));
-                $value = ($is_like ? '%' : NULL)
-                        . (string) $param['value']
-                        . ($is_like ? '%' : NULL);
-                $params[$index]['value'] = $value;
-
-                if ($param['parameter'] == "phone")
-                {
-                    /* $phone_joined OR $query = $query->join('phones')->on('phones.person_id', '=', 'people.id');
-                      $query = $query->where('phones.number', trim($cond), $value); *\/
-                    $phone_params[] = $params[$index];
-                    $phone_joined = TRUE;
-                }
-                elseif (in_array($param['parameter'], $activity_params))
-                {
-                    /* $type = (substr($param['parameter'], 0, 3) == 'org') ? 'organisation' : 'staff';
-                      $field = (strpos($param['parameter'], 'enter') === FALSE) ? 'to' : 'from';
-
-                      $aff_joined OR $query = $query->join('affiliation_history')
-                      ->on('affiliation_history.person_id', '=', 'people.id')
-                      ->where('affiliation_history.type', '=', 'people.id');
-
-                      $query = $query->where('affiliation_history.type', '=', $type)
-                      ->and_where('affiliation_history.' . $field, trim($cond), $value); *\/
-
-                    $aff_params[] = $params[$index];
-                    $aff_joined = TRUE;
-                }
-                else
-                    $query = $query->where($param['parameter'], trim($cond), $value);
-            }
-
-            $query = $query->execute()->as_array();
-
-            if ($phone_joined)
-                foreach ($query as $index => $person)
-                {
-                    $phone = DB::select()->from('phones');
-                    foreach ($phone_params as $param)
-                        $phone = $phone
-                                ->where('person_id', '=', $person['id'])
-                                ->where('number', $param['method'], $param['value']);
-                    $phone = $phone->execute()->as_array();
-                    if (empty($phone) OR count($phone) == 0)
-                        unset($query[$index]);
-                }
-
-            if ($aff_joined)
-                foreach ($query as $index => $person)
-                {
-                    $aff = DB::select()->from('affiliation_history');
-                    foreach ($aff_params as $param)
-                    {
-                        $type = (strpos($param['parameter'], 'gyla') === FALSE) ? 'organisation' : 'staff';
-                        $field = (strpos($param['parameter'], 'enter') === FALSE) ? 'to' : 'from';
-                        $aff = $aff
-                                ->where('person_id', '=', $person['id'])
-                                ->where('type', '=', $type)
-                                ->where($field, $param['method'], $param['value']);
-                    }
-                    $aff = $aff->execute()->as_array();
-                    if (empty($aff) OR count($aff) == 0)
-                        unset($query[$index]);
-                }
-
-            $this->template->content = View::factory('people');
-            $this->template->content->allow_edit = $this->check_access('people', 'edit', FALSE);
-            $this->template->content->people = !empty($query) ? $query : array();
-            $this->template->content->message = !empty($query) ? FALSE : "ვერაფერი მოიძებნა";
-            $this->template->content->allow_perm = $this->check_access('admin', 'management', FALSE);
-            $this->template->content->allow_edit = $this->check_access('people', 'edit', FALSE);
-            $this->template->content->allow_dele = $this->check_access('people', 'delete', FALSE);
-        }
-    }*/
     
     private function makeSearch($_searchData)
     {
     
     	$_SSQL = array();
     	
-			if ( isset($_searchData['person_status_state']) and !empty($_searchData['person_status_state']) )
-				$_SSQL['person_status_state'] = " member_of LIKE '%staff%' ";
-				
-			if ( isset($_searchData['person_status_organization']) and !empty($_searchData['person_status_organization']) )
-				$_SSQL['person_status_organization'] = " member_of LIKE '%organisation%' ";
-				
-			if  ( isset($_searchData['person_name']) and !empty($_searchData['person_name']) ){
-				$_searchData['person_name'] = trim($_searchData['person_name']);				
-				$tmpName = explode(' ',$_searchData['person_name']);						
-				if ( count($tmpName)>1 )
-					$name = array($tmpName[0],$tmpName[1]);					
-				else $name = array($_searchData['person_name']);
-				
-				$_SSQL['person_name'] = "(";
-					foreach ($name as $index => $value)
-						$_SSQL['person_name'] .= ($index === 0 ? null : " OR ") . "username LIKE '%".$value."%' OR first_name LIKE '%".$value."%' OR last_name LIKE '%".$value."%'";		
-				$_SSQL['person_name'] .= ")";
-								
-			}
-			
-			if ( isset($_searchData['person_date_start']) and !empty($_searchData['person_date_start']) ) {
-				$_searchData['person_date_start'] = trim(strval($_searchData['person_date_start']));
-				$_SSQL['person_date_start'] = " birth_date >= '".$_searchData['person_date_start']."' ";
-			}
-			
-			if ( isset($_searchData['person_date_end']) and !empty($_searchData['person_date_end']) ) {
-				$_searchData['person_date_end'] = trim(strval($_searchData['person_date_end']));
-				$_SSQL['person_date_end'] = " birth_date <= '".$_searchData['person_date_end']."' ";
-			}
-			
-			if ( isset($_searchData['person_private_number']) and !empty($_searchData['person_private_number']) ) {
-				$_searchData['person_private_number'] = strval($_searchData['person_private_number']);
-				$_SSQL['person_private_number'] = " personal_number LIKE '%".$_searchData['person_private_number']."%' ";
-			}
-			
-			if ( isset($_searchData['person_gender']) and !empty($_searchData['person_gender']) and $_searchData['person_gender'] !== 'all' ) {
-				$_searchData['person_gender'] = strval($_searchData['person_gender']);
-				$_SSQL['person_gender'] = " sex = '".$_searchData['person_gender']."' ";
-			}
-			
-			if ( isset($_searchData['person_tel']) and !empty($_searchData['person_tel']) ) {
-				$_searchData['person_tel'] = strval($_searchData['person_tel']);	
-				$_SSQL['person_tel'] = " ( phone LIKE '%".$_searchData['person_tel']."%' OR mobile_phone LIKE '%".$_searchData['person_tel']."%' ) ";
-				
-			}
-			
-			if ( isset($_searchData['person_email']) and !empty($_searchData['person_email']) ) {
-				$_searchData['person_email'] = strval($_searchData['person_email']);
-				$_SSQL['person_email'] = " email LIKE '%".$_searchData['person_email']."%' ";
-				
-			}			
-			
-			if ( isset($_searchData['person_office']) and !empty($_searchData['person_office']) and $_searchData['person_office'] !== 0 ) {
-				$_SSQL['person_office'] = " office_id = '".$_searchData['person_office']."' ";
-			}
+	if ( isset($_searchData['person_status_state']) and !empty($_searchData['person_status_state']) )
+		$_SSQL['person_status_state'] = " member_of LIKE '%staff%' ";
+		
+	if ( isset($_searchData['person_status_organization']) and !empty($_searchData['person_status_organization']) )
+		$_SSQL['person_status_organization'] = " member_of LIKE '%organisation%' ";
+		
+	if  ( isset($_searchData['person_name']) and !empty($_searchData['person_name']) ){
+		$_searchData['person_name'] = trim($_searchData['person_name']);				
+		$tmpName = explode(' ',$_searchData['person_name']);						
+		if ( count($tmpName)>1 )
+			$name = array($tmpName[0],$tmpName[1]);					
+		else $name = array($_searchData['person_name']);
+		
+		$_SSQL['person_name'] = "(";
+			foreach ($name as $index => $value)
+				$_SSQL['person_name'] .= ($index === 0 ? null : " OR ") . "username LIKE '%".$value."%' OR first_name LIKE '%".$value."%' OR last_name LIKE '%".$value."%'";		
+		$_SSQL['person_name'] .= ")";
+						
+	}
+	
+	if ( isset($_searchData['person_date_start']) and !empty($_searchData['person_date_start']) ) {
+		$_searchData['person_date_start'] = trim(strval($_searchData['person_date_start']));
+		$_SSQL['person_date_start'] = " birth_date >= '".$_searchData['person_date_start']."' ";
+	}
+	
+	if ( isset($_searchData['person_date_end']) and !empty($_searchData['person_date_end']) ) {
+		$_searchData['person_date_end'] = trim(strval($_searchData['person_date_end']));
+		$_SSQL['person_date_end'] = " birth_date <= '".$_searchData['person_date_end']."' ";
+	}
+	
+	if ( isset($_searchData['person_private_number']) and !empty($_searchData['person_private_number']) ) {
+		$_searchData['person_private_number'] = strval($_searchData['person_private_number']);
+		$_SSQL['person_private_number'] = " personal_number LIKE '%".$_searchData['person_private_number']."%' ";
+	}
+	
+	if ( isset($_searchData['person_gender']) and !empty($_searchData['person_gender']) and $_searchData['person_gender'] !== 'all' ) {
+		$_searchData['person_gender'] = strval($_searchData['person_gender']);
+		$_SSQL['person_gender'] = " sex = '".$_searchData['person_gender']."' ";
+	}
+	
+	/*if ( isset($_searchData['person_tel']) and !empty($_searchData['person_tel']) ) {
+		$_searchData['person_tel'] = strval($_searchData['person_tel']);	
+		$_SSQL['person_tel'] = " ( phone LIKE '%".$_searchData['person_tel']."%' OR mobile_phone LIKE '%".$_searchData['person_tel']."%' ) ";
+	}*/
+	
+	if ( isset($_searchData['person_email']) and !empty($_searchData['person_email']) ) {
+		$_searchData['person_email'] = strval($_searchData['person_email']);
+		$_SSQL['person_email'] = " email LIKE '%".$_searchData['person_email']."%' ";
+		
+	}			
+	
+	if ( isset($_searchData['person_office']) and !empty($_searchData['person_office']) and $_searchData['person_office'] !== 0 ) {
+		$_SSQL['person_office'] = " office_id = '".$_searchData['person_office']."' ";
+	}
 			
     	$_SSQL = implode(' AND ',$_SSQL);
     	$sql = "SELECT * from people ";
-    		if ( !empty($_SSQL) )
-    			$sql .= "WHERE". $_SSQL;
+	if (isset($_searchData['person_tel']) and !empty($_searchData['person_tel']))
+	{
+	    $sql .= " inner join phones on phones.person_id = people.id ";
+	    $sql .= empty($_SSQL) ? ' where number like \'%' . $_searchData['person_tel'] . '%\' ' : ' WHERE ' . $_SSQL . ' and number like \'%' . $_searchData['person_tel'] . '%\' ';
+	}
     	$sql .= ";";
     	$DBData = $this->db->query(Database::SELECT,$sql)->as_array();
     	
@@ -978,19 +853,19 @@ class Controller_People extends Controller_Application
     {
 	$this->check_access('people', 'search');
     	$this->template->content = View::factory('people');
-    	if ( isset($_GET['id']) && !empty($_GET['id']) )
+    	if (isset($_GET['id']) && !empty($_GET['id']))
     	{
-    		$sql = DB::select('saved_search.code')
-    					->from('saved_search')
-    					->where('id','=',$_GET['id']);    		
-    		$saved_search = $this->db->query(Database::SELECT,$sql)->as_array();
-    		$saved_search = unserialize(base64_decode($saved_search[0]['code']));    		    		
-    		$this->makeSearch($saved_search);
+	    $sql = DB::select('saved_search.code')
+    		   ->from('saved_search')
+    		   ->where('id','=',$_GET['id']);    		
+	    $saved_search = $this->db->query(Database::SELECT,$sql)->as_array();
+	    $saved_search = unserialize(base64_decode($saved_search[0]['code']));    		    		
+	    $this->makeSearch($saved_search);
     	}
-    	else{
-    		$this->makeSearch($_POST);    		
-    	}	
-   
+    	elseif (isset($_POST) and !empty($_POST))
+	{
+	    $this->makeSearch($_POST);
+	}
     }
     
     public function action_list_saved_search()

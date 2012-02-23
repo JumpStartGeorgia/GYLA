@@ -29,6 +29,7 @@ $(function(){
 });
 
 
+/*
 var Filters =
 {
     ImagesPath: 'images/images/filters/',
@@ -79,6 +80,7 @@ var Filters =
         );
     }
 };
+*/
 
 
 var selectID = function (theID)
@@ -101,9 +103,8 @@ $(function()
     document_form = $('#document_form'),
     imagef = "images/images/filters/",
     now = false;
-
-
-
+    
+    /*
     if ( ( selectID('filter_text') &&
         selectID('filter_photo') &&
         selectID('filter_video')  &&
@@ -113,6 +114,7 @@ $(function()
         Filters.GetHandlers();
         Filters.EventUp();
     }
+    */
 
     $('.delete_comment').live('click', function(){
         var comment_id = $(this).attr('id'),
@@ -137,12 +139,12 @@ $(function()
         });
     });
 
-    function changebg(which, fromwhich)
+    /*function changebg(which, fromwhich)
     {
         if(fromwhich)
             $('#filter_' + fromwhich).css("background-image", "url(" + imagef + fromwhich + ".png)");
         $('#filter_' + which).css("background-image", "url(" + imagef + which + "-hover.png)");
-    }
+    }*/
     function showform(which, fromwhich)
     {
         if(fromwhich)
@@ -153,20 +155,17 @@ $(function()
     text.click(function(){
         if(forms.is(":visible") && text_form.is(":visible"))
         {
-            //text.css("background-image", "url(" + imagef + "text.png)");
             forms.slideToggle('normal');
         }
         else if(forms.is(":visible") && !text_form.is(":visible"))
         {
-            //changebg("text", now);
             showform("text", now);
             now = "text";
         }
         else
         {
-            //text.css("background-image", "url(" + imagef + "text-hover.png)");
-            forms.slideToggle('normal');
             showform("text", now);
+            forms.slideToggle('normal');
             now = "text";
         }
     });
@@ -174,20 +173,17 @@ $(function()
     photo.click(function(){
         if(forms.is(":visible") && photo_form.is(":visible"))
         {
-            //photo.css("background-image", "url(" + imagef + "photo.png)");
             forms.slideToggle('normal');
         }
         else if(forms.is(":visible") && !photo_form.is(":visible"))
         {
-            //changebg("photo", now);
             showform("photo", now);
             now = "photo";
         }
         else
         {
-            //photo.css("background-image", "url(" + imagef + "photo-hover.png)");
-            forms.slideToggle('normal');
             showform("photo", now);
+            forms.slideToggle('normal');
             now = "photo";
         }
     });
@@ -195,20 +191,17 @@ $(function()
     video.click(function(){
         if(forms.is(":visible") && video_form.is(":visible"))
         {
-            //video.css("background-image", "url(" + imagef + "video.png)");
             forms.slideToggle('normal');
         }
         else if(forms.is(":visible") && !video_form.is(":visible"))
         {
-            //changebg("video", now);
             showform("video", now);
             now = "video";
         }
         else
         {
-            //video.css("background-image", "url(" + imagef + "video-hover.png)");
-            forms.slideToggle('normal');
             showform("video", now);
+            forms.slideToggle('normal');
             now = "video";
         }
     });
@@ -216,20 +209,17 @@ $(function()
     document.click(function(){
         if(forms.is(":visible") && document_form.is(":visible"))
         {
-            //document.css("background-image", "url(" + imagef + "document.png)");
             forms.slideToggle('normal');
         }
         else if(forms.is(":visible") && !document_form.is(":visible"))
         {
-            //changebg("document", now);
             showform("document", now);
             now = "document";
         }
         else
         {
-            //document.css("background-image", "url(" + imagef + "document-hover.png)");
-            forms.slideToggle('normal');
             showform("document", now);
+            forms.slideToggle('normal');
             now = "document";
         }
     });

@@ -42,7 +42,7 @@
             <a href="#" id="link_donors">დონორები</a>
             <a href="#" id="link_rules">წესები <span id="rules_symbol">►</span></a> */ ?>
             &copy; საქართველოს ახალგაზრდა იურისტთა ასოციაცია
-            <a href="http://jumpstart.ge/" id="link_jumpstart">&copy; 2011 JumpStart Georgia</a>
+            <a href="http://jumpstart.ge/" target="_blank" id="link_jumpstart">&copy; 2011 JumpStart Georgia</a>
         </div>
 
     </div>

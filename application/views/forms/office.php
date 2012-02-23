@@ -44,7 +44,7 @@
 
 			<div class="right_fields">
 				<input type="text" name="office_manager" class="text_field widefield"
-					id="flast" value="<?php echo implode(' ',array($office['manager_first_name'],$office['manager_last_name'])); ?>" />
+					id="flast" value="<?php echo $office['manager']; ?>" />
 			</div>
 		</div>
 

@@ -36,7 +36,7 @@
 
 .box-devider {
 	display:block;
-	margin:auto;
+	margin:0px auto;
 	border-left:1px dotted #CCCCCC;
 	width:0px;
 	height:inherit;
@@ -128,7 +128,7 @@
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	cursor:pointer;
-	display: inline-block;
+	/*display: inline-block;*/
 }
 
 #person_search:hover,#person_search_save:hover {
@@ -138,25 +138,23 @@
 }
 
 #person_search {
-	margin-top:25px;
+	/*margin-top: 15px;*/
 	
 }
 
-.person_search {
-	margin-left:157px;
-}
-
-.person_search_made {
-	margin-left:53px;
+#search_buttons {
+	margin-left: 167px;
+	padding-bottom: 5px;
+	margin-top: 15px;
 }
 
 #person_search_save {
-	margin-top: 25px;
+	/*margin-top: 25px;*/
 }
 
 #person_saved_search {
-	display:block;
+	/*display:block;*/
 	width:150px;
-	margin-left:270px;
-	margin-top:-20px;
+	/*margin-left:270px;
+	margin-top:-20px;*/
 }

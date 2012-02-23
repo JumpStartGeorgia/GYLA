@@ -5,33 +5,28 @@
 	float: left;
 }
 
-#filter_text, #filter_photo, #filter_video
-{
-	margin-right:11px;
-}
+#filter_text, #filter_photo, #filter_video { margin-right:11px; }
 
-#filter_text
-{
-	background-image: url('../images/images/filters/text.png');
-}
+#filter_text { background-image: url('../images/images/filters/text.png'); }
 
 
-#filter_photo
-{
-	background-image: url('../images/images/filters/photo.png');
-}
+#filter_photo { background-image: url('../images/images/filters/photo.png'); }
 
 
-
-#filter_video
-{
-	background-image: url('../images/images/filters/video.png');
-}
+#filter_video { background-image: url('../images/images/filters/video.png'); }
 
 
+#filter_document { background-image: url('../images/images/filters/document.png'); }
 
-#filter_document
-{
-	background-image: url('../images/images/filters/document.png');
-}
+
+#filter_text:hover { background-image: url('../images/images/filters/text-hover.png'); }
+
+
+#filter_photo:hover { background-image: url('../images/images/filters/photo-hover.png'); }
+
+
+#filter_video:hover { background-image: url('../images/images/filters/video-hover.png'); }
+
+
+#filter_document:hover { background-image: url('../images/images/filters/document-hover.png'); }
 

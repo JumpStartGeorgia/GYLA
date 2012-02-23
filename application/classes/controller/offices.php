@@ -39,8 +39,8 @@ class Controller_offices extends Controller_Application
             'name',
             'district_id',
             'manager',
-            'manager_first_name',
-            'manager_last_name',
+            //'manager_first_name',
+            //'manager_last_name',
             'address',
             'phone',
             'fax',
@@ -53,9 +53,7 @@ class Controller_offices extends Controller_Application
             $_POST['office_district'],
             $_POST['office_manager'],
             /*$_POST['office_first_name'],*/
-            'NULL',
             /*$_POST['office_last_name'],*/
-            'NULL',
             $_POST['office_address'],
             $_POST['office_phone'],
             $_POST['office_fax'],
@@ -79,8 +77,8 @@ class Controller_offices extends Controller_Application
             'user_id' => NULL,
             'district_id' => NULL,
             'manager' => null,
-            'manager_first_name' => NULL,
-            'manager_last_name' => NULL,
+            //'manager_first_name' => NULL,
+            //'manager_last_name' => NULL,
             'address' => NULL,
             'phone' => NULL,
             'fax' => NULL,
@@ -116,8 +114,8 @@ class Controller_offices extends Controller_Application
                     'name' => $_POST['office_name'],
                     'district_id' => $_POST['office_district'],
                     'manager' => $_POST['office_manager'],
-                    /*'manager_first_name' => $_POST['office_first_name'],*/
-                    /*'manager_last_name' => $_POST['office_last_name'],*/
+                    /*'manager_first_name' => $_POST['office_first_name'],
+                    'manager_last_name' => $_POST['office_last_name'],*/
                     'address' => $_POST['office_address'],
                     'phone' => $_POST['office_phone'],
                     'fax' => $_POST['office_fax'],
