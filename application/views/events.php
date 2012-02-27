@@ -14,7 +14,7 @@
 
     foreach($events as $index => $event):
 	$edit_button = $allow_edit ? "<a href='" . URL::site('events/edit/' . $event['id']) . "' class='edit_button'>შეცვლა</a>" : NULL;
-	$del_button = $allow_delete ? "<a style='margin-left: 7px;' onclick='return confirm(\"დარწმუნებული ხართ?\")' href='" . URL::site('events/delete/' . $event['id']) . "' class='edit_button'>წაშლა</a>" : NULL;
+	$del_button = $allow_delete ? "<a style='margin-left: 7px;' href='" . URL::site('events/delete/' . $event['id']) . "' class='edit_button confirmdel'>წაშლა</a>" : NULL;
 
 	$nbmp = ($index == $num) ? " style='border: 0; margin-bottom: 0; padding-bottom: 0;'" : NULL;
 ?>

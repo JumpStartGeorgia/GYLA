@@ -88,6 +88,30 @@ var selectID = function (theID)
     return document.getElementById(theID);
 };
 
+
+function delete_comment()
+{
+    event.preventDefault();
+    var comment_id = $(this).attr('id'),
+    comment_id_parts = comment_id.split('_'),
+    cid = comment_id_parts[1],
+    element = $(this);
+    if (typeof cid == 'undefined')
+    {
+	return false;
+    }
+    $.get(baseurl + 'comment/ajax_delete_comment/' + cid, function(response)
+    {
+	if (response != 'ok')
+	{
+	    return false;
+	}
+	element.parent().parent().fadeOut(function(){
+	    $(this).remove();
+	});
+    });
+}
+
 $(function()
 {
 
@@ -116,28 +140,7 @@ $(function()
     }
     */
 
-    $('.delete_comment').live('click', function(){
-        var comment_id = $(this).attr('id'),
-        comment_id_parts = comment_id.split('_'),
-        cid = comment_id_parts[1],
-        element = $(this);
-        if (typeof cid == 'undefined')
-        {
-            /*alert('failed typeof !!!');*/
-            return FALSE;
-        }
-        $.get(baseurl + 'comment/ajax_delete_comment/' + cid, function(response){
-            if (response != 'ok')
-            {
-                /*alert('failed response !!!');*/
-                return FALSE;
-            }
-            element.parent().parent('.comments_box').fadeOut(function(){
-                $(this).remove();
-            /*element.parent().parent().parent().parent().find('.link_reply').html("ye");*/
-            });
-        });
-    });
+    $('.delete_comment').unbind('click').live('click', delete_comment);
 
     /*function changebg(which, fromwhich)
     {
@@ -315,31 +318,44 @@ function get_comments(post_id)
         'margin-top': 50
     }).show();
 
-    clearTimeout(t);
+    /*clearTimeout(t);
     t = setTimeout(function(){
         $('#comments' + post_id).css({
             'margin-top': 50
-        }).toggle().load(baseurl + 'comment/ajax_read_comments/' + post_id, function(){
-            loader.delay(1000, function(){
+        }).show().load(baseurl + 'comment/ajax_read_comments/' + post_id, function(){
+            loader.delay(0, function(){
                 $(this).hide();
                 $('#comment_form_input' + post_id).focus();
             });
         });
-    }, 200);
+    }, 0);*/
+
+    $('#comments' + post_id).css({
+	'margin-top': 50
+     })
+    .toggle()
+    .load(baseurl + 'comment/ajax_read_comments/' + post_id, function()
+     {
+	loader.toggle();
+	$('#comment_form_input' + post_id).focus();
+     });
 }
 
 function submit_comment(post_id)
 {
-    if($('#comment_form_input' + post_id).val() == "")
+    if ($('#comment_form_input' + post_id).val() == "")
         return false;
 
     $('#comments' + post_id).load(baseurl + "comment/ajax_submit_comment/" + post_id,{
         body: $('#comment_form_input' + post_id).val()
     }, function(){
         $('#comment_form_input' + post_id).focus();
+	$('.delete_comment').unbind('click').live('click', delete_comment);
+    });
+	/*$('#loading-post-' + post_id).hide();
     }).ajaxStart(function(){
         $('#comments' + post_id).html("<center><img src='" + baseurl + "images/images/ajax-loader.gif' /></center>");
-    });
+    });*/
 
     return false;
 }
@@ -800,5 +816,8 @@ $(function(){
     }
 
     $('#pdoc').change(document_new);
+
+
+    $('.confirmdel').click(function(){ return confirm('დარწმუნებული ხართ?'); });
 
 });

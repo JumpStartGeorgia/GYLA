@@ -22,7 +22,7 @@
 			იმეილის მიწერა
 		    </a>
 		<?php else: ?>
-		    <span title="მომხმარებლის ელფოსტა ცარიელია" style="margin-right: 15px;" class="disabled_button">იმეილის მიწერა</span>
+		    <span title="მომხმარებლის ელფოსტა ცარიელია" style="margin-right: 10px;" class="disabled_button">იმეილის მიწერა</span>
 		<?php endif; ?>
 	    </div>
 	</div>

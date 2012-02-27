@@ -89,7 +89,7 @@
                         <?php echo Text::auto_link($post['body']) ?>
                     </div>
 
-                    <?php $delete_button = $allow_delete ? "<a href='" . URL::site('post/delete/' . $post['id']) . "' class='edit_button' style='color: #fff;padding-bottom:2px;'>წაშლა</a>" : NULL; ?>
+                    <?php $delete_button = $allow_delete ? "<a href='" . URL::site('post/delete/' . $post['id']) . "' class='edit_button confirmdel' style='color: #fff; padding-bottom: 2px;'>წაშლა</a>" : NULL; ?>
 
                     <div class='link_comment'><?php echo $delete_button ?></div>
                     <a class="link_reply" onclick="get_comments(<?php echo $post['id'] . ",'" . URL::base() . "'" ?>);">

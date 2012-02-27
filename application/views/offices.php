@@ -7,7 +7,7 @@
     foreach($offices as $index => $office):
 
 	$edit_button = $allow_edit ? "<a href='" . URL::site('offices/edit/' . $office['id']) . "' class='edit_button'>შეცვლა</a>" : NULL;
-	$del_button = $allow_delete ? "<a style='margin-left: 7px;' onclick='return confirm(\"დარწმუნებული ხართ?\")' href='" . URL::site('offices/delete/' . $office['id']) . "' class='edit_button'>წაშლა</a>" : NULL;
+	$del_button = $allow_delete ? "<a style='margin-left: 7px;' href='" . URL::site('offices/delete/' . $office['id']) . "' class='edit_button confirmdel'>წაშლა</a>" : NULL;
 
 	$nbmp = ($index == $num) ? ' style="border: 0; margin: 0;"' : NULL;
 ?>

@@ -46,7 +46,7 @@
 	    </td>
 	    <td style="border-right: 0;<?php echo $nb; ?>"><?php if (!$minus): ?>
 		<a href="<?php echo URL::site('transactions/delete/' . $ta['id'] . '-' . $userid); ?>"
-		   onclick="return confirm(\'Are you sure?\');" class="edit_button">წაშლა</a>
+		   class="edit_button confirmdel">წაშლა</a>
 	    <?php endif; ?></td>
 	</tr>
     <?php
