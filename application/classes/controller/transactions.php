@@ -10,7 +10,10 @@ class Controller_Transactions extends Controller_Application
     public function before()
     {
         parent::before();
-        $this->check_access('admin', 'management');
+        if ($this->request->action() != 'scheduled_email')
+        {
+	    $this->check_access('admin', 'management');
+        }
     }
 
     /*public function action_index()
@@ -112,9 +115,8 @@ class Controller_Transactions extends Controller_Application
 	$this->template->content->balance = $amount - $cutoffs_sum;
     }
 
-    public function action_billing()
+    private function users_with_billing()
     {
-        $this->template->content = View::factory('billing');
 	$users = DB::select(
 		    '*',
 		    array('(SELECT SUM("amount") FROM transactions WHERE user_id = people.id)', 'total_amount'),
@@ -194,8 +196,12 @@ class Controller_Transactions extends Controller_Application
 	    $diff .= '';
 	    $users[$idx]['diff'] = $diff;
 	}
+	return array_values($users);
+    }
 
-	$this->template->content->users = array_values($users);
+    public function action_billing()
+    {
+        $this->template->content = View::factory('billing', array('users' => $this->users_with_billing()));
     }
 
     public function action_create()
@@ -211,11 +217,8 @@ class Controller_Transactions extends Controller_Application
         $this->request->redirect(URL::site('transactions/user/' . $id));
     }
 
-    public function action_email()
+    private function email_reminder($email, $bill)
     {
-        $id = $this->request->param('id');
-	$bill = -(int)$_SESSION['billings'][$id];
-        $email = DB::select('email')->from('people')->where('id', '=', $id)->execute()->get('email');
 	$subject = "[საია] შემხსენებელი";
 	$message = "მოგესალმებით,
  
@@ -231,7 +234,15 @@ class Controller_Transactions extends Controller_Application
 	$headers .= "X-Mailer: PHP". phpversion() ."\r\n";
 	$headers .= "Envelope-to: <" . $from . ">";
 	$headers .= "for " . $from . ";";
-	if (mail($email, $subject, $message, $headers))
+	return mail($email, $subject, $message, $headers);
+    }
+
+    public function action_email()
+    {
+        $id = $this->request->param('id');
+	$bill = -(int)$_SESSION['billings'][$id];
+        $email = DB::select('email')->from('people')->where('id', '=', $id)->execute()->get('email');
+	if (email_reminder($email, $bill))
 	{
 	    $this->template->content = 'წერილი წარმატებით გაიგზავნა.';
 	}
@@ -240,6 +251,24 @@ class Controller_Transactions extends Controller_Application
 	    $this->template->content = 'შეცდომა გაგზავნის დროს.';
 	}
 	$this->template->content .= '<meta http-equiv="refresh" content="2; url=' . URL::site('transactions/billing') . '" />';
+    }
+
+    public function action_scheduled_email()
+    {
+	$text = '';
+        foreach ($this->users_with_billing() as $user)
+        {
+	    $bill = -(int)$user['diff'];
+	    $send = $this->email_reminder($user['email'], $bill);
+	    $name = $user['first_name'] . ' ' . $user['last_name'];
+	    $status = ($send ? 'SENT SUCCESSFULLY' : 'SENDING FAILED');
+	    $text .= "\tUSER(id={$user['id']},email={$user['email']},name={$name},bill={$bill}) REMINDER {$status}\n";
+        }
+	$text = str_repeat('_', 29) . "\n" . date('Y-m-d') . '  (time=' . time() . ")\n" . $text;
+        $path = 'application/logs/scheduled_email.log';
+	$file = file_exists($path) ? $path : getcwd() . '/' . $path;
+	file_put_contents($file, file_get_contents($file) . $text);
+        die;
     }
 
     public function action_delete()
