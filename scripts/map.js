@@ -77,7 +77,7 @@ function map_init()
             content = '';
 	    for (i in events)
 	    {
-		if (typeof(events[i].id) == 'undefined' or events[i].id == null)
+		if (typeof(events[i].id) == 'undefined' || events[i].id == null)
 		{
 		    continue;
 		}
