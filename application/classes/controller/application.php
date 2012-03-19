@@ -72,12 +72,15 @@ class Controller_Application extends Controller_Template
         $this->template->styles = array_merge(array(
             'scripts/ie6mustdie/ie6mustdie.css',
             'fancybox/jquery.fancybox-1.3.4.css',
+         /*
             'style/main.css',
             'style/filters.css',
             'style/search.css',
             'style/post.css',
             'style/panel.css',
             'style/calendar.css',
+         */
+            'style/comb.css',
             'scripts/fancybox/fancybox/jquery.fancybox-1.3.4.css',
             'scripts/ui/css/ui-lightness/jquery-ui-1.8.16.custom.css'
                 ), $this->template->styles);
