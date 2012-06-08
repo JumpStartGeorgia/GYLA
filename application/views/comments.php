@@ -12,7 +12,7 @@
 				<div class='leftbox group' style=\"width: 130px\">
 					<img src='" . URL::base() . "/images/images/user.png' />
 
-					<a href='" . URL::site('user/profile/' . $comment['user_id']) . "' class='userprofilelink'>
+					<a href='" . URL::site('people/view/' . $comment['user_id']) . "' class='userprofilelink'>
 						" . $comment['first_name'] . " " . $comment['last_name'] . "
 					</a><br />
 

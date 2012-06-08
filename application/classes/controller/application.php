@@ -148,8 +148,8 @@ class Controller_Application extends Controller_Template
 			        			
 		}
 		return false;
-	} 	
-	
+	}
+
 	public static function array_clear($array)
 	{
 		$tmp = array();

@@ -7,11 +7,17 @@
         <link rel="icon" href="<?php echo URL::base() ?>favicon.ico">
         <script type='text/javascript'>var baseurl = "<?php echo URL::base() ?>";</script>
         <?php
+        $_SESSION['styles'] = $styles;
+        $_SESSION['scripts'] = $scripts;
+     /*
         foreach ($styles as $file)
             echo "\t" . HTML::style($file), PHP_EOL;
         foreach ($scripts as $file)
             echo "\t" . HTML::script($file), PHP_EOL;
+     */
         ?>
+        <link rel="stylesheet" type="text/css" href="<?php echo URL::site('media/style'); ?>">
+        <script type='text/javascript' src="<?php echo URL::site('media/script'); ?>"></script>
     </head>
     <body>
 
