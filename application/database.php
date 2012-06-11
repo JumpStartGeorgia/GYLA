@@ -8,18 +8,18 @@ switch (Kohana::$environment)
     /*case Kohana::PRODUCTION:
         $db = array(
             'host' => 'localhost',
-            'name' => 'gyla',
-            'user' => 'root',
-            'pass' => 'asdfg',
+            'name' => '',
+            'user' => '',
+            'pass' => '',
             'profiling' => FALSE
         );
         break;*/
     case Kohana::TESTING:
         $db = array(
             'host' => 'localhost',
-            'name' => 'gyla',
-            'user' => 'root',
-            'pass' => 'a1w@d34',
+            'name' => '',
+            'user' => '',
+            'pass' => '',
             'profiling' => TRUE
         );
         break;
@@ -27,9 +27,9 @@ switch (Kohana::$environment)
     default:
         $db = array(
             'host' => 'localhost',
-            'name' => 'gyla',
-            'user' => 'root',
-            'pass' => 'asdfg',
+            'name' => '',
+            'user' => '',
+            'pass' => '',
             'profiling' => TRUE
         );
         break;
