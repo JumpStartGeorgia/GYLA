@@ -8,7 +8,10 @@ class Controller_media extends Controller_Application
     public function action_style()
     {
         header("Content-type: text/css");
-        $styles = $_SESSION['styles'];
+        //empty($_SESSION['styles']) and die(NULL);
+        //$styles = $_SESSION['styles'];
+        $styles = $this->request->param('id');
+        $styles = unserialize(base64_decode($styles));
         $content = '';
         foreach ($styles as $file)
         {
@@ -21,7 +24,10 @@ class Controller_media extends Controller_Application
     public function action_script()
     {
         header("Content-type: text/javascript; charset=utf-8");
-        $scripts = $_SESSION['scripts'];
+        //empty($_SESSION['scripts']) and die(NULL);
+        //$scripts = $_SESSION['scripts'];
+        $scripts = $this->request->param('id');
+        $scripts = unserialize(base64_decode($scripts));
         $content = '';
         foreach ($scripts as $file)
         {

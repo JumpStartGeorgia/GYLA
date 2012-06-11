@@ -3,7 +3,7 @@
     session_start();
     header('Content-Type: text/html; charset=utf-8');
 
-    $connect = mysql_connect('localhost', $_SESSION['db_username'], $_SESSION['db_pwd']) or die(mysql_error());
+    $connect = mysql_connect($_SESSION['db_host'], $_SESSION['db_username'], $_SESSION['db_pwd']) or die(mysql_error());
     $db = mysql_select_db($_SESSION['db_name'], $connect) or die(mysql_error());
     mysql_query("SET NAMES utf8", $connect) or die(mysql_error());
 

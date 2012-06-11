@@ -18,8 +18,8 @@ switch (Kohana::$environment)
         $db = array(
             'host' => 'localhost',
             'name' => 'gyla',
-            'user' => '',
-            'pass' => '',
+            'user' => 'root',
+            'pass' => 'a1w@d34',
             'profiling' => TRUE
         );
         break;

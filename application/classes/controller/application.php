@@ -7,6 +7,7 @@ class Controller_Application extends Controller_Template
 
     protected static $resources = FALSE,
     $acl;
+    public static $media = array();
     public $template = 'layout/default';
     protected $db;
 
@@ -66,8 +67,8 @@ class Controller_Application extends Controller_Template
             //'scripts/common.js',
             'scripts/fancybox/fancybox/jquery.fancybox-1.3.4.pack.js',
             'scripts/main.js',
-            'scripts/search.js',
-            'scripts/load_posts.js'
+            //'scripts/search.js',
+            //'scripts/load_posts.js'
                 ), $this->template->scripts);
         $this->template->styles = array_merge(array(
             'scripts/ie6mustdie/ie6mustdie.css',
