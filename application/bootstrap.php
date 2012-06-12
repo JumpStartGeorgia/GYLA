@@ -22,7 +22,7 @@ I18n::lang('ka-ge');
 $environments = array(
     'localhost' => array(
         'type' => Kohana::DEVELOPMENT,
-        'url' => 'http://www.localhost.com/gyla/'
+        'url' => 'http://localhost/gyla/'
     ),
     'deda.omc.ge' => array(
         'type' => Kohana::TESTING,

@@ -77,11 +77,11 @@
       $full = 'http://' . $_SERVER['SERVER_NAME'] . $uri;
       $server = str_replace('www.', '', $_SERVER['SERVER_NAME']);
 
-      $code = "/*INSERT_NEW_ENV_CONFIG_HERE*/";
-      $code .= "\n    '" . $server . "' => array(";
+      $code = "    '" . $server . "' => array(";
       $code .= "\n        'type' => Kohana::PRODUCTION,";
       $code .= "\n        'url' => '" . $full . "'";
       $code .= "\n    ),";
+      $code .= "\n/*INSERT_NEW_ENV_CONFIG_HERE*/";
       $bootstrap = file_get_contents('../application/bootstrap.php');
       $bootstrap = str_replace('/*INSERT_NEW_ENV_CONFIG_HERE*/', $code, $bootstrap);
       file_put_contents('../application/bootstrap.php', $bootstrap);
