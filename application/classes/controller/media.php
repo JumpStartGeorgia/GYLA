@@ -33,7 +33,7 @@ class Controller_media extends Controller_Application
         {
             $content .= file_get_contents($file) . ";\n";
         }
-        $content = preg_replace('/;( |\n)*;/', ';', $content);
+        $content = preg_replace('/;(\s|\n|\r)*;/', ';', $content);
         die($content);
     }
 
