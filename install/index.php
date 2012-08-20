@@ -7,7 +7,7 @@
   switch ($_GET['step'])
   {
     case 1:
-      $header = 'პირველი ეტაპი - ავტორიზაცია მონაცემთა ბაზაში';
+      $header = 'პირველი ეტაპი - ავტორიზაცია მონაცემთა ბაზაში<br />Step 1 - Sign in to the database';
       $error = empty($_SESSION['message']) ? '' : '
           <div class="line">
               ' . $_SESSION['message'] . '
@@ -17,10 +17,12 @@
       $content = $error . '
           <div class="line">
               სახელი:<br/>
+              Username:<br/>
               <input type="text" name="db_username" value="root" />
           </div>
           <div class="line">
               პაროლი:<br/>
+              Password:<br/>
               <input type="password" name="db_pwd" value="" />
           </div>
       ';
@@ -35,11 +37,11 @@
       $_SESSION['db_username'] = $_POST['db_username'];
       $_SESSION['db_pwd'] = $_POST['db_pwd'];
 
-      $header = 'მეორე ეტაპი - მონაცემთა ბაზის ჰოსტი და სახელი';
+      $header = 'მეორე ეტაპი - მონაცემთა ბაზის ჰოსტი და სახელი<br />Step 2 - Database hostname and name of the database';
       $content = '
-          <div class="line">შეიყვანეთ ბაზის ჰოსტი:</div>
+          <div class="line">შეიყვანეთ ბაზის ჰოსტი:<br />Enter hostname</div>
           <div class="line"><input type="text" name="db_host" value="localhost" /></div>
-          <div class="line">შეიყვანეთ სახელი, რომელიც გსურთ რომ ერქვას ბაზას (ან არსებული ბაზის სახელი):</div>
+          <div class="line">შეიყვანეთ სახელი, რომელიც გსურთ, რომ ერქვას ბაზას, ან არსებული ბაზის სახელი<br />(თუ შეიყვანთ არსებული ბაზის სახელს, სასურველია ეს ბაზა ცარიელი იყოს):<br />Enter the name of an existing database or the name of a new database<br />(If you enter the name of an existing database, that database should be empty)</div>
           <div class="line"><input type="text" name="db_name" value="gyla" /></div>
       ';
     break;
@@ -51,14 +53,14 @@
       header('Content-Type: text/html; charset=utf-8');
       $_SESSION['db_name'] = $_POST['db_name'];
       $_SESSION['db_host'] = $_POST['db_host'];
-      $header = 'მესამე ეტაპი - ავტორიზაცია საიტზე';
+      $header = 'მესამე ეტაპი - ავტორიზაცია საიტზე<br />Step 3 - Website authorization';
       $content = '
           <div class="line">
-              მომხმარებლის სახელი, რომლითაც გაივლით ავტორიზაციას საიტზე:<br/>
+              მომხმარებლის სახელი, რომლითაც გაივლით ავტორიზაციას საიტზე:<br/>Username on the website:<br/>
               <input type="text" name="username" value="" />
           </div>
           <div class="line">
-              პაროლი:<br/>
+              პაროლი:<br />Password:<br />
               <input type="password" name="pwd" value="" />
           </div>
       ';
@@ -99,8 +101,8 @@
       $config = file_get_contents('../application/config/database.php');
       $config = str_replace('/*INSERT_NEW_ENV_CONFIG_HERE*/', $code, $config);
       file_put_contents('../application/config/database.php', $config);
-      $header = 'მეოთხე ეტაპი - კონფიგურაციის ფაილების შექმნა';
-      $content = '<div class="line">ფაილები შექმნილია.</div>';
+      $header = 'მეოთხე ეტაპი - კონფიგურაციის ფაილების შექმნა<br />Step 4 - Creating config files';
+      $content = '<div class="line">ფაილები შექმნილია.<br />Config files created successfully.</div>';
     break;
     case 5:
       $connect = mysql_connect($_SESSION['db_host'], $_SESSION['db_username'], $_SESSION['db_pwd']);
@@ -115,22 +117,22 @@
           header('Location: ?step=1');
       }
       header('Content-Type: text/html; charset=utf-8');
-      $header = 'მეხუთე ეტაპი - მონაცემთა ბაზის შექმნა';
-      $content = '<div class="line">ბაზა შექმნილია.</div>';
+      $header = 'მეხუთე ეტაპი - მონაცემთა ბაზის შექმნა<br />Step 5 - Creating/updating the database';
+      $content = '<div class="line">ბაზა შექმნილია.<br />Creating/uploading complete.</div>';
       break;
       case 6:
       header('Content-Type: text/html; charset=utf-8');
-      $header = 'მეექვსე ეტაპი - მონაცემების ჩატვირთვა';
-      $content = '<div class="line" id="status">იტვირთება...<br /><br /></div>';
+      $header = 'მეექვსე ეტაპი - მონაცემების ჩატვირთვა<br />Step 6 - Uploading data into the database';
+      $content = '<div class="line" id="status">იტვირთება...<br />Uploading...<br /><br /></div>';
     break;
     case 7:
       header('Content-Type: text/html; charset=utf-8');
-      $header = 'საიტი წარმატებით დაყენდა';
-      $content = '<div class="line">გსურთ წაშალოთ <span green>install</span> ფოლდერი? (სასურველია)</div>';
+      $header = 'საიტი წარმატებით დაყენდა<br />You have successfully completed installing the website';
+      $content = '<div class="line">გსურთ წაშალოთ <span green>install</span> ფოლდერი? (სასურველია)<br />Do you wish to delete the <span green>install</span> folder? (Recommended)</div>';
       $content .= '<div class="line">';
-      $content .= '<label><input type="radio" name="delete_dir" value="1" checked="true" /> კი</label>';
+      $content .= '<label><input type="radio" name="delete_dir" value="1" checked="true" /> კი Yes</label>';
       $content .= '</div><div class="line">';
-      $content .= '<label><input type="radio" name="delete_dir" value="0" /> არა</label>';
+      $content .= '<label><input type="radio" name="delete_dir" value="0" /> არა No</label>';
       $content .= '</div>';
     break;
     case 8:
@@ -158,7 +160,6 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <script type='text/javascript' src="../scripts/jquery.js"></script>
     <script type='text/javascript'>var total_files = <?php echo count(glob('data/*.sql')); ?>;</script>
-    <script type='text/javascript' src="script.js"></script>
   </head>
   <body>
 
@@ -170,10 +171,12 @@
     <div id="content" class="group">
         <form action="?step=<?php echo $_GET['step'] + 1; ?>" method="POST">
         <?php echo $content; ?>
-        <input type="submit" value="<?php echo (($_GET['step'] == 7) ? 'დასრულება' : 'შემდეგი'); ?>" />
+        <input type="submit" value="<?php echo (($_GET['step'] == 7) ? 'დასრულება | Finish' : 'შემდეგი | Next'); ?>" />
         </form>
     </div>
     </div>
-    
+
+
+    <script type='text/javascript' src="script.js"></script>
   </body>
 </html>

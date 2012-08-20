@@ -42,7 +42,7 @@
 	$sql .= "VALUES (1, 0, 2, '" . $_SESSION['username'] . "', '" . sha1($_SESSION['pwd']) . "', ";
 	$sql .= "',', 'სახელი', 'გვარი', 'male', '" . serialize(array(0 => '1')) . "')";
 	mysql_query($sql) or die(mysql_error());
-	print '<br />მონაცემები წარმატებით ჩაიტვირთა.';
+	print '<br />მონაცემები წარმატებით ჩაიტვირთა.<br />Data was uploaded succesffully.';
     }
 
 
