@@ -13,16 +13,16 @@ $(function(){
           $.get('import.php?i=' + i, function (response)
           {
               $('#status').append(response);
-              if (i == total_files)
+              i ++;
+              if (i < total_files)
+              {
+                  update_content();
+              }
+              else if (i == total_files)
               {
                   $('input[type="submit"]').fadeIn('fast');
               }
           });
-          i ++;
-          if (i < total_files)
-          {
-              t = setTimeout(update_content, 100);
-          }
       }
 
   }
