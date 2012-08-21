@@ -84,7 +84,7 @@
       $code .= "\n        'url' => '" . $full . "'";
       $code .= "\n    ),";
       $code .= "\n/*INSERT_NEW_ENV_CONFIG_HERE*/";
-      $bootstrap = file_get_contents('../application/bootstrap.php');
+      $bootstrap = file_get_contents('../application/bootstrap.clean.php');
       $bootstrap = str_replace('/*INSERT_NEW_ENV_CONFIG_HERE*/', $code, $bootstrap);
       file_put_contents('../application/bootstrap.php', $bootstrap);
 
@@ -98,7 +98,7 @@
       $code .= "\n        'profiling' => FALSE";
       $code .= "\n    );";
       $code .= "\n    break;";
-      $config = file_get_contents('../application/config/database.php');
+      $config = file_get_contents('../application/config/database.clean.php');
       $config = str_replace('/*INSERT_NEW_ENV_CONFIG_HERE*/', $code, $config);
       file_put_contents('../application/config/database.php', $config);
       $header = 'მეოთხე ეტაპი - კონფიგურაციის ფაილების შექმნა<br />Step 4 - Creating config files';
