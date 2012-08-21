@@ -136,6 +136,10 @@
       $content .= '</div>';
     break;
     case 8:
+      if (!is_dir('../application/cache'))
+      {
+        mkdir('../application/cache');
+      }
       if ($_POST['delete_dir'] == 1)
       {
         require_once('del_dir.php');
