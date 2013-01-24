@@ -5,34 +5,15 @@ defined('SYSPATH') or die('No direct access allowed.');
 switch (Kohana::$environment)
 {
     /*INSERT_NEW_ENV_CONFIG_HERE*/
-    /*case Kohana::PRODUCTION:
-        $db = array(
-            'host' => 'localhost',
-            'name' => 'gyla',
-            'user' => 'root',
-            'pass' => 'asdfg',
-            'profiling' => FALSE
-        );
-        break;*/
-    case Kohana::TESTING:
-        $db = array(
-            'host' => 'localhost',
-            'name' => 'gyla',
-            'user' => '',
-            'pass' => '',
-            'profiling' => TRUE
-        );
-        break;
-    case Kohana::DEVELOPMENT:
-    default:
-        $db = array(
-            'host' => 'localhost',
-            'name' => 'gyla',
-            'user' => 'root',
-            'pass' => 'asdfg',
-            'profiling' => TRUE
-        );
-        break;
+    case Kohana::PRODUCTION:
+    $db = array(
+        'host' => 'localhost',
+        'name' => 'gyla',
+        'user' => 'root',
+        'pass' => 'asdfg',
+        'profiling' => FALSE
+    );
+    break;
 }
 
 return array(

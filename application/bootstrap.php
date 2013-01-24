@@ -20,19 +20,11 @@ I18n::lang('ka-ge');
 
 // Environment setup
 $environments = array(
-    'localhost' => array(
-        'type' => Kohana::DEVELOPMENT,
-        'url' => 'http://localhost/gyla/'
-    ),
-    'deda.omc.ge' => array(
-        'type' => Kohana::TESTING,
-        'url' => 'http://deda.omc.ge/gyla/'
-    ),
-    /*INSERT_NEW_ENV_CONFIG_HERE*/
-    /*'gyla.ge' => array(
+      'localhost' => array(
         'type' => Kohana::PRODUCTION,
-        'url' => 'http://www.gyla.ge/'
-    ),*/
+        'url' => 'http://localhost/gyla/'
+      ),
+/*INSERT_NEW_ENV_CONFIG_HERE*/
 );
 $has_environment = FALSE;
 foreach ($environments AS $uri => $env)

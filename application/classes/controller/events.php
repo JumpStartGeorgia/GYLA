@@ -38,18 +38,18 @@ class Controller_Events extends Controller_Application
                 ->execute()
                 ->as_array();
         $districts = array_merge($tbilisi, $districts);
-	foreach ($districts as &$d)
-	{
-	    $indis = DB::select('id', 'name')
-			    ->from('districts')
-			    ->where('language', '=', 'ka')
-			    ->and_where('parent', '=', $d['id'])
-			    ->order_by('name')
-			    ->execute()
-			    ->as_array();
-	    empty($indis) or $d['districts'] = $indis;
-	}
-	return $districts;
+        foreach ($districts as &$d)
+        {
+            $indis = DB::select('id', 'name')
+                            ->from('districts')
+                            ->where('language', '=', 'ka')
+                            ->and_where('parent', '=', $d['id'])
+                            ->order_by('name')
+                            ->execute()
+                            ->as_array();
+            empty($indis) or $d['districts'] = $indis;
+        }
+        return $districts;
     }
 
     public function action_index()
@@ -68,7 +68,7 @@ class Controller_Events extends Controller_Application
 
     public function action_view()
     {
-	$id = $this->request->param('id');
+        $id = $this->request->param('id');
         $event = DB::select('events.*', array('districts.name', 'district'))
                 ->from('events')
                 ->join('districts')
@@ -211,10 +211,10 @@ class Controller_Events extends Controller_Application
 
     public function action_delete()
     {
-	$id = $this->request->param('id');
-	empty($id) and $this->request->redirect('events');
-	DB::delete('events')->where('id', '=', $id)->execute();
-	$this->request->redirect('events');
+        $id = $this->request->param('id');
+        empty($id) and $this->request->redirect('events');
+        DB::delete('events')->where('id', '=', $id)->execute();
+        $this->request->redirect('events');
     }
 
     public function action_map()
@@ -334,27 +334,27 @@ class Controller_Events extends Controller_Application
                         ->bind(':district_id', $district['id'])
                         ->execute()
                         ->as_array();
-		if ('თბილისი' == $district['name'])
-		{
-		    $district_events = array_merge
-		    (
-			$district_events,
-			DB::query
-			(
-			    Database::SELECT,
-			    "SELECT e.*, d.name as district_name, (select count(id) from events where e.id = events.id) AS total
-			    FROM events as e
-			    inner join districts as d
-			    on d.id = e.district_id
-			    WHERE d.id IN (select id from districts where parent = :parent)
-			    AND DATE(start_at) > CURDATE()
-			    ORDER BY DATE(start_at) ASC;"
-			)
+                if ('თბილისი' == $district['name'])
+                {
+                    $district_events = array_merge
+                    (
+                        $district_events,
+                        DB::query
+                        (
+                            Database::SELECT,
+                            "SELECT e.*, d.name as district_name, (select count(id) from events where e.id = events.id) AS total
+                            FROM events as e
+                            inner join districts as d
+                            on d.id = e.district_id
+                            WHERE d.id IN (select id from districts where parent = :parent)
+                            AND DATE(start_at) > CURDATE()
+                            ORDER BY DATE(start_at) ASC;"
+                        )
                         ->bind(':parent', $district['id'])
                         ->execute()
                         ->as_array()
-		    );
-		}
+                    );
+                }
 
                 // Calculate proportions
                 if (empty($district_events[0]['total']) OR empty($count_result[0]['total']))
@@ -374,17 +374,17 @@ class Controller_Events extends Controller_Application
                 {
                     foreach ($district_events as $de)
                     {
-			if (empty($de))
-			{
-			    continue;
-			}
-			$events_info[] = array(
-			    'id' => $de['id'],
-			    'name' => trim($de['name']),
-			    'address' => trim($de['address']),
-			    'district_name' => trim($de['district_name']),
-			    'start_at' => Controller_People::reformat_date($de['start_at'])//date('Y-m-d', strtotime($de['start_at']))
-			);
+                        if (empty($de))
+                        {
+                            continue;
+                        }
+                        $events_info[] = array(
+                            'id' => $de['id'],
+                            'name' => trim($de['name']),
+                            'address' => trim($de['address']),
+                            'district_name' => trim($de['district_name']),
+                            'start_at' => Controller_People::reformat_date($de['start_at'])//date('Y-m-d', strtotime($de['start_at']))
+                        );
                     }
                 }
                 $json->properties->event = $events_info;
@@ -444,10 +444,10 @@ class Controller_Events extends Controller_Application
             $events = $this->get_events_for_date($date);
             foreach ($events as $event)
                 $calendar .= "
-	      		<a href='" . URL::site('events/view/' . $event['id']) . "' class='eventlink'>" .
+                              <a href='" . URL::site('events/view/' . $event['id']) . "' class='eventlink'>" .
                         substr($event['start_at'], 11, 5) . "<br />" . $event['name'] . "
-	      		 </a>
-	      	";
+                               </a>
+                      ";
             //$calendar.= str_repeat('<p></p>',2);
 
             $calendar.= '</td>';
@@ -528,26 +528,26 @@ class Controller_Events extends Controller_Application
 
     /*public function action_tbilisi()
     {
-	$events = DB::select('events.id', 'events.name', 'address', 'start_at')
-		  ->from('events')
-		  ->join('districts')
-		  ->on('events.district_id', '=', 'districts.id')
-		  ->where
-		  (
-			'districts.parent',
-			'=',
-			DB::select('id')->from('districts')->where('name', '=', 'თბილისი')->execute()->get('id')
-		  )
-		  ->and_where('DATE("start_at")', '>', date('Y-m-d'))
+        $events = DB::select('events.id', 'events.name', 'address', 'start_at')
+                  ->from('events')
+                  ->join('districts')
+                  ->on('events.district_id', '=', 'districts.id')
+                  ->where
+                  (
+                        'districts.parent',
+                        '=',
+                        DB::select('id')->from('districts')->where('name', '=', 'თბილისი')->execute()->get('id')
+                  )
+                  ->and_where('DATE("start_at")', '>', date('Y-m-d'))
                   ->order_by('start_at', 'ASC')
-		  ->execute()
-		  ->as_array();
-	foreach ($events as &$event)
-	{
-	    $event['start_at'] = Controller_People::reformat_date($event['start_at']);
-	}
-	echo json_encode($events);
-	die;
+                  ->execute()
+                  ->as_array();
+        foreach ($events as &$event)
+        {
+            $event['start_at'] = Controller_People::reformat_date($event['start_at']);
+        }
+        echo json_encode($events);
+        die;
     }
 
     public function action_districts_new()
@@ -632,29 +632,29 @@ class Controller_Events extends Controller_Application
 
     public function action_districts_blue()
     {
-	$json = file_get_contents('districts.json');
-	header('Content-type: text/html; charset=UTF-8');
-	function eng_to_geo($text)
-	{
-	    $alphabet = array(
-		'latin' => array('a', 'b', 'g', 'd', 'e', 'v', 'z', 't', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'j', 'r', 's', 't', 'u', 'f', 'q', 'gh', 'y', 'sh', 'ch', 'ts', 'dz', 'w', 'ch', 'kh', 'j', 'h'),
-		'unicode' => array('ა', 'ბ', 'გ', 'დ', 'ე', 'ვ', 'ზ', 'თ', 'ი', 'კ', 'ლ', 'მ', 'ნ', 'ო', 'პ', 'ჟ', 'რ', 'ს', 'ტ', 'უ', 'ფ', 'ქ', 'ღ', 'ყ', 'შ', 'ჩ', 'ც', 'ძ', 'წ', 'ჭ', 'ხ', 'ჯ', 'ჰ')
-	    );
-	    return str_replace($alphabet['latin'], $alphabet['unicode'], $text);
-	}
-	$dec = json_decode($json);
-	$sql = '';
-	foreach ($dec->features as &$feature)
-	{
-	    $feature->properties->name_2_geo = eng_to_geo(strtolower($feature->properties->NAME_2));
-	    $geojson = serialize($feature);
-	    $name = $feature->properties->name_2_geo;
-	    $sql .= "insert into districts(name,language,geojson) values('{$name}','ka','{$geojson}'); \n";
-	}
-	die($sql);
+        $json = file_get_contents('districts.json');
+        header('Content-type: text/html; charset=UTF-8');
+        function eng_to_geo($text)
+        {
+            $alphabet = array(
+                'latin' => array('a', 'b', 'g', 'd', 'e', 'v', 'z', 't', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'j', 'r', 's', 't', 'u', 'f', 'q', 'gh', 'y', 'sh', 'ch', 'ts', 'dz', 'w', 'ch', 'kh', 'j', 'h'),
+                'unicode' => array('ა', 'ბ', 'გ', 'დ', 'ე', 'ვ', 'ზ', 'თ', 'ი', 'კ', 'ლ', 'მ', 'ნ', 'ო', 'პ', 'ჟ', 'რ', 'ს', 'ტ', 'უ', 'ფ', 'ქ', 'ღ', 'ყ', 'შ', 'ჩ', 'ც', 'ძ', 'წ', 'ჭ', 'ხ', 'ჯ', 'ჰ')
+            );
+            return str_replace($alphabet['latin'], $alphabet['unicode'], $text);
+        }
+        $dec = json_decode($json);
+        $sql = '';
+        foreach ($dec->features as &$feature)
+        {
+            $feature->properties->name_2_geo = eng_to_geo(strtolower($feature->properties->NAME_2));
+            $geojson = serialize($feature);
+            $name = $feature->properties->name_2_geo;
+            $sql .= "insert into districts(name,language,geojson) values('{$name}','ka','{$geojson}'); \n";
+        }
+        die($sql);
 
-	die($json);
-	print_r(serialize(json_decode($json)));die;
+        die($json);
+        print_r(serialize(json_decode($json)));die;
     }*/
 
 }
