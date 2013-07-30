@@ -53,12 +53,12 @@ class Controller_People extends Controller_Application
         {
             $this->template->content->search_form = View::factory('forms/search_people');
             $this->template->content->search_form->offices = DB::select('*')->from('offices')->order_by('id')->execute()->as_array();
-	    $this->template->content->search_form->saved_search = DB::select('*')->from('saved_search')->execute()->as_array();
-	}
-	else
-	{
-	    $this->template->content->search_form = NULL;
-	}
+          $this->template->content->search_form->saved_search = DB::select('*')->from('saved_search')->execute()->as_array();
+      }
+      else
+      {
+          $this->template->content->search_form = NULL;
+      }
         $this->template->content->people = $people;
         $this->template->content->allow_transactions = 
         $this->template->content->allow_perm = $this->check_access('admin', 'management', FALSE);
@@ -74,7 +74,7 @@ class Controller_People extends Controller_Application
         {
             if ($_SESSION['userid'] != $id or $this->check_access('people', 'view_own', FALSE) === FALSE)
             {
-		$this->request->redirect(URL::site('user/denied'));
+            $this->request->redirect(URL::site('user/denied'));
             }
         }
         $this->template->content = View::factory('person');
@@ -89,8 +89,8 @@ class Controller_People extends Controller_Application
                 ->order_by('first_name')
                 ->execute()
                 ->as_array();
-		if ( empty($person) )                
-			$this->request->redirect(URL::site('people'));
+            if ( empty($person) )                
+                  $this->request->redirect(URL::site('people'));
         $this->template->content->person = $this->returnUser($person[0]);
 
         $this->template->content->docs = DB::select('url')
@@ -108,8 +108,8 @@ class Controller_People extends Controller_Application
                 ->as_array();
 
         $this->template->content->affiliation = array(
-	    'staff' =>
-		DB::select()
+          'staff' =>
+            DB::select()
                 ->from('affiliation_history')
                 ->where('person_id', '=', $id)
                 ->and_where('type', '=', 'staff')
@@ -117,7 +117,7 @@ class Controller_People extends Controller_Application
                 ->execute()
                 ->as_array(),
            'organisation' => 
-		DB::select()
+            DB::select()
                 ->from('affiliation_history')
                 ->where('person_id', '=', $id)
                 ->and_where('type', '=', 'organisation')
@@ -132,49 +132,49 @@ class Controller_People extends Controller_Application
 
     public static function reformat_date($date)
     {
-	list($year, $month, $day, $hour) = array(substr($date, 0, 4), substr($date, 5, 2), substr($date, 8, 2), substr($date, 11, 5));
-	($month < 1 OR $month > 12) and $month = 0;
-	$months = array(
-	    -1 => 'none',
-	    'იანვარი',
-	    'თებერვალი',
-	    'მარტი',
-	    'აპრილი',
-	    'მაისი',
-	    'ივნისი',
-	    'ივლისი',
-	    'აგვისტო',
-	    'სექტემბერი',
-	    'ოქტომბერი',
-	    'ნოემბერი',
-	    'დეკემბერი'
-	);
-	return ((string)(int)$day) . ' ' . $months[(int)$month - 1] . ', ' . $year . ', ' . $hour;
+      list($year, $month, $day, $hour) = array(substr($date, 0, 4), substr($date, 5, 2), substr($date, 8, 2), substr($date, 11, 5));
+      ($month < 1 OR $month > 12) and $month = 0;
+      $months = array(
+          -1 => 'none',
+          'იანვარი',
+          'თებერვალი',
+          'მარტი',
+          'აპრილი',
+          'მაისი',
+          'ივნისი',
+          'ივლისი',
+          'აგვისტო',
+          'სექტემბერი',
+          'ოქტომბერი',
+          'ნოემბერი',
+          'დეკემბერი'
+      );
+      return ((string)(int)$day) . ' ' . $months[(int)$month - 1] . ', ' . $year . ', ' . $hour;
     }
 
     public function action_block()
     {
-	$id = $this->request->param('id');
-	DB::update('people')->set(array('blocked' => 1))->where('id', '=', $id)->execute();
-	$this->request->redirect(URL::site('transactions/billing'));
+      $id = $this->request->param('id');
+      DB::update('people')->set(array('blocked' => 1))->where('id', '=', $id)->execute();
+      $this->request->redirect(URL::site('transactions/billing'));
     }
 
     private function calculateUser ($user)
-    {    	    	
-    	$user = mysql_real_escape_string($user);
-    	if ( strpos($user,'(') && strpos($user,')') ):
-			list($theU['first_last_name'],$theU['other']) = explode('(',$user);
-			list($theU['user_name']) = explode(')',$theU['other']);unset($theU['other']);
-			list($theU['first_last_name'],$theU['user_name']) = array(strtolower($theU['first_last_name']),strtolower($theU['user_name']));
-		else:
-			list($theU['first_last_name'],$theU['user_name']) = array(strtolower($user),null);
-		endif;
-		
-    	$sql = sprintf("SELECT id FROM people WHERE '%s' = LOWER(CONCAT(first_name,' ',last_name)) AND '%s' = LOWER(username) ;",$theU['first_last_name'],$theU['user_name']);    	
-    	$status = $this->db->query(Database::SELECT,$sql)->as_array();
-		if ( empty($status) )
-			return ucwords($theU['first_last_name']);
-		else return $status[0]['id'];
+    {                    
+          $user = mysql_real_escape_string($user);
+          if ( strpos($user,'(') && strpos($user,')') ):
+                  list($theU['first_last_name'],$theU['other']) = explode('(',$user);
+                  list($theU['user_name']) = explode(')',$theU['other']);unset($theU['other']);
+                  list($theU['first_last_name'],$theU['user_name']) = array(strtolower($theU['first_last_name']),strtolower($theU['user_name']));
+            else:
+                  list($theU['first_last_name'],$theU['user_name']) = array(strtolower($user),null);
+            endif;
+            
+          $sql = sprintf("SELECT id FROM people WHERE '%s' = LOWER(CONCAT(first_name,' ',last_name)) AND '%s' = LOWER(username) ;",$theU['first_last_name'],$theU['user_name']);          
+          $status = $this->db->query(Database::SELECT,$sql)->as_array();
+            if ( empty($status) )
+                  return ucwords($theU['first_last_name']);
+            else return $status[0]['id'];
     }    
 
     public function action_create()
@@ -185,12 +185,12 @@ class Controller_People extends Controller_Application
         (empty($_POST['person_last_name']) OR strlen($_POST['person_last_name']) == 0) and $errors[] = 'person_last_name';
         (empty($_POST['username']) OR strlen($_POST['username']) == 0) and $errors[] = 'username';
         (empty($_POST['password']) OR strlen($_POST['password']) == 0) and $errors[] = 'password';
-	if (count($errors) > 0)
-	{
-	    $_SESSION['message'] = 'გთხოვთ შეავსოთ აუცილებელი ველები';
-	    $_SESSION['errors'] = $errors;
-	    $this->request->redirect('people/new');
-	}
+      if (count($errors) > 0)
+      {
+          $_SESSION['message'] = 'გთხოვთ შეავსოთ აუცილებელი ველები';
+          $_SESSION['errors'] = $errors;
+          $this->request->redirect('people/new');
+      }
 
         /*$up = $this->document_upload($_FILES['person_document']);
         if (substr($up, 0, 8) != "uploads/" && $up != NULL)  //return if any errors
@@ -201,6 +201,9 @@ class Controller_People extends Controller_Application
 
         if (empty($_POST['person_member_of'][1]) OR !isset($_POST['person_member_of'][1]))
             $_POST['person_member_of'][1] = NULL;
+
+        if (empty($_POST['person_office']))
+            $_POST['person_office'] = NULL;
 
         $columns = array
             (
@@ -226,42 +229,42 @@ class Controller_People extends Controller_Application
             'group_id'
         );
 
-	if (!empty($_POST['person_languages']) and is_array($_POST['person_languages']))
-	{
-		$languages = $_POST['person_languages'];
-		$existing = $new = array();
-		foreach ($languages as $key => $lang)
-		{
-		    $e = DB::select('id')->from('languages');
-		    if (is_numeric($lang))
-		    {
-			$e = $e->where('id', '=', $lang);
-		    }
-		    elseif (!empty($lang) AND strlen((string)$lang) > 1)
-		    {
-			$e = $e->where('language', '=', $lang);
-		    }
-		    else
-		    {
-			continue;
-		    }
-		    $e = $e->execute()->as_array();
-		    if (empty($e))
-		    {
-			$e = DB::insert('languages', array('language'))->values(array($lang))->execute();
-			$new[] = $e[0];
-		    }
-		    else
-		    {
-			$existing[] = $e[0]['id'];
-		    }
-		}
-		$_POST['person_languages'] = serialize(array_merge($new, $existing));
-	}
-	else
-	{
-	    $_POST['person_languages'] = serialize(NULL);
-	}
+      if (!empty($_POST['person_languages']) and is_array($_POST['person_languages']))
+      {
+            $languages = $_POST['person_languages'];
+            $existing = $new = array();
+            foreach ($languages as $key => $lang)
+            {
+                $e = DB::select('id')->from('languages');
+                if (is_numeric($lang))
+                {
+                  $e = $e->where('id', '=', $lang);
+                }
+                elseif (!empty($lang) AND strlen((string)$lang) > 1)
+                {
+                  $e = $e->where('language', '=', $lang);
+                }
+                else
+                {
+                  continue;
+                }
+                $e = $e->execute()->as_array();
+                if (empty($e))
+                {
+                  $e = DB::insert('languages', array('language'))->values(array($lang))->execute();
+                  $new[] = $e[0];
+                }
+                else
+                {
+                  $existing[] = $e[0]['id'];
+                }
+            }
+            $_POST['person_languages'] = serialize(array_merge($new, $existing));
+      }
+      else
+      {
+          $_POST['person_languages'] = serialize(NULL);
+      }
 
         $_POST['person_interested'] = empty($_POST['person_interested']) ? NULL : serialize($_POST['person_interested']);
       
@@ -298,14 +301,14 @@ class Controller_People extends Controller_Application
             $values[] = sha1($_POST['password']);
         }
 
-	$access = $this->check_access('admin', 'management', FALSE);
-	if ($access)
-	{
+      $access = $this->check_access('admin', 'management', FALSE);
+      if ($access)
+      {
             if (isset($_POST['blocked']))
             {
-		in_array($_POST['blocked'], array(0, 1)) OR $_POST['blocked'] = 0;
-		$columns[] = 'blocked';
-		$values[] = $_POST['blocked'];
+            in_array($_POST['blocked'], array(0, 1)) OR $_POST['blocked'] = 0;
+            $columns[] = 'blocked';
+            $values[] = $_POST['blocked'];
             }
         }
 
@@ -314,23 +317,23 @@ class Controller_People extends Controller_Application
         $up = $this->document_upload($_FILES['person_document']);
         if (is_array($up))
         {
-	    foreach ($up as $url)
-	    {
-		DB::insert('user_documents', array('user_id', 'url'))->values(array($last_id, $url))->execute();
-	    }
+          foreach ($up as $url)
+          {
+            DB::insert('user_documents', array('user_id', 'url'))->values(array($last_id, $url))->execute();
+          }
         }
 
-	if (isset($_POST['pay_plan']) && $access)
-	{
-	    $ta = Kohana::config('transactions');
-	    $plans = $ta['plans'];
-	    if (in_array($_POST['pay_plan'], $plans))
-	    {
-		DB::insert('payplan_changes', array('user_id', 'plan', 'datechanged'))
-		->values(array($last_id, $_POST['pay_plan'], date("Y-m-d")))
-		->execute();
-	    }
-	}
+      if (isset($_POST['pay_plan']) && $access)
+      {
+          $ta = Kohana::config('transactions');
+          $plans = $ta['plans'];
+          if (in_array($_POST['pay_plan'], $plans))
+          {
+            DB::insert('payplan_changes', array('user_id', 'plan', 'datechanged'))
+            ->values(array($last_id, $_POST['pay_plan'], date("Y-m-d")))
+            ->execute();
+          }
+      }
 
         /* Set default permissions
         $default_permissions = Kohana::config('default_permissions');
@@ -393,8 +396,8 @@ class Controller_People extends Controller_Application
     private function getDefaultLanguages ()
     {
 
-    	$status = $this->db->query(Database::SELECT,DB::select()->from('languages')->where('status','=','default'))->as_array();
-	return $status;
+          $status = $this->db->query(Database::SELECT,DB::select()->from('languages')->where('status','=','default'))->as_array();
+      return $status;
     }
 
     public function action_new()
@@ -403,15 +406,15 @@ class Controller_People extends Controller_Application
         /*$groups = DB::select()->from('user_groups')->execute()->as_array();
         if (empty($groups) OR empty($groups[0]['id']))
         {
-        	$_SESSION['message'] = 'ჯგუფები ცარიელია. იმისათვის, რომ დაამატოთ მომხმარებელი, ჯერ უნდა დაამატოთ ჯგუფი.';
-        	$this->request->redirect('groups/new');
+              $_SESSION['message'] = 'ჯგუფები ცარიელია. იმისათვის, რომ დაამატოთ მომხმარებელი, ჯერ უნდა დაამატოთ ჯგუფი.';
+              $this->request->redirect('groups/new');
         }*/
 
         $this->template->content = View::factory('forms/person');
         $this->template->content->default_languages = $this->getDefaultLanguages();
         $this->template->content->is_admin = $this->check_access('admin', 'management', FALSE);
         $ta = Kohana::config('transactions');
-	$this->template->content->plans = $ta['plans'];
+      $this->template->content->plans = $ta['plans'];
         $this->template->content->person = array(
             'id' => NULL,
             'username' => NULL,
@@ -445,21 +448,21 @@ class Controller_People extends Controller_Application
     
     private function returnUser ($personArray)
     {
-    	/*	Process Languages	*/
-    	$personLanguagesArray = unserialize($personArray['languages']);    	    	
-    	if ( !empty($personLanguagesArray) ){
-		$sql = sprintf("SELECT * FROM languages WHERE id IN (%s)",implode(',',$personLanguagesArray));
-		$status = $this->db->query(Database::SELECT,$sql)->as_array();
-		$personArray['languages'] = $status;
-		/* Processs Reference	*/
-		if ( is_numeric($personArray['reference']) ):
-			$sql = sprintf("SELECT CONCAT(first_name,' ',last_name) first_last_name,username user_name FROM people WHERE id='%d' LIMIT 1 ;",$personArray['reference']);
-			$status = $this->db->query(Database::SELECT,$sql)->as_array();
-			$personArray['reference'] = $status[0]['first_last_name'] . '(' . $status[0]['user_name'] . ')';
-				return $personArray;
-		endif;
-    	}
-    	return $personArray;
+          /*      Process Languages      */
+          $personLanguagesArray = unserialize($personArray['languages']);                    
+          if ( !empty($personLanguagesArray) ){
+            $sql = sprintf("SELECT * FROM languages WHERE id IN (%s)",implode(',',$personLanguagesArray));
+            $status = $this->db->query(Database::SELECT,$sql)->as_array();
+            $personArray['languages'] = $status;
+            /* Processs Reference      */
+            if ( is_numeric($personArray['reference']) ):
+                  $sql = sprintf("SELECT CONCAT(first_name,' ',last_name) first_last_name,username user_name FROM people WHERE id='%d' LIMIT 1 ;",$personArray['reference']);
+                  $status = $this->db->query(Database::SELECT,$sql)->as_array();
+                  $personArray['reference'] = $status[0]['first_last_name'] . '(' . $status[0]['user_name'] . ')';
+                        return $personArray;
+            endif;
+          }
+          return $personArray;
     }
 
     public function action_edit()
@@ -469,9 +472,9 @@ class Controller_People extends Controller_Application
         /*$groups = DB::select()->from('user_groups')->execute()->as_array();
         if (empty($groups) OR empty($groups[0]['id']))
         {
-        	$_SESSION['message'] = 'ჯგუფები ცარიელია. იმისათვის, რომ შეცვალოთ მომხმარებლის მონაცემები, ჯერ უნდა დაამატოთ ჯგუფი.';
-        	$_SESSION['redirect_id'] = $thisid;
-        	$this->request->redirect('groups/new');
+              $_SESSION['message'] = 'ჯგუფები ცარიელია. იმისათვის, რომ შეცვალოთ მომხმარებლის მონაცემები, ჯერ უნდა დაამატოთ ჯგუფი.';
+              $_SESSION['redirect_id'] = $thisid;
+              $this->request->redirect('groups/new');
         }*/
 
 
@@ -484,27 +487,27 @@ class Controller_People extends Controller_Application
                 ->where('person_id', '=', $thisid)
                 ->execute()
                 ->as_array();
-	if (empty($query))
-	{
-	    $this->request->redirect(URL::site('people'));
-	}
+      if (empty($query))
+      {
+          $this->request->redirect(URL::site('people'));
+      }
         $this->template->content = View::factory('forms/person');
         $this->template->content->default_languages = $this->getDefaultLanguages();
         $this->template->content->person = $this->returnUser($query[0]);
         $this->template->content->documents = DB::select('id', 'url')
-        				    ->from('user_documents')
-        				    ->where('user_id', '=', $thisid)
-        				    ->order_by('id')
-        				    ->execute()
-        				    ->as_array();
+                                    ->from('user_documents')
+                                    ->where('user_id', '=', $thisid)
+                                    ->order_by('id')
+                                    ->execute()
+                                    ->as_array();
         $this->template->content->payplan = DB::select('plan')
-        				    ->from('payplan_changes')
-        				    ->where('user_id', '=', $thisid)
-        				    ->order_by('id', 'DESC')
-        				    ->order_by('datechanged', 'DESC')
-        				    ->limit(1)
-        				    ->execute()
-        				    ->get('plan');
+                                    ->from('payplan_changes')
+                                    ->where('user_id', '=', $thisid)
+                                    ->order_by('id', 'DESC')
+                                    ->order_by('datechanged', 'DESC')
+                                    ->limit(1)
+                                    ->execute()
+                                    ->get('plan');
         $this->template->content->groups = DB::select()->from('user_groups')->execute()->as_array();
         $this->template->content->degrees = $query2;        
         $this->template->content->phones = DB::select()
@@ -524,9 +527,9 @@ class Controller_People extends Controller_Application
                 ->order_by('type')
                 ->execute()
                 ->as_array();
-	$this->template->content->is_admin = $this->check_access('admin', 'management', FALSE);
-	$ta = Kohana::config('transactions');
-	$this->template->content->plans = $ta['plans'];
+      $this->template->content->is_admin = $this->check_access('admin', 'management', FALSE);
+      $ta = Kohana::config('transactions');
+      $this->template->content->plans = $ta['plans'];
     }
     
 
@@ -545,101 +548,104 @@ class Controller_People extends Controller_Application
             $this->document_delete($thisid);
             $u = DB::update('people')->set(array('document_url' => $up))->where('id', '=', $thisid)->execute();
         }*/
-	$up = $this->document_upload($_FILES['person_document']);
+      $up = $this->document_upload($_FILES['person_document']);
         if (is_array($up))
         {
-	    foreach ($up as $url)
-	    {
-		DB::insert('user_documents', array('user_id', 'url'))->values(array($thisid, $url))->execute();
-	    }
+          foreach ($up as $url)
+          {
+            DB::insert('user_documents', array('user_id', 'url'))->values(array($thisid, $url))->execute();
+          }
         }
 
         if (empty($_POST['person_member_of']) OR count($_POST['person_member_of']) == 0)
             $_POST['person_member_of'] = array(NULL, NULL);
         elseif (count($_POST['person_member_of']) == 1)
             $_POST['person_member_of'][1] = NULL;
-		
-		
-		/*	START PERSON LANGUAGES PROCESSING !!! */
-		if ( isset($_POST['person_languages']) && is_array($_POST['person_languages']) ) {
+            
+            
+            /*      START PERSON LANGUAGES PROCESSING !!! */
+            if ( isset($_POST['person_languages']) && is_array($_POST['person_languages']) ) {
 
-			$languages = $_POST['person_languages'];
-			$existing = $new = array();
-			foreach ($languages as $key => $lang)
-			{
-			    $e = DB::select('id')->from('languages');
-			    if (is_numeric($lang))
-			    {
-				$e = $e->where('id', '=', $lang);
-			    }
-			    elseif (!empty($lang) AND strlen((string)$lang) > 1)
-			    {
-				$e = $e->where('language', '=', $lang);
-			    }
-			    else
-			    {
-				continue;
-			    }
-			    $e = $e->execute()->as_array();
-			    if (empty($e))
-			    {
-				$e = DB::insert('languages', array('language'))->values(array($lang))->execute();
-				$new[] = $e[0];
-			    }
-			    else
-			    {
-				$existing[] = $e[0]['id'];
-			    }
-			}
-			$person_languages = serialize(array_merge($new, $existing));
+                  $languages = $_POST['person_languages'];
+                  $existing = $new = array();
+                  foreach ($languages as $key => $lang)
+                  {
+                      $e = DB::select('id')->from('languages');
+                      if (is_numeric($lang))
+                      {
+                        $e = $e->where('id', '=', $lang);
+                      }
+                      elseif (!empty($lang) AND strlen((string)$lang) > 1)
+                      {
+                        $e = $e->where('language', '=', $lang);
+                      }
+                      else
+                      {
+                        continue;
+                      }
+                      $e = $e->execute()->as_array();
+                      if (empty($e))
+                      {
+                        $e = DB::insert('languages', array('language'))->values(array($lang))->execute();
+                        $new[] = $e[0];
+                      }
+                      else
+                      {
+                        $existing[] = $e[0]['id'];
+                      }
+                  }
+                  $person_languages = serialize(array_merge($new, $existing));
 /*
-				
-		
-				$knownArray = array();				
-				foreach ($_POST['person_languages'] as $index => $value)
-					if (is_numeric($value)){
-						$knownArray[] = $value;
-					}
-						
-				$_POST['person_languages'] = array_values($_POST['person_languages']);
-				$_POST['person_languages'] = $_POST['person_languages'][0];		
-			
-		
-					$newArray = explode(',',$_POST['person_languages']);		
-						unset($_POST['person_languages']);
-					foreach ($newArray as $index => $value)		
-						if ( strlen($value)<2 )
-							unset($newArray[$index]);
-						else $newArray[$index] = trim($value);		
+                        
+            
+                        $knownArray = array();                        
+                        foreach ($_POST['person_languages'] as $index => $value)
+                              if (is_numeric($value)){
+                                    $knownArray[] = $value;
+                              }
+                                    
+                        $_POST['person_languages'] = array_values($_POST['person_languages']);
+                        $_POST['person_languages'] = $_POST['person_languages'][0];            
+                  
+            
+                              $newArray = explode(',',$_POST['person_languages']);            
+                                    unset($_POST['person_languages']);
+                              foreach ($newArray as $index => $value)            
+                                    if ( strlen($value)<2 )
+                                          unset($newArray[$index]);
+                                    else $newArray[$index] = trim($value);            
 
-			$sql = sprintf("SELECT * FROM languages WHERE language IN ('%s');",implode('\',\'',$newArray));
-	
-			$status = $this->db->query(Database::SELECT,$sql)->as_array();		
+                  $sql = sprintf("SELECT * FROM languages WHERE language IN ('%s');",implode('\',\'',$newArray));
+      
+                  $status = $this->db->query(Database::SELECT,$sql)->as_array();            
 
-			foreach ($status as $lang){
-				$knownArray[] = $lang['id'];
-				if ( in_array($lang['language'],$newArray) )
-					unset($newArray[array_search($lang['language'],$newArray)]);
-			}
-			$knownArray = array_unique($knownArray);
-			if ( !empty($newArray) ){
-				foreach ( $newArray as $index => $value ){
-				    $sql = sprintf("INSERT INTO languages(language) VALUES('%s')",mysql_real_escape_string($value));
-				    $status = $this->db->query(Database::INSERT,$sql);
-				    $knownArray[] = $status[0];
-				}
-			}
-			unset($newArray);
+                  foreach ($status as $lang){
+                        $knownArray[] = $lang['id'];
+                        if ( in_array($lang['language'],$newArray) )
+                              unset($newArray[array_search($lang['language'],$newArray)]);
+                  }
+                  $knownArray = array_unique($knownArray);
+                  if ( !empty($newArray) ){
+                        foreach ( $newArray as $index => $value ){
+                            $sql = sprintf("INSERT INTO languages(language) VALUES('%s')",mysql_real_escape_string($value));
+                            $status = $this->db->query(Database::INSERT,$sql);
+                            $knownArray[] = $status[0];
+                        }
+                  }
+                  unset($newArray);
 
-			$person_languages = serialize($knownArray);
+                  $person_languages = serialize($knownArray);
 */
-		}
-		else $person_languages = false;
-		/*	ENDS PERSON	LANGUAGE PROCESSING !!!	*/
-		
+            }
+            else $person_languages = false;
+            /*      ENDS PERSON      LANGUAGE PROCESSING !!!      */
+            
         $_POST['person_languages'] = empty($_POST['person_languages']) ? NULL : serialize($_POST['person_languages']);
         $_POST['person_interested'] = empty($_POST['person_interested']) ? NULL : serialize($_POST['person_interested']);
-		
+
+        if (empty($_POST['person_office']))
+            $_POST['person_office'] = NULL;
+            
         $update_data = array(
             'username' => $_POST['username'],
             'member_of' => $_POST['person_member_of'][0] . ',' . $_POST['person_member_of'][1],
@@ -665,34 +671,34 @@ class Controller_People extends Controller_Application
         if (isset($_POST['password']) AND !empty($_POST['password']))
             $update_data['password'] = sha1($_POST['password']);
 
-	if ($this->check_access('admin', 'management', FALSE))
-	{
+      if ($this->check_access('admin', 'management', FALSE))
+      {
             if (isset($_POST['blocked']))
             {
-		in_array($_POST['blocked'], array(0, 1)) OR $_POST['blocked'] = 0;
-		$update_data['blocked'] = $_POST['blocked'];
+            in_array($_POST['blocked'], array(0, 1)) OR $_POST['blocked'] = 0;
+            $update_data['blocked'] = $_POST['blocked'];
             }
 
-	    $lastp = DB::select('datechanged', 'plan', 'id')
-	    		->from('payplan_changes')
-	    		->where('user_id', '=', $thisid)
-	    		->order_by('id', 'DESC')
-	    		->order_by('datechanged', 'DESC')
-	    		->limit(1)
-	    		->execute()
-	    		->as_array();
-	    $lastp = empty($lastp) ? array('plan' => NULL, 'id' => NULL, 'datechanged' => NULL) : $lastp[0];
+          $lastp = DB::select('datechanged', 'plan', 'id')
+                      ->from('payplan_changes')
+                      ->where('user_id', '=', $thisid)
+                      ->order_by('id', 'DESC')
+                      ->order_by('datechanged', 'DESC')
+                      ->limit(1)
+                      ->execute()
+                      ->as_array();
+          $lastp = empty($lastp) ? array('plan' => NULL, 'id' => NULL, 'datechanged' => NULL) : $lastp[0];
             if (isset($_POST['pay_plan']) AND $_POST['pay_plan'] != $lastp['plan'])
             {
-		$ta = Kohana::config('transactions');
-		$plans = $ta['plans'];
-		if (in_array($_POST['pay_plan'], $plans))
-		{
-		    DB::insert('payplan_changes', array('user_id', 'plan', 'datechanged'))
-		    ->values(array($thisid, $_POST['pay_plan'], date("Y-m-d")))
-		    ->execute();
-		}
-		(date('Y-m-d') == $lastp['datechanged']) AND DB::delete('payplan_changes')->where('id', '=', $lastp['id'])->execute();
+            $ta = Kohana::config('transactions');
+            $plans = $ta['plans'];
+            if (in_array($_POST['pay_plan'], $plans))
+            {
+                DB::insert('payplan_changes', array('user_id', 'plan', 'datechanged'))
+                ->values(array($thisid, $_POST['pay_plan'], date("Y-m-d")))
+                ->execute();
+            }
+            (date('Y-m-d') == $lastp['datechanged']) AND DB::delete('payplan_changes')->where('id', '=', $lastp['id'])->execute();
             }
         }
 
@@ -707,10 +713,10 @@ class Controller_People extends Controller_Application
 
         (!isset($_POST['person_affiliation_type']) OR empty($_POST['person_affiliation_type']))
                 AND $_POST['person_affiliation_type'] = NULL;
-        (!isset($_POST['person_affiliation_from[]']) OR empty($_POST['person_affiliation_from[]']))
-                AND $_POST['person_affiliation_from[]'] = NULL;
-        (!isset($_POST['person_affiliation_to[]']) OR empty($_POST['person_affiliation_to[]']))
-                AND $_POST['person_affiliation_to[]'] = NULL;
+        (!isset($_POST['person_affiliation_from']) OR empty($_POST['person_affiliation_from']))
+                AND $_POST['person_affiliation_from'] = NULL;
+        (!isset($_POST['person_affiliation_to']) OR empty($_POST['person_affiliation_to']))
+                AND $_POST['person_affiliation_to'] = NULL;
         $this->insert_affiliation(
                 $thisid, $_POST['person_affiliation_type'], $_POST['person_affiliation_from'], $_POST['person_affiliation_to']
         );
@@ -737,7 +743,7 @@ class Controller_People extends Controller_Application
                 $query2 = DB::insert('education_degrees', $columns)->values($values)->execute();
             }
         //$this->template->content->search_form = View::factory('people');
-		
+            
         //if($query && $u && $query2 && $del)
         $this->request->redirect(URL::site('people/view/' . $thisid));
         
@@ -747,107 +753,107 @@ class Controller_People extends Controller_Application
     private function makeSearch($_searchData)
     {
     
-    	$_SSQL = array();
-    	
-	if ( isset($_searchData['person_status_state']) and !empty($_searchData['person_status_state']) )
-		$_SSQL['person_status_state'] = " member_of LIKE '%staff%' ";
-		
-	if ( isset($_searchData['person_status_organization']) and !empty($_searchData['person_status_organization']) )
-		$_SSQL['person_status_organization'] = " member_of LIKE '%organisation%' ";
-		
-	if  ( isset($_searchData['person_name']) and !empty($_searchData['person_name']) ){
-		$_searchData['person_name'] = trim($_searchData['person_name']);				
-		$tmpName = explode(' ',$_searchData['person_name']);						
-		if ( count($tmpName)>1 )
-			$name = array($tmpName[0],$tmpName[1]);					
-		else $name = array($_searchData['person_name']);
-		
-		$_SSQL['person_name'] = "(";
-			foreach ($name as $index => $value)
-				$_SSQL['person_name'] .= ($index === 0 ? null : " OR ") . "username LIKE '%".$value."%' OR first_name LIKE '%".$value."%' OR last_name LIKE '%".$value."%'";		
-		$_SSQL['person_name'] .= ")";
-						
-	}
-	
-	if ( isset($_searchData['person_date_start']) and !empty($_searchData['person_date_start']) ) {
-		$_searchData['person_date_start'] = trim(strval($_searchData['person_date_start']));
-		$_SSQL['person_date_start'] = " birth_date >= '".$_searchData['person_date_start']."' ";
-	}
-	
-	if ( isset($_searchData['person_date_end']) and !empty($_searchData['person_date_end']) ) {
-		$_searchData['person_date_end'] = trim(strval($_searchData['person_date_end']));
-		$_SSQL['person_date_end'] = " birth_date <= '".$_searchData['person_date_end']."' ";
-	}
-	
-	if ( isset($_searchData['person_private_number']) and !empty($_searchData['person_private_number']) ) {
-		$_searchData['person_private_number'] = strval($_searchData['person_private_number']);
-		$_SSQL['person_private_number'] = " personal_number LIKE '%".$_searchData['person_private_number']."%' ";
-	}
-	
-	if ( isset($_searchData['person_gender']) and !empty($_searchData['person_gender']) and $_searchData['person_gender'] !== 'all' ) {
-		$_searchData['person_gender'] = strval($_searchData['person_gender']);
-		$_SSQL['person_gender'] = " sex = '".$_searchData['person_gender']."' ";
-	}
-	
-	/*if ( isset($_searchData['person_tel']) and !empty($_searchData['person_tel']) ) {
-		$_searchData['person_tel'] = strval($_searchData['person_tel']);	
-		$_SSQL['person_tel'] = " ( phone LIKE '%".$_searchData['person_tel']."%' OR mobile_phone LIKE '%".$_searchData['person_tel']."%' ) ";
-	}*/
-	
-	if ( isset($_searchData['person_email']) and !empty($_searchData['person_email']) ) {
-		$_searchData['person_email'] = strval($_searchData['person_email']);
-		$_SSQL['person_email'] = " email LIKE '%".$_searchData['person_email']."%' ";
-		
-	}			
-	
-	if ( isset($_searchData['person_office']) and !empty($_searchData['person_office']) and $_searchData['person_office'] !== 0 ) {
-		$_SSQL['person_office'] = " office_id = '".$_searchData['person_office']."' ";
-	}
-			
-    	$_SSQL = implode(' AND ',$_SSQL);
-    	$sql = "SELECT * from people ";
-	if (isset($_searchData['person_tel']) and !empty($_searchData['person_tel']))
-	{
-	    $sql .= " inner join phones on phones.person_id = people.id ";
-	    $sql .= empty($_SSQL) ? (' where number like \'%' . $_searchData['person_tel'] . '%\' ') : (' WHERE ' . $_SSQL . ' and number like \'%' . $_searchData['person_tel'] . '%\' ');
-	}
-	else
-	{
-	    $sql .= ' where  ' . $_SSQL;
-	}
-    	$sql .= ";";
-    	$DBData = $this->db->query(Database::SELECT,$sql)->as_array();
-    	
-    	if ( isset($_searchData['person_languages']) and !empty($_searchData['person_languages']) ) {			
-			$_searchData['person_languages'] = explode(',',trim($_searchData['person_languages']));
-			$_searchData['person_languages'] = $this->array_clear($_searchData['person_languages']);
-			$tmpDBData = array();
-			foreach ( $DBData as $index => $value ) {
-				$sql = DB::select('languages.language')->from('languages')->where('id','IN',unserialize($value['languages']));
-				$person_languages = $this->db->query(Database::SELECT,$sql)->as_array();								
-				//$count = 0;
-				foreach ( $_searchData['person_languages'] as $ind => $val )
-					if ( $this->in_array_rec($val,$person_languages) and !$this->in_array_rec($value['username'],$tmpDBData) ) 
-						$tmpDBData[] = $value;
-						/*$count ++; 					
-				if ( $count === count($_searchData['person_languages']) )*/
-					
-				
-			}
-			
-			$DBData = $tmpDBData;
-		
-		}
-		
-		$this->template->content->search_form = View::factory('forms/search_people');
-		$this->template->content->people = $DBData;
-		$sql = DB::select('*')->from('offices')->order_by('id');
+          $_SSQL = array();
+          
+      if ( isset($_searchData['person_status_state']) and !empty($_searchData['person_status_state']) )
+            $_SSQL['person_status_state'] = " member_of LIKE '%staff%' ";
+            
+      if ( isset($_searchData['person_status_organization']) and !empty($_searchData['person_status_organization']) )
+            $_SSQL['person_status_organization'] = " member_of LIKE '%organisation%' ";
+            
+      if  ( isset($_searchData['person_name']) and !empty($_searchData['person_name']) ){
+            $_searchData['person_name'] = trim($_searchData['person_name']);                        
+            $tmpName = explode(' ',$_searchData['person_name']);                                    
+            if ( count($tmpName)>1 )
+                  $name = array($tmpName[0],$tmpName[1]);                              
+            else $name = array($_searchData['person_name']);
+            
+            $_SSQL['person_name'] = "(";
+                  foreach ($name as $index => $value)
+                        $_SSQL['person_name'] .= ($index === 0 ? null : " OR ") . "username LIKE '%".$value."%' OR first_name LIKE '%".$value."%' OR last_name LIKE '%".$value."%'";            
+            $_SSQL['person_name'] .= ")";
+                                    
+      }
+      
+      if ( isset($_searchData['person_date_start']) and !empty($_searchData['person_date_start']) ) {
+            $_searchData['person_date_start'] = trim(strval($_searchData['person_date_start']));
+            $_SSQL['person_date_start'] = " birth_date >= '".$_searchData['person_date_start']."' ";
+      }
+      
+      if ( isset($_searchData['person_date_end']) and !empty($_searchData['person_date_end']) ) {
+            $_searchData['person_date_end'] = trim(strval($_searchData['person_date_end']));
+            $_SSQL['person_date_end'] = " birth_date <= '".$_searchData['person_date_end']."' ";
+      }
+      
+      if ( isset($_searchData['person_private_number']) and !empty($_searchData['person_private_number']) ) {
+            $_searchData['person_private_number'] = strval($_searchData['person_private_number']);
+            $_SSQL['person_private_number'] = " personal_number LIKE '%".$_searchData['person_private_number']."%' ";
+      }
+      
+      if ( isset($_searchData['person_gender']) and !empty($_searchData['person_gender']) and $_searchData['person_gender'] !== 'all' ) {
+            $_searchData['person_gender'] = strval($_searchData['person_gender']);
+            $_SSQL['person_gender'] = " sex = '".$_searchData['person_gender']."' ";
+      }
+      
+      /*if ( isset($_searchData['person_tel']) and !empty($_searchData['person_tel']) ) {
+            $_searchData['person_tel'] = strval($_searchData['person_tel']);      
+            $_SSQL['person_tel'] = " ( phone LIKE '%".$_searchData['person_tel']."%' OR mobile_phone LIKE '%".$_searchData['person_tel']."%' ) ";
+      }*/
+      
+      if ( isset($_searchData['person_email']) and !empty($_searchData['person_email']) ) {
+            $_searchData['person_email'] = strval($_searchData['person_email']);
+            $_SSQL['person_email'] = " email LIKE '%".$_searchData['person_email']."%' ";
+            
+      }                  
+      
+      if ( isset($_searchData['person_office']) and !empty($_searchData['person_office']) and $_searchData['person_office'] !== 0 ) {
+            $_SSQL['person_office'] = " office_id = '".$_searchData['person_office']."' ";
+      }
+                  
+          $_SSQL = implode(' AND ',$_SSQL);
+          $sql = "SELECT * from people ";
+      if (isset($_searchData['person_tel']) and !empty($_searchData['person_tel']))
+      {
+          $sql .= " inner join phones on phones.person_id = people.id ";
+          $sql .= empty($_SSQL) ? (' where number like \'%' . $_searchData['person_tel'] . '%\' ') : (' WHERE ' . $_SSQL . ' and number like \'%' . $_searchData['person_tel'] . '%\' ');
+      }
+      else
+      {
+          $sql .= ' where  ' . $_SSQL;
+      }
+          $sql .= ";";
+          $DBData = $this->db->query(Database::SELECT,$sql)->as_array();
+          
+          if ( isset($_searchData['person_languages']) and !empty($_searchData['person_languages']) ) {                  
+                  $_searchData['person_languages'] = explode(',',trim($_searchData['person_languages']));
+                  $_searchData['person_languages'] = $this->array_clear($_searchData['person_languages']);
+                  $tmpDBData = array();
+                  foreach ( $DBData as $index => $value ) {
+                        $sql = DB::select('languages.language')->from('languages')->where('id','IN',unserialize($value['languages']));
+                        $person_languages = $this->db->query(Database::SELECT,$sql)->as_array();                                                
+                        //$count = 0;
+                        foreach ( $_searchData['person_languages'] as $ind => $val )
+                              if ( $this->in_array_rec($val,$person_languages) and !$this->in_array_rec($value['username'],$tmpDBData) ) 
+                                    $tmpDBData[] = $value;
+                                    /*$count ++;                               
+                        if ( $count === count($_searchData['person_languages']) )*/
+                              
+                        
+                  }
+                  
+                  $DBData = $tmpDBData;
+            
+            }
+            
+            $this->template->content->search_form = View::factory('forms/search_people');
+            $this->template->content->people = $DBData;
+            $sql = DB::select('*')->from('offices')->order_by('id');
         $this->template->content->search_form->offices = $this->db->query(Database::SELECT, $sql)->as_array();
         $this->template->content->search_form->the_search = $_searchData;
-	$sql = DB::select('*')->from('saved_search');
-	$this->template->content->search_form->saved_search = $this->db->query(Database::SELECT,$sql)->as_array();
+      $sql = DB::select('*')->from('saved_search');
+      $this->template->content->search_form->saved_search = $this->db->query(Database::SELECT,$sql)->as_array();
         $this->template->content->allow_transactions = 
-    	$this->template->content->allow_perm = $this->check_access('admin', 'management', FALSE);
+          $this->template->content->allow_perm = $this->check_access('admin', 'management', FALSE);
         $this->template->content->allow_edit = $this->check_access('people', 'edit', FALSE);
         $this->template->content->allow_dele = $this->check_access('people', 'delete', FALSE);
         
@@ -855,39 +861,39 @@ class Controller_People extends Controller_Application
     
     public function action_search()
     {
-	$this->check_access('people', 'search');
-    	$this->template->content = View::factory('people');
-    	if (isset($_GET['id']) && !empty($_GET['id']))
-    	{
-	    $sql = DB::select('saved_search.code')
-    		   ->from('saved_search')
-    		   ->where('id','=',$_GET['id']);    		
-	    $saved_search = $this->db->query(Database::SELECT,$sql)->as_array();
-	    $saved_search = unserialize(base64_decode($saved_search[0]['code']));    		    		
-	    $this->makeSearch($saved_search);
-    	}
-    	elseif (isset($_POST) and !empty($_POST))
-	{
-	    $this->makeSearch($_POST);
-	}
+      $this->check_access('people', 'search');
+          $this->template->content = View::factory('people');
+          if (isset($_GET['id']) && !empty($_GET['id']))
+          {
+          $sql = DB::select('saved_search.code')
+                   ->from('saved_search')
+                   ->where('id','=',$_GET['id']);                
+          $saved_search = $this->db->query(Database::SELECT,$sql)->as_array();
+          $saved_search = unserialize(base64_decode($saved_search[0]['code']));                                
+          $this->makeSearch($saved_search);
+          }
+          elseif (isset($_POST) and !empty($_POST))
+      {
+          $this->makeSearch($_POST);
+      }
     }
     
     public function action_list_saved_search()
     {
-	//$this->check_access('people', 'search');
-    	$sql = DB::select('saved_search.id','saved_search.name')->from('saved_search');
-    	$saved_searches = $this->db->query(Database::SELECT,$sql)->as_array();
-		exit(json_encode($saved_searches));    	
+      //$this->check_access('people', 'search');
+          $sql = DB::select('saved_search.id','saved_search.name')->from('saved_search');
+          $saved_searches = $this->db->query(Database::SELECT,$sql)->as_array();
+            exit(json_encode($saved_searches));          
 
     }
     
     public function action_get_saved_search()
     {
-	//$this->check_access('people', 'search');
-    	$sql = DB::select('saved_search.code')->from('saved_search')->where('id','=',$_GET['id']);
-    	$get_saved_search = $this->db->query(Database::SELECT,$sql)->as_array();
-    	$get_saved_search = unserialize(base64_decode($get_saved_search[0]['code']));
-    	exit(json_encode($get_saved_search));
+      //$this->check_access('people', 'search');
+          $sql = DB::select('saved_search.code')->from('saved_search')->where('id','=',$_GET['id']);
+          $get_saved_search = $this->db->query(Database::SELECT,$sql)->as_array();
+          $get_saved_search = unserialize(base64_decode($get_saved_search[0]['code']));
+          exit(json_encode($get_saved_search));
     }
 
     public function action_save_search()
@@ -914,21 +920,21 @@ class Controller_People extends Controller_Application
 
         if ($query)
             $this->request->redirect(URL::site('people/searches'));*/
-		if ( isset($_POST['name']) && !empty($_POST['name']) && isset($_POST['data']) && !empty($_POST['data']) )
-		{
-			parse_str($_POST['data'],$theCode);	
-			$theCode = base64_encode(serialize($theCode));	
-			$query = DB::insert('saved_search', array('name', 'code'))->values(array($_POST['name'],$theCode));			
-			$this->db->query(Database::INSERT,$query);
-			exit('Saved.');
-			
-		}
-		else
-			exit('Error saving search.');
-		
+            if ( isset($_POST['name']) && !empty($_POST['name']) && isset($_POST['data']) && !empty($_POST['data']) )
+            {
+                  parse_str($_POST['data'],$theCode);      
+                  $theCode = base64_encode(serialize($theCode));      
+                  $query = DB::insert('saved_search', array('name', 'code'))->values(array($_POST['name'],$theCode));                  
+                  $this->db->query(Database::INSERT,$query);
+                  exit('Saved.');
+                  
+            }
+            else
+                  exit('Error saving search.');
+            
     }
     
-	
+      
 
     public function action_delete()
     {
@@ -944,12 +950,12 @@ class Controller_People extends Controller_Application
         $docs = DB::select('url')->from('user_documents')->where('user_id', '=', $id)->execute()->as_array();
         foreach ($docs as $doc)
         {
-	    if (!empty($doc['url']) and file_exists($doc['url']))
-	    {
-		unlink($doc['url']);
-	    }
-	}
-	DB::delete('user_documents')->where('user_id', '=', $id)->execute();
+          if (!empty($doc['url']) and file_exists($doc['url']))
+          {
+            unlink($doc['url']);
+          }
+      }
+      DB::delete('user_documents')->where('user_id', '=', $id)->execute();
         DB::delete('people')->where('id', '=', $id)->execute();
         $this->request->redirect(URL::site('people'));
     }
@@ -961,12 +967,12 @@ class Controller_People extends Controller_Application
 
         if ($this->request->is_ajax())
         {
-	    $file = DB::select('url')->from('user_documents')->where('id', '=', $id)->execute()->get('url');
-	    if (file_exists($file))
-	    {
-		$unlink = unlink($file);
-	    }
-	    var_dump(DB::delete('user_documents')->where('id', '=', $id)->execute());
+          $file = DB::select('url')->from('user_documents')->where('id', '=', $id)->execute()->get('url');
+          if (file_exists($file))
+          {
+            $unlink = unlink($file);
+          }
+          var_dump(DB::delete('user_documents')->where('id', '=', $id)->execute());
         }
         die;
     }
@@ -1032,15 +1038,15 @@ class Controller_People extends Controller_Application
 
     private function document_upload($filedata)
     {
-	$paths = array();
-	for ($i = 0, $num = count($filedata['name']); $i < $num; $i ++)
-	{
-	    if ($filedata['size'][$i] < 2 OR $filedata['size'][$i] > 4097 * 1024)
-	    {
-		continue;
-	    }
+      $paths = array();
+      for ($i = 0, $num = count($filedata['name']); $i < $num; $i ++)
+      {
+          if ($filedata['size'][$i] < 2 OR $filedata['size'][$i] > 4097 * 1024)
+          {
+            continue;
+          }
             $path = "uploads/people/documents/";
-	    $name = mt_rand(0, 1000) . substr(sha1(uniqid()), 0, 5) . str_replace(' ', '_', $filedata['name'][$i]);
+          $name = mt_rand(0, 1000) . substr(sha1(uniqid()), 0, 5) . str_replace(' ', '_', $filedata['name'][$i]);
             if (file_exists($path . $name))
             {
                 $name = mt_rand(0, 1000) . substr(sha1(time()), 0, 7) . $name;
@@ -1049,8 +1055,8 @@ class Controller_People extends Controller_Application
             /*if (!$upload) return "file is valid but upload failed";*/
             $paths[] = $path . $name;
             /*else return "ატვირთული ფაილის ზომა მეტია 4 მბ-ზე"; else return NULL;*/
-	}
-	return $paths;
+      }
+      return $paths;
     }
 
     private function document_delete($person_id)
@@ -1141,33 +1147,33 @@ class Controller_People extends Controller_Application
     
     private function JSArray ($arr,$needle)
     {
-    	$JSArray = "[";
-    	foreach ( $arr as $ind => $value ):
-    	   	if ( $ind > 0 )
-    			$JSArray .= ",";
-    		$JSArray .= "\"".$value[$needle]."\"";
-    	endforeach;    	
-		return $JSArray."]";
+          $JSArray = "[";
+          foreach ( $arr as $ind => $value ):
+                   if ( $ind > 0 )
+                      $JSArray .= ",";
+                $JSArray .= "\"".$value[$needle]."\"";
+          endforeach;          
+            return $JSArray."]";
     }
     
     public function action_autocomplete ()
     {   
-    	switch ( $this->request->param('id') )
-    	{
-    		case 'reference':
-    			$sql = "SELECT CONCAT(first_name, ' ', last_name,'(',username,')') user FROM people WHERE CONCAT(first_name,' ',last_name) LIKE '%" . $_GET['term'] . "%'";
-    			$needle = 'user';
-    		break;
-    		case 'language':
-    			$sql = "SELECT language lang FROM languages WHERE language LIKE '%" . $_GET['term'] . "%'";
-    			$needle = 'lang';
-    		break;
-    	}
-    	
-    	$data = $this->db->query(Database::SELECT,$sql)->as_array();
-    	if ( empty($data) )
-    		exit;
-    	else exit($this->JSArray($data,$needle));	    
+          switch ( $this->request->param('id') )
+          {
+                case 'reference':
+                      $sql = "SELECT CONCAT(first_name, ' ', last_name,'(',username,')') user FROM people WHERE CONCAT(first_name,' ',last_name) LIKE '%" . $_GET['term'] . "%'";
+                      $needle = 'user';
+                break;
+                case 'language':
+                      $sql = "SELECT language lang FROM languages WHERE language LIKE '%" . $_GET['term'] . "%'";
+                      $needle = 'lang';
+                break;
+          }
+          
+          $data = $this->db->query(Database::SELECT,$sql)->as_array();
+          if ( empty($data) )
+                exit;
+          else exit($this->JSArray($data,$needle));          
     }
     
 
