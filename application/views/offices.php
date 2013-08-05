@@ -22,6 +22,13 @@
 		
 	<table class="info_list" id="testid" style="margin: 0px;">
 
+    <?php if (!empty($office['manager'])): ?>
+	    <tr>
+		<td left>ხელმძღვანელი</td>
+		<td right><?php echo $office['manager']; ?></td>
+	    </tr>
+	  <?php endif; ?>
+
 	    <tr>
 		<td left>რაიონი</td>
 		<td right><?php echo empty($office['district_name']) ? ' ― ' : $office['district_name'] ?></td>
