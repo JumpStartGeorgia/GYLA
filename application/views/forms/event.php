@@ -1,5 +1,5 @@
 <?php
-	$action = empty($event['name']) ? URL::site('events/create') : URL::site('events/update/'.$event['id']);
+	$action = empty($event['id']) ? URL::site('events/create') : URL::site('events/update/' . $event['id']);
 ?>
 	<form action="<?php echo $action; ?>" method="post" id='form_event'>
 

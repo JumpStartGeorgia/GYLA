@@ -1,5 +1,5 @@
 <?php
-	$action = empty($office['name']) ? URL::site('offices/create') : URL::site('offices/update/'.$office['id']);
+	$action = empty($office['id']) ? URL::site('offices/create') : URL::site('offices/update/' . $office['id']);
 
 ?>
 	<form action="<?php echo $action ?>" method="post" id='form_office'>

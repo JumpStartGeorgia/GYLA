@@ -19,8 +19,8 @@ function map_init()
     });
 
     // Base Layer
-    base = new OpenLayers.Layer.OSM('Georgia', 'http://a.tile.mapspot.ge/ndi_en/${z}/${x}/${y}.png', {
-    //base = new OpenLayers.Layer.OSM('Georgia', 'http://tile.openstreetmap.org/${z}/${x}/${y}.png', {
+    //base = new OpenLayers.Layer.OSM('Georgia', 'http://a.tile.mapspot.ge/ndi_en/${z}/${x}/${y}.png', {
+    base = new OpenLayers.Layer.OSM('Georgia', 'http://tile.openstreetmap.org/${z}/${x}/${y}.png', {
         numZoomLevels: 19
     });
     base.setOpacity(0);

@@ -326,7 +326,7 @@ class Controller_Events extends Controller_Application
                     inner join districts as d
                     on d.id = e.district_id
                     WHERE district_id = :district_id
-                    AND DATE(start_at) > CURDATE()
+                    AND DATE(start_at) >= CURDATE()
                     ORDER BY DATE(start_at) ASC
                     "./*LIMIT 1*/"
                     ;";
